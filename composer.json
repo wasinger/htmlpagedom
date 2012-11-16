@@ -1,0 +1,26 @@
+{
+    "name": "wa72/htmlpagedom",
+    "minimum-stability": "dev",
+    "description": "Traverse and manipulate HTML documents",
+    "keywords": [],
+    "homepage": "",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christoph Singer",
+            "email": "singer@webagentur72.de",
+            "homepage": "http://www.webagentur72.de"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.1",
+        "symfony/dom-crawler": ">=2.1.0,<2.3-dev",
+        "symfony/css-selector": ">=2.1.0,<2.3-dev"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": { "Wa72\\HtmlPageDom": "src/" }
+    }
+}
+
