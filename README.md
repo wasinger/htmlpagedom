@@ -1,11 +1,16 @@
 HtmlPageDom
 ===========
 
-HtmlPageDom is a PHP library for easy manipulation of HTML documents using DOM.
+Wa72\HtmlPageDom is a PHP library for easy manipulation of HTML documents using DOM.
 It requires [DomCrawler from Symfony2 components](https://github.com/symfony/DomCrawler) for traversing 
 the DOM tree and extends it by adding methods for manipulating the DOM tree of HTML documents.
 
-HtmlPageDom consists of two classes:
+It's useful when you need to not just extract information from an HTML file (what DomCrawler does) but
+also to modify HTML pages. It is usable as a template engine: load your HTML template file, set new
+HTML content on certain elements such as the page title, "div#content" or "ul#menu" and print out
+the modified page.
+
+Wa72\HtmlPageDom consists of two classes:
 
 -   *HtmlPage* represents one HTML document and offers convenience functions like setTitle($title),
     setMeta('description', $description), getBody()
@@ -21,6 +26,14 @@ Requirements
 -   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler)
 -   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector)
 
+Installation
+------------
+
+-   using composer: simply add "wa72/htmlpagedom": "dev-master" to the "require" section of your composer.json
+
+-   using other PSR-0 compliant autoloader: clone this project to where your vendor libraries are 
+    and point your autoloader to look for the "\Wa72\HtmlPageDom" namespace in the "src" 
+    directory of this project
 
 Usage
 -----
