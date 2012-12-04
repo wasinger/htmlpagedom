@@ -139,7 +139,7 @@ class HtmlPageCrawler extends Crawler
         foreach ($this as $node) {
             /** @var \DOMNode $node */
             $node->nodeValue = '';
-            $node->appendChild($this->getDOMDocumentFragment($node, $xml));
+            if ($xml != '') $node->appendChild($this->getDOMDocumentFragment($node, $xml));
         }
         return $this;
     }
