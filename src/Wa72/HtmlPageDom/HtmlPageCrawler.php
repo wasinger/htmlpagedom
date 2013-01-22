@@ -176,6 +176,17 @@ class HtmlPageCrawler extends Crawler
         return $this->attr($name);
     }
 
+    public function removeAttribute($name)
+    {
+        foreach ($this as $node) {
+            if ($node instanceof \DOMElement) {
+                /** @var \DOMElement $node */
+                if ($node->hasAttribute($name)) $node->removeAttribute($name);
+            }
+        }
+        return $this;
+    }
+
     /**
      * Insert HTML content as child nodes of each element after existing children
      *
