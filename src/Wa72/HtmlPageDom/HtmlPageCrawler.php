@@ -224,6 +224,35 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * Insert content, specified by the parameter, before each element in the set of matched elements.
+     *
+     * @param string $content
+     * @return HtmlPageCrawler $this for chaining
+     */
+    public function before($content)
+    {
+        $xml = $this->getXMLFromHtmlFragment($content);
+        foreach ($this as $node) {
+            /** @var \DOMElement $node */
+            $node->parentNode->insertBefore($this->getDOMDocumentFragment($node, $xml), $node);
+        }
+        return $this;
+    }
+
+    /**
+     * Insert content, specified by the parameter, after each element in the set of matched elements.
+     *
+     * @param string $content
+     * @return HtmlPageCrawler $this for chaining
+     */
+    public function after($content)
+    {
+        /* TODO: not yet implemented */
+        throw new \Exception('method after() not yet implemented');
+        return $this;
+    }
+
+    /**
      * Get or set the HTML contents
      * Function is here for compatibility with jQuery
      *
