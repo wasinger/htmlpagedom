@@ -256,6 +256,8 @@ class HtmlPageCrawler extends Crawler
      * Wrap an HTML structure around each element in the set of matched elements
      *
      * TODO: currently it wraps only with the first node of $wrappingElement, i.e. you can only use one tag for wrapping
+     * works: '<div class="asdf"></div>'
+     * doesn't work: '<div><p></p></div>';
      *
      * @param string $wrappingElement
      * @return HtmlPageCrawler $this for chaining
