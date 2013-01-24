@@ -253,6 +253,21 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * Wrap an HTML structure around each element in the set of matched elements
+     *
+     * @param string $wrappingElement
+     * @return HtmlPageCrawler $this for chaining
+     */
+    public function wrap($wrappingElement)
+    {
+        /* TODO: not yet implemented */
+        throw new \Exception('method wrap() not yet implemented');
+        $xml = $this->getXMLFromHtmlFragment($wrappingElement);
+
+        return $this;
+    }
+
+    /**
      * Get or set the HTML contents
      * Function is here for compatibility with jQuery
      *
