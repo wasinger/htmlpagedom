@@ -255,15 +255,20 @@ class HtmlPageCrawler extends Crawler
     /**
      * Wrap an HTML structure around each element in the set of matched elements
      *
+     * TODO: currently it wraps only with the first node of $wrappingElement, i.e. you can only use one tag for wrapping
+     *
      * @param string $wrappingElement
      * @return HtmlPageCrawler $this for chaining
      */
     public function wrap($wrappingElement)
     {
-        /* TODO: not yet implemented */
-        throw new \Exception('method wrap() not yet implemented');
-        $xml = $this->getXMLFromHtmlFragment($wrappingElement);
-
+        foreach ($this as $node) {
+            /** @var \DOMElement $node */
+            $we = new HtmlPageCrawler(trim($wrappingElement));
+            $newnode = $node->ownerDocument->importNode($we->getFirstNode(), true);
+            $oldnode = $node->parentNode->replaceChild($newnode, $node);
+            $newnode->appendChild($oldnode);
+        }
         return $this;
     }
 
@@ -483,6 +488,30 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * Adds an HTML content to the list of nodes.
+     *
+     * Overrrides the original function form Crawler for loading of HTML fragments. Crawler::addHtmlContent always
+     * loads HTML code as complete document, i.e. a HTML fragment will be wrapped in <html><body> tags. This function
+     * keeps HTML fragments as they are.
+     *
+     *
+     * @param string $content The HTML content
+     * @param string $charset The charset
+     *
+     * @api
+     */
+    public function addHtmlContent($content, $charset = 'UTF-8')
+    {
+        if (preg_match('/<html\b/i', $content)) { // complete document containing <html> tag
+            parent::addHtmlContent($content, $charset);
+        } else { // document fragment
+            $bodynode = $this->getBodyNodeFromHtmlFragment(trim($content), $charset);
+            $this->addNodeList($bodynode->childNodes);
+        }
+
+    }
+
+    /**
      * Get a XML representation from a HTML code fragment for use with DOMDocumentFragment
      *
      * @param string $html Fragment of html code (MUST NOT contain html and body tags!)
@@ -491,6 +520,13 @@ class HtmlPageCrawler extends Crawler
      */
     protected function getXMLFromHtmlFragment($html, $charset = 'UTF-8')
     {
+        $bodynode = $this->getBodyNodeFromHtmlFragment($html, $charset);
+        $xml = $bodynode->ownerDocument->saveXML($bodynode);
+        return preg_replace('@^<body[^>]*>|</body>$@', '', $xml);
+    }
+
+    protected function getBodyNodeFromHtmlFragment($html, $charset = 'UTF-8')
+    {
         $html = '<html><body>' . $html . '</body></html>';
         $current = libxml_use_internal_errors(true);
         $disableEntities = libxml_disable_entity_loader(true);
@@ -498,15 +534,13 @@ class HtmlPageCrawler extends Crawler
         if (function_exists('mb_convert_encoding') && in_array(
             strtolower($charset),
             array_map('strtolower', mb_list_encodings())
-        )
-        ) {
+        )) {
             $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
         }
         @$d->loadHTML($html);
         libxml_use_internal_errors($current);
         libxml_disable_entity_loader($disableEntities);
-        $xml = $d->saveXML($d->getElementsByTagName('body')->item(0));
-        return preg_replace('@^<body[^>]*>|</body>$@', '', $xml);
+        return $d->getElementsByTagName('body')->item(0);
     }
 
     /**

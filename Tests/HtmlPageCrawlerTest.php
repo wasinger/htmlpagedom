@@ -85,6 +85,12 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
         $t = $c->filter('body');
         $this->assertFalse($t->isHtmlDocument());
 
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $this->assertFalse($c->isHtmlDocument());
+
+        $c = new HtmlPageCrawler('<html><body><div id="content"><h1>Title</h1></div></body></html>');
+        $this->assertTrue($c->isHtmlDocument());
+
     }
 
     /**
@@ -100,6 +106,9 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('<p>Paragraph 1</p><p>Paragraph 2</p>', $ps->saveHTML());
         $t = $c->filter('h1');
         $this->assertEquals('<h1>Title</h1>', $t->saveHTML());
+
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $this->assertEquals('<div id="content"><h1>Title</h1></div>', $c->saveHTML());
     }
 
     /**
@@ -145,6 +154,47 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
         $t->removeClass('nochneklasse');
         $this->assertTrue($t->hasClass('ueberschrift'));
         $this->assertFalse($t->hasClass('nochneklasse'));
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::addHtmlContent
+     */
+    public function testAddHtmlContent()
+    {
+        $c = new HtmlPageCrawler();
+        $c->addHtmlContent('<html><body><div id="content"><h1>Title</h1></div></body>');
+        $this->assertEquals('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
+            . "\n" . '<html><body><div id="content"><h1>Title</h1></div></body></html>' . "\n", $c->saveHTML());
+
+        $c = new HtmlPageCrawler();
+        $c->addHtmlContent('<div id="content"><h1>Title');
+        $this->assertEquals('<div id="content"><h1>Title</h1></div>', $c->saveHTML());
+
+        $c = new HtmlPageCrawler();
+        $c->addHtmlContent('<p>asdf<p>asdfaf</p>');
+        $this->assertEquals(2, count($c));
+        $this->assertEquals('<p>asdf</p><p>asdfaf</p>', $c->saveHTML());
+
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::before
+     */
+    public function testBefore()
+    {
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('h1')->before('<p>Text before h1</p>');
+        $this->assertEquals('<div id="content"><p>Text before h1</p><h1>Title</h1></div>', $c->saveHTML());
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::wrap
+     */
+    public function testWrap()
+    {
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('h1')->wrap('<div class="innercontent">');
+        $this->assertEquals('<div id="content"><div class="innercontent"><h1>Title</h1></div></div>', $c->saveHTML());
     }
 
 }
