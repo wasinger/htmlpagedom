@@ -21,7 +21,6 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::append
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::getInnerHtml
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::setInnerHtml
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::prepend
@@ -64,11 +63,40 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
         $body = $c->filter('body');
         $this->assertEquals('<div id="content"><h1>Neue &Uuml;berschrift</h1><p>Ein neuer <b>Inhalt</b></p><p class="a2">Zweiter Absatz</p><p class="a3"><b>Dritter Absatz</b> und noch mehr Text</p></div>', $body->getInnerHtml());
 
+        $paragraphs = $c->filter('p');
+        $this->assertEquals(3, count($paragraphs));
+
+        $paragraphs->append('<span class="appended">.</span>');
+        $this->assertEquals('<p>Ein neuer <b>Inhalt</b><span class="appended">.</span></p><p class="a2">Zweiter Absatz<span class="appended">.</span></p><p class="a3"><b>Dritter Absatz</b> und noch mehr Text<span class="appended">.</span></p>', $c->filter('p')->saveHTML());
+
         $body->makeEmpty();
         $this->assertEmpty($body->getInnerHtml());
 
         $body->setAttribute('class', 'mybodyclass');
         $this->assertEquals('mybodyclass', $body->attr('class'));
+
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::append
+     */
+    public function testAppend()
+    {
+        // Testing append string to several elements
+        $c = new HtmlPageCrawler('<p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p>');
+        $c->filter('p')->append('<br>Appended Text');
+        $this->assertEquals('<p>Paragraph 1<br>Appended Text</p><p>Paragraph 2<br>Appended Text</p><p>Paragraph 3<br>Appended Text</p>', $c->saveHTML());
+
+        // Testing append HtmlPageCrawler to several elements
+        $c = new HtmlPageCrawler('<p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p>');
+        $c->filter('p')->append(new HtmlPageCrawler('<br>Appended Text'));
+        $this->assertEquals('<p>Paragraph 1<br>Appended Text</p><p>Paragraph 2<br>Appended Text</p><p>Paragraph 3<br>Appended Text</p>', $c->saveHTML());
+
+        // Testing append DOMNode to several elements
+        $c = new HtmlPageCrawler('<p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p>');
+        $app = $c->getDOMDocument()->createElement('span', 'Appended Text');
+        $c->filter('p')->append($app);
+        $this->assertEquals('<p>Paragraph 1<span>Appended Text</span></p><p>Paragraph 2<span>Appended Text</span></p><p>Paragraph 3<span>Appended Text</span></p>', $c->saveHTML());
 
     }
 
@@ -185,7 +213,40 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
         $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
         $c->filter('h1')->before('<p>Text before h1</p>');
         $this->assertEquals('<div id="content"><p>Text before h1</p><h1>Title</h1></div>', $c->saveHTML());
+
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('h1')->before(new HtmlPageCrawler('<p>Text before h1</p><p>and more text before</p>'));
+        $this->assertEquals('<div id="content"><p>Text before h1</p><p>and more text before</p><h1>Title</h1></div>', $c->saveHTML());
     }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::after
+     */
+    public function testAfter()
+    {
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('h1')->after('<p>Text after h1</p>');
+        $this->assertEquals('<div id="content"><h1>Title</h1><p>Text after h1</p></div>', $c->saveHTML());
+
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('h1')->after(new HtmlPageCrawler('<p>Text after h1</p><p>and more text after</p>'));
+        $this->assertEquals('<div id="content"><h1>Title</h1><p>Text after h1</p><p>and more text after</p></div>', $c->saveHTML());
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::prepend
+     */
+    public function testPrepend()
+    {
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('#content')->prepend('<p>Text before h1</p>');
+        $this->assertEquals('<div id="content"><p>Text before h1</p><h1>Title</h1></div>', $c->saveHTML());
+
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('#content')->prepend(new HtmlPageCrawler('<p>Text before h1</p><p>and more text before</p>'));
+        $this->assertEquals('<div id="content"><p>Text before h1</p><p>and more text before</p><h1>Title</h1></div>', $c->saveHTML());
+    }
+
 
     /**
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::wrap
@@ -195,6 +256,14 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
         $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
         $c->filter('h1')->wrap('<div class="innercontent">');
         $this->assertEquals('<div id="content"><div class="innercontent"><h1>Title</h1></div></div>', $c->saveHTML());
+
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('h1')->wrap('<div class="ic">asdf<div class="a1"><div class="a2"></div></div></div></div>');
+        $this->assertEquals('<div id="content"><div class="ic">asdf<div class="a1"><div class="a2"><h1>Title</h1></div></div></div></div>', $c->saveHTML());
+
+        $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+        $c->filter('h1')->wrap('<div class="ic">asdf</div><div>jkl</div>'); // wrap has more than 1 root element
+        $this->assertEquals('<div id="content"><div class="ic">asdf<h1>Title</h1></div></div>', $c->saveHTML()); // only first element is used
     }
 
 }

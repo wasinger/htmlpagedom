@@ -130,16 +130,24 @@ class HtmlPageCrawler extends Crawler
     /**
      * Set the HTML contents of each element
      *
-     * @param string $content HTML code fragment
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
      * @return HtmlPageCrawler $this for chaining
      */
     public function setInnerHtml($content)
     {
-        $xml = $this->getXMLFromHtmlFragment($content);
+        $content = $this->getCrawlerFromMixedContent($content);
         foreach ($this as $node) {
-            /** @var \DOMNode $node */
             $node->nodeValue = '';
-            if ($xml != '') $node->appendChild($this->getDOMDocumentFragment($node, $xml));
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $node */
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    $newnode = $newnode->cloneNode(true);
+                }
+                $node->appendChild($newnode);
+            }
         }
         return $this;
     }
@@ -181,7 +189,9 @@ class HtmlPageCrawler extends Crawler
         foreach ($this as $node) {
             if ($node instanceof \DOMElement) {
                 /** @var \DOMElement $node */
-                if ($node->hasAttribute($name)) $node->removeAttribute($name);
+                if ($node->hasAttribute($name)) {
+                    $node->removeAttribute($name);
+                }
             }
         }
         return $this;
@@ -190,34 +200,52 @@ class HtmlPageCrawler extends Crawler
     /**
      * Insert HTML content as child nodes of each element after existing children
      *
-     * @param string $content HTML code fragment
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment or DOMNode to append
      * @return HtmlPageCrawler $this for chaining
      */
     public function append($content)
     {
-        $xml = $this->getXMLFromHtmlFragment($content);
+        $content = $this->getCrawlerFromMixedContent($content);
         foreach ($this as $node) {
-            /** @var \DOMNode $node */
-            $node->appendChild($this->getDOMDocumentFragment($node, $xml));
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $node */
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    $newnode = $newnode->cloneNode(true);
+                }
+                $node->appendChild($newnode);
+            }
         }
         return $this;
     }
 
+
     /**
      * Insert HTML content as child nodes of each element before existing children
      *
-     * @param string $content HTML code fragment
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
      * @return HtmlPageCrawler $this for chaining
      */
     public function prepend($content)
     {
-        $xml = $this->getXMLFromHtmlFragment($content);
+        $content = $this->getCrawlerFromMixedContent($content);
         foreach ($this as $node) {
+            $refnode = $node->firstChild;
             /** @var \DOMNode $node */
-            if (null === $node->firstChild) {
-                $node->appendChild($this->getDOMDocumentFragment($node, $xml));
-            } else {
-                $node->insertBefore($this->getDOMDocumentFragment($node, $xml), $node->firstChild);
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    $newnode = $newnode->cloneNode(true);
+                }
+                if ($refnode === null) {
+                    $node->appendChild($newnode);
+                } else {
+                    $node->insertBefore($newnode, $refnode);
+                }
             }
         }
         return $this;
@@ -226,15 +254,23 @@ class HtmlPageCrawler extends Crawler
     /**
      * Insert content, specified by the parameter, before each element in the set of matched elements.
      *
-     * @param string $content
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
      * @return HtmlPageCrawler $this for chaining
      */
     public function before($content)
     {
-        $xml = $this->getXMLFromHtmlFragment($content);
+        $content = $this->getCrawlerFromMixedContent($content);
         foreach ($this as $node) {
-            /** @var \DOMElement $node */
-            $node->parentNode->insertBefore($this->getDOMDocumentFragment($node, $xml), $node);
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $node */
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    $newnode = $newnode->cloneNode(true);
+                }
+                $node->parentNode->insertBefore($newnode, $node);
+            }
         }
         return $this;
     }
@@ -242,33 +278,66 @@ class HtmlPageCrawler extends Crawler
     /**
      * Insert content, specified by the parameter, after each element in the set of matched elements.
      *
-     * @param string $content
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
      * @return HtmlPageCrawler $this for chaining
      */
     public function after($content)
     {
-        /* TODO: not yet implemented */
-        throw new \Exception('method after() not yet implemented');
+        $content = $this->getCrawlerFromMixedContent($content);
+        foreach ($this as $node) {
+            /** @var \DOMNode $node */
+            $refnode = $node->nextSibling;
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    $newnode = $newnode->cloneNode(true);
+                }
+                if ($refnode === null) {
+                    $node->parentNode->appendChild($newnode);
+                } else {
+                    $node->parentNode->insertBefore($newnode, $refnode);
+                }
+            }
+        }
         return $this;
     }
 
     /**
      * Wrap an HTML structure around each element in the set of matched elements
      *
-     * TODO: currently it wraps only with the first node of $wrappingElement, i.e. you can only use one tag for wrapping
-     * works: '<div class="asdf"></div>'
-     * doesn't work: '<div><p></p></div>';
+     * The HTML structure must contain only one root node, e.g.:
+     * Works: <div><div></div></div>
+     * Does not work: <div></div><div></div>
      *
-     * @param string $wrappingElement
+     * @param string|HtmlPageCrawler|\DOMNode $wrappingElement
      * @return HtmlPageCrawler $this for chaining
      */
     public function wrap($wrappingElement)
     {
+        $content = $this->getCrawlerFromMixedContent(trim($wrappingElement));
         foreach ($this as $node) {
-            /** @var \DOMElement $node */
-            $we = new HtmlPageCrawler(trim($wrappingElement));
-            $newnode = $node->ownerDocument->importNode($we->getFirstNode(), true);
+            /** @var \DOMNode $node */
+            $newnode = $content->getFirstNode();
+            /** @var \DOMNode $newnode */
+            if ($newnode->ownerDocument !== $node->ownerDocument) {
+                $newnode = $node->ownerDocument->importNode($newnode, true);
+            } else {
+                $newnode = $newnode->cloneNode(true);
+            }
             $oldnode = $node->parentNode->replaceChild($newnode, $node);
+            while($newnode->hasChildNodes()) {
+                $elementFound = false;
+                foreach($newnode->childNodes as $child) {
+                    if ($child instanceof \DOMElement) {
+                        $newnode = $child;
+                        $elementFound = true;
+                        break;
+                    }
+                }
+                if (!$elementFound) break;
+            }
             $newnode->appendChild($oldnode);
         }
         return $this;
@@ -278,7 +347,7 @@ class HtmlPageCrawler extends Crawler
      * Get or set the HTML contents
      * Function is here for compatibility with jQuery
      *
-     * @param string|null $html The HTML content to set, or NULL to get the current content
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|null $html The HTML content to set, or NULL to get the current content
      * @return HtmlPageCrawler|string If no param is provided, returns the HTML content of the first element
      */
     public function html($html = null)
@@ -408,6 +477,21 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * Get a string or HtmlPageCrawler or DOMNode or DOMNodeList and return a HtmlPageCrawler
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return HtmlPageCrawler
+     */
+    protected function getCrawlerFromMixedContent($content)
+    {
+        if ($content instanceof HtmlPageCrawler) {
+            return $content;
+        } else {
+            return new HtmlPageCrawler($content);
+        }
+    }
+
+    /**
      * Convert CSS string to array
      *
      * @param string $css list of CSS properties separated by ;
@@ -490,6 +574,46 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * Adds HTML/XML content.
+     * Function overriden from Crawler because there is a hardcoded default charset latin1, we need UTF-8,
+     * and no way to override the charset for html fragments which do not contain a content-type meta tag
+     *
+     * So the only difference to the parent function is: if given an HTML fragment without content-type meta tag,
+     * we process it as UTF-8, not latin1
+     *
+     *
+     * @param string      $content A string to parse as HTML/XML
+     * @param null|string $type    The content type of the string
+     *
+     * @return null|void
+     */
+    public function addContent($content, $type = null)
+    {
+        if (empty($type)) {
+            $type = 'text/html';
+        }
+
+        // DOM only for HTML/XML content
+        if (!preg_match('/(x|ht)ml/i', $type, $matches)) {
+            return null;
+        }
+
+        $charset = 'UTF-8';
+        if (false !== $pos = strpos($type, 'charset=')) {
+            $charset = substr($type, $pos + 8);
+            if (false !== $pos = strpos($charset, ';')) {
+                $charset = substr($charset, 0, $pos);
+            }
+        }
+
+        if ('x' === $matches[1]) {
+            $this->addXmlContent($content, $charset);
+        } else {
+            $this->addHtmlContent($content, $charset);
+        }
+    }
+
+    /**
      * Adds an HTML content to the list of nodes.
      *
      * Overrrides the original function form Crawler for loading of HTML fragments. Crawler::addHtmlContent always
@@ -536,7 +660,8 @@ class HtmlPageCrawler extends Crawler
         if (function_exists('mb_convert_encoding') && in_array(
             strtolower($charset),
             array_map('strtolower', mb_list_encodings())
-        )) {
+        )
+        ) {
             $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
         }
         @$d->loadHTML($html);
