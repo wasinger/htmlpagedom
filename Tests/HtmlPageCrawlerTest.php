@@ -3,18 +3,20 @@ namespace Wa72\HtmlPageDom\Tests;
 
 use Wa72\HtmlPageDom\HtmlPageCrawler;
 
-class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
+class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::__construct
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::filter
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::getFirstNode
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::nodeName
      */
-    public function testHtmlPageCrawler() {
+    public function testHtmlPageCrawler()
+    {
         $c = new HtmlPageCrawler;
         $c->addHtmlContent('<html><body><div id="content"><h1>Title</h1></div></body></html>');
         $title = $c->filter('#content > h1');
-        
+
         $this->assertInstanceOf('\Wa72\HtmlPageDom\HtmlPageCrawler', $title);
         $this->assertInstanceOf('\DOMNode', $title->getFirstNode());
         $this->assertEquals('h1', $title->nodeName());
@@ -27,18 +29,19 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::makeEmpty
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::setAttribute
      */
-    public function testManipulationFunctions() {
+    public function testManipulationFunctions()
+    {
         $c = new HtmlPageCrawler;
         $c->addHtmlContent('<html><body><div id="content"><h1>Title</h1></div></body></html>');
-        
+
         $content = $c->filter('#content');
         $content->append('<p>Das ist ein Testabsatz');
-        
+
         $this->assertEquals('<h1>Title</h1><p>Das ist ein Testabsatz</p>', $content->getInnerHtml());
-        
+
         $content->setInnerHtml('<p>Ein neuer <b>Inhalt</p>');
         $this->assertEquals('<p>Ein neuer <b>Inhalt</b></p>', $content->getInnerHtml());
-        
+
         $content->prepend('<h1>Neue Überschrift');
         $this->assertEquals('<h1>Neue &Uuml;berschrift</h1><p>Ein neuer <b>Inhalt</b></p>', $content->getInnerHtml());
 
@@ -103,7 +106,8 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::isHtmlDocument
      */
-    public function testIsHtmlDocument() {
+    public function testIsHtmlDocument()
+    {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadHTML('<!DOCTYPE html><html><body><div id="content"><h1>Title</h1></div></body></html>');
         $c = new HtmlPageCrawler($dom);
@@ -124,7 +128,8 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::saveHTML
      */
-    public function testSaveHTML() {
+    public function testSaveHTML()
+    {
         $html = "<!DOCTYPE html>\n<html><body><h1>Title</h1><p>Paragraph 1</p><p>Paragraph 2</p></body></html>\n";
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadHTML($html);
@@ -144,7 +149,8 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::getStyle
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::setStyle
      */
-    public function testCss() {
+    public function testCss()
+    {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadHTML('<!DOCTYPE html><html><body><div id="content"><h1 style=" margin-top:
          10px;border-bottom:  1px solid red">Title</h1></div></body></html>');
@@ -169,7 +175,8 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase {
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::removeClass
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::hasClass
      */
-    public function testClasses() {
+    public function testClasses()
+    {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadHTML('<!DOCTYPE html><html><body><div id="content"><h1>Title</h1></div></body></html>');
         $c = new HtmlPageCrawler($dom);

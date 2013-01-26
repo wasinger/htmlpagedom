@@ -1,0 +1,699 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \Wa72\HtmlPageDom\HtmlPageCrawler</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/Wa72.html"><i class="icon-th"></i> Wa72</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">29</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_addClass" title="addClass :: Add a class to all elements in the list"><span class="description">Add a class to all elements in the list</span><pre>addClass()</pre></a></li>
+<li class="method public "><a href="#method_addContent" title="addContent :: Adds HTML/XML content."><span class="description">Adds HTML/XML content.</span><pre>addContent()</pre></a></li>
+<li class="method public "><a href="#method_addHtmlContent" title="addHtmlContent :: Adds an HTML content to the list of nodes."><span class="description">Adds an HTML content to the list of nodes.</span><pre>addHtmlContent()</pre></a></li>
+<li class="method public "><a href="#method_after" title="after :: Insert content, specified by the parameter, after each element in the set of matched elements."><span class="description">Insert content, specified by the parameter, after each element in the set of matched elements.</span><pre>after()</pre></a></li>
+<li class="method public "><a href="#method_append" title="append :: Insert HTML content as child nodes of each element after existing children"><span class="description">Insert HTML content as child nodes of each element after existing children</span><pre>append()</pre></a></li>
+<li class="method public "><a href="#method_before" title="before :: Insert content, specified by the parameter, before each element in the set of matched elements."><span class="description">Insert content, specified by the parameter, before each element in the set of matched elements.</span><pre>before()</pre></a></li>
+<li class="method public "><a href="#method_css" title="css :: Get one CSS style property of the first element or set it for all elements in the list
+Function is here for compatibility with jQuery"><span class="description">Get one CSS style property of the first element or set it for all elements in the list
+Function is here for compatibility with jQuery</span><pre>css()</pre></a></li>
+<li class="method public "><a href="#method_delete" title="delete :: delete all nodes in the list"><span class="description">delete all nodes in the list</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_filter" title="filter :: "><span class="description">filter()
+        </span><pre>filter()</pre></a></li>
+<li class="method public "><a href="#method_filterXPath" title="filterXPath :: Filters the list of nodes with an XPath expression."><span class="description">Filters the list of nodes with an XPath expression.</span><pre>filterXPath()</pre></a></li>
+<li class="method public "><a href="#method_getAttribute" title="getAttribute :: Returns the attribute value of the first node of the list."><span class="description">Returns the attribute value of the first node of the list.</span><pre>getAttribute()</pre></a></li>
+<li class="method public "><a href="#method_getDOMDocument" title="getDOMDocument :: get ownerDocument of the first element"><span class="description">get ownerDocument of the first element</span><pre>getDOMDocument()</pre></a></li>
+<li class="method public "><a href="#method_getFirstNode" title="getFirstNode :: returns the first node"><span class="description">returns the first node</span><pre>getFirstNode()</pre></a></li>
+<li class="method public "><a href="#method_getInnerHtml" title="getInnerHtml :: Get the innerHTML contents of the first element"><span class="description">Get the innerHTML contents of the first element</span><pre>getInnerHtml()</pre></a></li>
+<li class="method public "><a href="#method_getStyle" title="getStyle :: get one CSS style property of the first element"><span class="description">get one CSS style property of the first element</span><pre>getStyle()</pre></a></li>
+<li class="method public "><a href="#method_hasClass" title="hasClass :: Check whether the first element has a certain class"><span class="description">Check whether the first element has a certain class</span><pre>hasClass()</pre></a></li>
+<li class="method public "><a href="#method_html" title="html :: Get or set the HTML contents
+Function is here for compatibility with jQuery"><span class="description">Get or set the HTML contents
+Function is here for compatibility with jQuery</span><pre>html()</pre></a></li>
+<li class="method public "><a href="#method_isHtmlDocument" title="isHtmlDocument :: checks whether the first node contains a complete html document
+(as opposed to a document fragment)"><span class="description">checks whether the first node contains a complete html document
+(as opposed to a document fragment)</span><pre>isHtmlDocument()</pre></a></li>
+<li class="method public "><a href="#method_makeEmpty" title="makeEmpty :: Removes all child nodes and text from all nodes in set"><span class="description">Removes all child nodes and text from all nodes in set</span><pre>makeEmpty()</pre></a></li>
+<li class="method public "><a href="#method_nodeName" title="nodeName :: returns the node name of the first node"><span class="description">returns the node name of the first node</span><pre>nodeName()</pre></a></li>
+<li class="method public "><a href="#method_prepend" title="prepend :: Insert HTML content as child nodes of each element before existing children"><span class="description">Insert HTML content as child nodes of each element before existing children</span><pre>prepend()</pre></a></li>
+<li class="method public "><a href="#method_removeAttribute" title="removeAttribute :: "><span class="description">removeAttribute()
+        </span><pre>removeAttribute()</pre></a></li>
+<li class="method public "><a href="#method_removeClass" title="removeClass :: Remove a class from all elements in the list"><span class="description">Remove a class from all elements in the list</span><pre>removeClass()</pre></a></li>
+<li class="method public "><a href="#method_saveHTML" title="saveHTML :: Get the HTML code fragment of all elements and their contents."><span class="description">Get the HTML code fragment of all elements and their contents.</span><pre>saveHTML()</pre></a></li>
+<li class="method public "><a href="#method_setAttribute" title="setAttribute :: Sets an attribute on each element"><span class="description">Sets an attribute on each element</span><pre>setAttribute()</pre></a></li>
+<li class="method public "><a href="#method_setInnerHtml" title="setInnerHtml :: Set the HTML contents of each element"><span class="description">Set the HTML contents of each element</span><pre>setInnerHtml()</pre></a></li>
+<li class="method public "><a href="#method_setStyle" title="setStyle :: set one CSS style property for all elements in the list"><span class="description">set one CSS style property for all elements in the list</span><pre>setStyle()</pre></a></li>
+<li class="method public "><a href="#method_trimNewlines" title="trimNewlines :: remove newlines from string and minimize whitespace (multiple whitespace characters replaced by one space)
+useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a DOMNode)"><span class="description">remove newlines from string and minimize whitespace (multiple whitespace characters replaced by one space)
+useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a DOMNode)</span><pre>trimNewlines()</pre></a></li>
+<li class="method public "><a href="#method_wrap" title="wrap :: Wrap an HTML structure around each element in the set of matched elements"><span class="description">Wrap an HTML structure around each element in the set of matched elements</span><pre>wrap()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected "><a href="#method_cssArrayToString" title="cssArrayToString :: Convert CSS name-&gt;value array to string"><span class="description">Convert CSS name-&gt;value array to string</span><pre>cssArrayToString()</pre></a></li>
+<li class="method protected "><a href="#method_cssStringToArray" title="cssStringToArray :: Convert CSS string to array"><span class="description">Convert CSS string to array</span><pre>cssStringToArray()</pre></a></li>
+<li class="method protected "><a href="#method_getBodyNodeFromHtmlFragment" title="getBodyNodeFromHtmlFragment :: "><span class="description">getBodyNodeFromHtmlFragment()
+        </span><pre>getBodyNodeFromHtmlFragment()</pre></a></li>
+<li class="method protected "><a href="#method_getCrawlerFromMixedContent" title="getCrawlerFromMixedContent :: Get a string or HtmlPageCrawler or DOMNode or DOMNodeList and return a HtmlPageCrawler"><span class="description">Get a string or HtmlPageCrawler or DOMNode or DOMNodeList and return a HtmlPageCrawler</span><pre>getCrawlerFromMixedContent()</pre></a></li>
+<li class="method protected "><a href="#method_getDOMDocumentFragment" title="getDOMDocumentFragment :: "><span class="description">getDOMDocumentFragment()
+        </span><pre>getDOMDocumentFragment()</pre></a></li>
+<li class="method protected "><a href="#method_getXMLFromHtmlFragment" title="getXMLFromHtmlFragment :: Get a XML representation from a HTML code fragment for use with DOMDocumentFragment"><span class="description">Get a XML representation from a HTML code fragment for use with DOMDocumentFragment</span><pre>getXMLFromHtmlFragment()</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\Wa72\HtmlPageDom\HtmlPageCrawler"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/Wa72.html">Wa72</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/Wa72.HtmlPageDom.html">HtmlPageDom</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">HtmlPageCrawler</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">This class extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
+for HTML documents inspired by jQuery such as html(), append(), prepend(), before(),
+addClass(), removeClass()</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>author</th>
+<td><a href="">Christoph Singer</a></td>
+</tr>
+<tr>
+<th>license</th>
+<td><a href="http://opensource.org/licenses/MIT">MIT</a></td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_addClass"></a><div class="element clickable method public method_addClass" data-toggle="collapse" data-target=".method_addClass .collapse">
+<h2>Add a class to all elements in the list</h2>
+<pre>addClass(string $name) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_addContent"></a><div class="element clickable method public method_addContent" data-toggle="collapse" data-target=".method_addContent .collapse">
+<h2>Adds HTML/XML content.</h2>
+<pre>addContent(string $content, null | string $type) : null | void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Function overriden from Crawler because there is a hardcoded default charset latin1, we need UTF-8,
+and no way to override the charset for html fragments which do not contain a content-type meta tag</p>
+
+<p>So the only difference to the parent function is: if given an HTML fragment without content-type meta tag,
+we process it as UTF-8, not latin1</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><p>A string to parse as HTML/XML</p>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>null</code><code>string</code><p>The content type of the string</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>null</code><code>void</code>
+</div>
+</div></div>
+</div>
+<a id="method_addHtmlContent"></a><div class="element clickable method public method_addHtmlContent" data-toggle="collapse" data-target=".method_addHtmlContent .collapse">
+<h2>Adds an HTML content to the list of nodes.</h2>
+<pre>addHtmlContent(string $content, string $charset) </pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Overrrides the original function form Crawler for loading of HTML fragments. Crawler::addHtmlContent always
+loads HTML code as complete document, i.e. a HTML fragment will be wrapped in <html><body> tags. This function
+keeps HTML fragments as they are.</p></div>
+<table class="table table-bordered"><tr>
+<th>api</th>
+<td></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><p>The HTML content</p></div>
+<div class="subelement argument">
+<h4>$charset</h4>
+<code>string</code><p>The charset</p></div>
+</div></div>
+</div>
+<a id="method_after"></a><div class="element clickable method public method_after" data-toggle="collapse" data-target=".method_after .collapse">
+<h2>Insert content, specified by the parameter, after each element in the set of matched elements.</h2>
+<pre>after(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | <a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a> $content) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code><code><a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_append"></a><div class="element clickable method public method_append" data-toggle="collapse" data-target=".method_append .collapse">
+<h2>Insert HTML content as child nodes of each element after existing children</h2>
+<pre>append(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | <a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a> $content) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code><code><a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a></code><p>HTML code fragment or DOMNode to append</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_before"></a><div class="element clickable method public method_before" data-toggle="collapse" data-target=".method_before .collapse">
+<h2>Insert content, specified by the parameter, before each element in the set of matched elements.</h2>
+<pre>before(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | <a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a> $content) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code><code><a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_css"></a><div class="element clickable method public method_css" data-toggle="collapse" data-target=".method_css .collapse">
+<h2>Get one CSS style property of the first element or set it for all elements in the list
+Function is here for compatibility with jQuery</h2>
+<pre>css(string $key, null | string $value) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$key</h4>
+<code>string</code><p>The name of the style property</p></div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>null</code><code>string</code><p>The CSS value to set, or NULL to get the current value</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code>string</code>If no param is provided, returns the CSS styles of the first element</div>
+</div></div>
+</div>
+<a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
+<h2>delete all nodes in the list</h2>
+<pre>delete() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_filter"></a><div class="element clickable method public method_filter" data-toggle="collapse" data-target=".method_filter .collapse">
+<h2>filter()
+        </h2>
+<pre>filter(string $selector) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code></div>
+</div></div>
+</div>
+<a id="method_filterXPath"></a><div class="element clickable method public method_filterXPath" data-toggle="collapse" data-target=".method_filterXPath .collapse">
+<h2>Filters the list of nodes with an XPath expression.</h2>
+<pre>filterXPath(string $xpath) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"><span class="label label-info">API</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>api</th>
+<td></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$xpath</h4>
+<code>string</code><p>An XPath expression</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>A new instance of Crawler with the filtered list of nodes</div>
+</div></div>
+</div>
+<a id="method_getAttribute"></a><div class="element clickable method public method_getAttribute" data-toggle="collapse" data-target=".method_getAttribute .collapse">
+<h2>Returns the attribute value of the first node of the list.</h2>
+<pre>getAttribute(string $name) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Alias for attr() for equivalence with setAttribute()</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>The attribute name</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="http://php.net/manual/en/class.invalidargumentexception.php">\InvalidArgumentException</a></code></th>
+<td>When current node is empty</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>The attribute value</div>
+</div></div>
+</div>
+<a id="method_getDOMDocument"></a><div class="element clickable method public method_getDOMDocument" data-toggle="collapse" data-target=".method_getDOMDocument .collapse">
+<h2>get ownerDocument of the first element</h2>
+<pre>getDOMDocument() : <a href="http://php.net/manual/en/class.domdocument.php">\DOMDocument</a> | null</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.domdocument.php">\DOMDocument</a></code><code>null</code>
+</div>
+</div></div>
+</div>
+<a id="method_getFirstNode"></a><div class="element clickable method public method_getFirstNode" data-toggle="collapse" data-target=".method_getFirstNode .collapse">
+<h2>returns the first node</h2>
+<pre>getFirstNode() : <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | null</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code><code>null</code>
+</div>
+</div></div>
+</div>
+<a id="method_getInnerHtml"></a><div class="element clickable method public method_getInnerHtml" data-toggle="collapse" data-target=".method_getInnerHtml .collapse">
+<h2>Get the innerHTML contents of the first element</h2>
+<pre>getInnerHtml() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>HTML code fragment</div>
+</div></div>
+</div>
+<a id="method_getStyle"></a><div class="element clickable method public method_getStyle" data-toggle="collapse" data-target=".method_getStyle .collapse">
+<h2>get one CSS style property of the first element</h2>
+<pre>getStyle(string $key) : string | null</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$key</h4>
+<code>string</code><p>name of the property</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code><code>null</code>value of the property</div>
+</div></div>
+</div>
+<a id="method_hasClass"></a><div class="element clickable method public method_hasClass" data-toggle="collapse" data-target=".method_hasClass .collapse">
+<h2>Check whether the first element has a certain class</h2>
+<pre>hasClass(string $name) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a id="method_html"></a><div class="element clickable method public method_html" data-toggle="collapse" data-target=".method_html .collapse">
+<h2>Get or set the HTML contents
+Function is here for compatibility with jQuery</h2>
+<pre>html(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | <a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a> | null $html) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$html</h4>
+<code>string</code><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code><code><a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a></code><code>null</code><p>The HTML content to set, or NULL to get the current content</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code>string</code>If no param is provided, returns the HTML content of the first element</div>
+</div></div>
+</div>
+<a id="method_isHtmlDocument"></a><div class="element clickable method public method_isHtmlDocument" data-toggle="collapse" data-target=".method_isHtmlDocument .collapse">
+<h2>checks whether the first node contains a complete html document
+(as opposed to a document fragment)</h2>
+<pre>isHtmlDocument() : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_makeEmpty"></a><div class="element clickable method public method_makeEmpty" data-toggle="collapse" data-target=".method_makeEmpty .collapse">
+<h2>Removes all child nodes and text from all nodes in set</h2>
+<pre>makeEmpty() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_nodeName"></a><div class="element clickable method public method_nodeName" data-toggle="collapse" data-target=".method_nodeName .collapse">
+<h2>returns the node name of the first node</h2>
+<pre>nodeName() : string | null</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code><code>null</code>
+</div>
+</div></div>
+</div>
+<a id="method_prepend"></a><div class="element clickable method public method_prepend" data-toggle="collapse" data-target=".method_prepend .collapse">
+<h2>Insert HTML content as child nodes of each element before existing children</h2>
+<pre>prepend(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | <a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a> $content) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code><code><a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a></code><p>HTML code fragment</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_removeAttribute"></a><div class="element clickable method public method_removeAttribute" data-toggle="collapse" data-target=".method_removeAttribute .collapse">
+<h2>removeAttribute()
+        </h2>
+<pre>removeAttribute($name) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$name</h4></div>
+</div></div>
+</div>
+<a id="method_removeClass"></a><div class="element clickable method public method_removeClass" data-toggle="collapse" data-target=".method_removeClass .collapse">
+<h2>Remove a class from all elements in the list</h2>
+<pre>removeClass(string $name) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_saveHTML"></a><div class="element clickable method public method_saveHTML" data-toggle="collapse" data-target=".method_saveHTML .collapse">
+<h2>Get the HTML code fragment of all elements and their contents.</h2>
+<pre>saveHTML() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If the first node contains a complete HTML document return only
+the full code of this document.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>HTML code (fragment)</div>
+</div></div>
+</div>
+<a id="method_setAttribute"></a><div class="element clickable method public method_setAttribute" data-toggle="collapse" data-target=".method_setAttribute .collapse">
+<h2>Sets an attribute on each element</h2>
+<pre>setAttribute(string $name, string $value) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_setInnerHtml"></a><div class="element clickable method public method_setInnerHtml" data-toggle="collapse" data-target=".method_setInnerHtml .collapse">
+<h2>Set the HTML contents of each element</h2>
+<pre>setInnerHtml(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | <a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a> $content) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code><code><a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a></code><p>HTML code fragment</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_setStyle"></a><div class="element clickable method public method_setStyle" data-toggle="collapse" data-target=".method_setStyle .collapse">
+<h2>set one CSS style property for all elements in the list</h2>
+<pre>setStyle(string $key, string $value) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$key</h4>
+<code>string</code><p>name of the property</p></div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><p>value of the property</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_trimNewlines"></a><div class="element clickable method public method_trimNewlines" data-toggle="collapse" data-target=".method_trimNewlines .collapse">
+<h2>remove newlines from string and minimize whitespace (multiple whitespace characters replaced by one space)
+useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a DOMNode)</h2>
+<pre>trimNewlines(string $string) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$string</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_wrap"></a><div class="element clickable method public method_wrap" data-toggle="collapse" data-target=".method_wrap .collapse">
+<h2>Wrap an HTML structure around each element in the set of matched elements</h2>
+<pre>wrap(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> $wrappingElement) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>The HTML structure must contain only one root node, e.g.:
+Works:</p>
+
+<div><div></div></div>
+
+<p>Does not work:</p>
+
+<div></div>
+
+<div></div></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$wrappingElement</h4>
+<code>string</code><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
+</div></div>
+</div>
+<a id="method_cssArrayToString"></a><div class="element clickable method protected method_cssArrayToString" data-toggle="collapse" data-target=".method_cssArrayToString .collapse">
+<h2>Convert CSS name-&gt;value array to string</h2>
+<pre>cssArrayToString(array $array) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$array</h4>
+<code>array</code><p>name=>value pairs of CSS properties</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>list of CSS properties separated by ;</div>
+</div></div>
+</div>
+<a id="method_cssStringToArray"></a><div class="element clickable method protected method_cssStringToArray" data-toggle="collapse" data-target=".method_cssStringToArray .collapse">
+<h2>Convert CSS string to array</h2>
+<pre>cssStringToArray(string $css) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$css</h4>
+<code>string</code><p>list of CSS properties separated by ;</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>name=>value pairs of CSS properties</div>
+</div></div>
+</div>
+<a id="method_getBodyNodeFromHtmlFragment"></a><div class="element clickable method protected method_getBodyNodeFromHtmlFragment" data-toggle="collapse" data-target=".method_getBodyNodeFromHtmlFragment .collapse">
+<h2>getBodyNodeFromHtmlFragment()
+        </h2>
+<pre>getBodyNodeFromHtmlFragment($html, $charset) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$html</h4></div>
+<div class="subelement argument"><h4>$charset</h4></div>
+</div></div>
+</div>
+<a id="method_getCrawlerFromMixedContent"></a><div class="element clickable method protected method_getCrawlerFromMixedContent" data-toggle="collapse" data-target=".method_getCrawlerFromMixedContent .collapse">
+<h2>Get a string or HtmlPageCrawler or DOMNode or DOMNodeList and return a HtmlPageCrawler</h2>
+<pre>getCrawlerFromMixedContent(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | <a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a> $content) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code><code><a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code></div>
+</div></div>
+</div>
+<a id="method_getDOMDocumentFragment"></a><div class="element clickable method protected method_getDOMDocumentFragment" data-toggle="collapse" data-target=".method_getDOMDocumentFragment .collapse">
+<h2>getDOMDocumentFragment()
+        </h2>
+<pre>getDOMDocumentFragment(<a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> $node, string $xml) : <a href="http://php.net/manual/en/class.domdocumentfragment.php">\DOMDocumentFragment</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$node</h4>
+<code><a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a></code>
+</div>
+<div class="subelement argument">
+<h4>$xml</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="http://php.net/manual/en/class.domdocumentfragment.php">\DOMDocumentFragment</a></code></div>
+</div></div>
+</div>
+<a id="method_getXMLFromHtmlFragment"></a><div class="element clickable method protected method_getXMLFromHtmlFragment" data-toggle="collapse" data-target=".method_getXMLFromHtmlFragment .collapse">
+<h2>Get a XML representation from a HTML code fragment for use with DOMDocumentFragment</h2>
+<pre>getXMLFromHtmlFragment(string $html, string $charset) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$html</h4>
+<code>string</code><p>Fragment of html code (MUST NOT contain html and body tags!)</p>
+</div>
+<div class="subelement argument">
+<h4>$charset</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>XML code fragment for use with DOMDocumentFragment::loadXML</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-01-26T15:40:43+01:00.<br></footer></div>
+</div>
+</body>
+</html>

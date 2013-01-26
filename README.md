@@ -12,12 +12,13 @@ the modified page.
 
 Wa72\HtmlPageDom consists of two classes:
 
--   *HtmlPage* represents one HTML document and offers convenience functions like setTitle($title),
-    setMeta('description', $description), getBody()
+-   *HtmlPageCrawler* extends Symfony\Components\DomCrawler by adding jQuery inspired, HTML specific 
+    DOM *manipulation* functions such as html(), before(), append(), wrap(), addClass() or css().
+    It's like jQuery for PHP: simply select elements of an HTML page using CSS selectors and change their attributes and content.
 
--   *HtmlPageCrawler* is used by HtmlPage for selecting and manipulating elements of the document's DOM tree.
-    It extends Symfony\Components\DomCrawler by adding manipulation functions such as setInnerHtml(), addClass() or css().
-    It's like jQuery for PHP: you can select elements of an HTML page using CSS selectors and change their attributes and content.
+-   *HtmlPage* represents one complete HTML document and offers convenience functions like setTitle($title),
+    setMeta('description', $description), getBody(). It uses HtmlPageCrawler for filtering and manipulation DOM Elements.
+ 
 
 Requirements
 ------------

@@ -3,7 +3,15 @@ namespace Wa72\HtmlPageDom;
 
 use Symfony\Component\DomCrawler\Crawler;
 
-
+/**
+ * This class extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
+ * for HTML documents inspired by jQuery such as html(), append(), prepend(), before(),
+ * addClass(), removeClass()
+ *
+ * @author Christoph Singer
+ * @license MIT
+ *
+ */
 class HtmlPageCrawler extends Crawler
 {
     /**
@@ -327,9 +335,9 @@ class HtmlPageCrawler extends Crawler
                 $newnode = $newnode->cloneNode(true);
             }
             $oldnode = $node->parentNode->replaceChild($newnode, $node);
-            while($newnode->hasChildNodes()) {
+            while ($newnode->hasChildNodes()) {
                 $elementFound = false;
-                foreach($newnode->childNodes as $child) {
+                foreach ($newnode->childNodes as $child) {
                     if ($child instanceof \DOMElement) {
                         $newnode = $child;
                         $elementFound = true;
