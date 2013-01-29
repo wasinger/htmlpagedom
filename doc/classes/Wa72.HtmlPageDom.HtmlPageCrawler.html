@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">29</span></a></li>
+                <span class="label label-info">13</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -57,15 +57,12 @@
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
 <li class="method public "><a href="#method_addClass" title="addClass :: Add a class to all elements in the list"><span class="description">Add a class to all elements in the list</span><pre>addClass()</pre></a></li>
-<li class="method public "><a href="#method_addContent" title="addContent :: Adds HTML/XML content."><span class="description">Adds HTML/XML content.</span><pre>addContent()</pre></a></li>
+<li class="method public "><a href="#method_addContent" title="addContent :: Adds HTML/XML content to the HtmlPageCrawler object (but not to the DOM of an already attached node)."><span class="description">Adds HTML/XML content to the HtmlPageCrawler object (but not to the DOM of an already attached node).</span><pre>addContent()</pre></a></li>
 <li class="method public "><a href="#method_addHtmlContent" title="addHtmlContent :: Adds an HTML content to the list of nodes."><span class="description">Adds an HTML content to the list of nodes.</span><pre>addHtmlContent()</pre></a></li>
 <li class="method public "><a href="#method_after" title="after :: Insert content, specified by the parameter, after each element in the set of matched elements."><span class="description">Insert content, specified by the parameter, after each element in the set of matched elements.</span><pre>after()</pre></a></li>
 <li class="method public "><a href="#method_append" title="append :: Insert HTML content as child nodes of each element after existing children"><span class="description">Insert HTML content as child nodes of each element after existing children</span><pre>append()</pre></a></li>
 <li class="method public "><a href="#method_before" title="before :: Insert content, specified by the parameter, before each element in the set of matched elements."><span class="description">Insert content, specified by the parameter, before each element in the set of matched elements.</span><pre>before()</pre></a></li>
-<li class="method public "><a href="#method_css" title="css :: Get one CSS style property of the first element or set it for all elements in the list
-Function is here for compatibility with jQuery"><span class="description">Get one CSS style property of the first element or set it for all elements in the list
-Function is here for compatibility with jQuery</span><pre>css()</pre></a></li>
-<li class="method public "><a href="#method_delete" title="delete :: delete all nodes in the list"><span class="description">delete all nodes in the list</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_css" title="css :: Get one CSS style property of the first element or set it for all elements in the list"><span class="description">Get one CSS style property of the first element or set it for all elements in the list</span><pre>css()</pre></a></li>
 <li class="method public "><a href="#method_filter" title="filter :: "><span class="description">filter()
         </span><pre>filter()</pre></a></li>
 <li class="method public "><a href="#method_filterXPath" title="filterXPath :: Filters the list of nodes with an XPath expression."><span class="description">Filters the list of nodes with an XPath expression.</span><pre>filterXPath()</pre></a></li>
@@ -75,15 +72,16 @@ Function is here for compatibility with jQuery</span><pre>css()</pre></a></li>
 <li class="method public "><a href="#method_getInnerHtml" title="getInnerHtml :: Get the innerHTML contents of the first element"><span class="description">Get the innerHTML contents of the first element</span><pre>getInnerHtml()</pre></a></li>
 <li class="method public "><a href="#method_getStyle" title="getStyle :: get one CSS style property of the first element"><span class="description">get one CSS style property of the first element</span><pre>getStyle()</pre></a></li>
 <li class="method public "><a href="#method_hasClass" title="hasClass :: Check whether the first element has a certain class"><span class="description">Check whether the first element has a certain class</span><pre>hasClass()</pre></a></li>
-<li class="method public "><a href="#method_html" title="html :: Get or set the HTML contents
-Function is here for compatibility with jQuery"><span class="description">Get or set the HTML contents
-Function is here for compatibility with jQuery</span><pre>html()</pre></a></li>
+<li class="method public "><a href="#method_html" title="html :: Get or set the HTML contents"><span class="description">Get or set the HTML contents</span><pre>html()</pre></a></li>
 <li class="method public "><a href="#method_isHtmlDocument" title="isHtmlDocument :: checks whether the first node contains a complete html document
 (as opposed to a document fragment)"><span class="description">checks whether the first node contains a complete html document
 (as opposed to a document fragment)</span><pre>isHtmlDocument()</pre></a></li>
-<li class="method public "><a href="#method_makeEmpty" title="makeEmpty :: Removes all child nodes and text from all nodes in set"><span class="description">Removes all child nodes and text from all nodes in set</span><pre>makeEmpty()</pre></a></li>
+<li class="method public "><a href="#method_makeEmpty" title="makeEmpty :: Removes all child nodes and text from all nodes in set
+Equivalent to jQuery's empty() function which is not a valid function name in PHP"><span class="description">Removes all child nodes and text from all nodes in set
+Equivalent to jQuery's empty() function which is not a valid function name in PHP</span><pre>makeEmpty()</pre></a></li>
 <li class="method public "><a href="#method_nodeName" title="nodeName :: returns the node name of the first node"><span class="description">returns the node name of the first node</span><pre>nodeName()</pre></a></li>
 <li class="method public "><a href="#method_prepend" title="prepend :: Insert HTML content as child nodes of each element before existing children"><span class="description">Insert HTML content as child nodes of each element before existing children</span><pre>prepend()</pre></a></li>
+<li class="method public "><a href="#method_remove" title="remove :: Delete all nodes in the list."><span class="description">Delete all nodes in the list.</span><pre>remove()</pre></a></li>
 <li class="method public "><a href="#method_removeAttribute" title="removeAttribute :: "><span class="description">removeAttribute()
         </span><pre>removeAttribute()</pre></a></li>
 <li class="method public "><a href="#method_removeClass" title="removeClass :: Remove a class from all elements in the list"><span class="description">Remove a class from all elements in the list</span><pre>removeClass()</pre></a></li>
@@ -125,8 +123,8 @@ useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">This class extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
-for HTML documents inspired by jQuery such as html(), append(), prepend(), before(),
+<p class="short_description">Extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
+for HTML documents inspired by jQuery such as html(), css(), append(), prepend(), before(),
 addClass(), removeClass()</p>
 <div class="details">
 <div class="long_description"></div>
@@ -159,7 +157,7 @@ addClass(), removeClass()</p>
 </div></div>
 </div>
 <a id="method_addContent"></a><div class="element clickable method public method_addContent" data-toggle="collapse" data-target=".method_addContent .collapse">
-<h2>Adds HTML/XML content.</h2>
+<h2>Adds HTML/XML content to the HtmlPageCrawler object (but not to the DOM of an already attached node).</h2>
 <pre>addContent(string $content, null | string $type) : null | void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -251,12 +249,21 @@ keeps HTML fragments as they are.</p></div>
 </div></div>
 </div>
 <a id="method_css"></a><div class="element clickable method public method_css" data-toggle="collapse" data-target=".method_css .collapse">
-<h2>Get one CSS style property of the first element or set it for all elements in the list
-Function is here for compatibility with jQuery</h2>
+<h2>Get one CSS style property of the first element or set it for all elements in the list</h2>
 <pre>css(string $key, null | string $value) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Function is here for compatibility with jQuery; it is the same as getStyle() and setStyle()</p></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\Wa72\HtmlPageDom\getStyle()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\Wa72\HtmlPageDom\setStyle()</a></td>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$key</h4>
@@ -268,12 +275,6 @@ Function is here for compatibility with jQuery</h2>
 <div class="subelement response">
 <code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code><code>string</code>If no param is provided, returns the CSS styles of the first element</div>
 </div></div>
-</div>
-<a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
-<h2>delete all nodes in the list</h2>
-<pre>delete() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_filter"></a><div class="element clickable method public method_filter" data-toggle="collapse" data-target=".method_filter .collapse">
 <h2>filter()
@@ -315,7 +316,7 @@ Function is here for compatibility with jQuery</h2>
 <pre>getAttribute(string $name) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Alias for attr() for equivalence with setAttribute()</p></div>
+<div class="long_description"><p>Alias for Crawler::attr() for equivalence with setAttribute()</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$name</h4>
@@ -396,12 +397,22 @@ Function is here for compatibility with jQuery</h2>
 </div></div>
 </div>
 <a id="method_html"></a><div class="element clickable method public method_html" data-toggle="collapse" data-target=".method_html .collapse">
-<h2>Get or set the HTML contents
-Function is here for compatibility with jQuery</h2>
+<h2>Get or set the HTML contents</h2>
 <pre>html(string | <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | <a href="http://php.net/manual/en/class.domnode.php">\DOMNode</a> | <a href="http://php.net/manual/en/class.domnodelist.php">\DOMNodeList</a> | null $html) : <a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a> | string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Function is here for compatibility with jQuery: When called with a parameter, it is
+equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()</p></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\Wa72\HtmlPageDom\setInnerHtml()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\Wa72\HtmlPageDom\getInnerHtml()</a></td>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$html</h4>
@@ -423,7 +434,8 @@ Function is here for compatibility with jQuery</h2>
 </div></div>
 </div>
 <a id="method_makeEmpty"></a><div class="element clickable method public method_makeEmpty" data-toggle="collapse" data-target=".method_makeEmpty .collapse">
-<h2>Removes all child nodes and text from all nodes in set</h2>
+<h2>Removes all child nodes and text from all nodes in set
+Equivalent to jQuery's empty() function which is not a valid function name in PHP</h2>
 <pre>makeEmpty() </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
@@ -454,6 +466,15 @@ Function is here for compatibility with jQuery</h2>
 <div class="subelement response">
 <code><a href="../classes/Wa72.HtmlPageDom.HtmlPageCrawler.html">\Wa72\HtmlPageDom\HtmlPageCrawler</a></code>$this for chaining</div>
 </div></div>
+</div>
+<a id="method_remove"></a><div class="element clickable method public method_remove" data-toggle="collapse" data-target=".method_remove .collapse">
+<h2>Delete all nodes in the list.</h2>
+<pre>remove() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Removes the nodes from DOM.</p>
+
+<p>(as opposed to Crawler::detach() which detaches the nodes only from Crawler
+but leaves them in the DOM)</p></div></div></div>
 </div>
 <a id="method_removeAttribute"></a><div class="element clickable method public method_removeAttribute" data-toggle="collapse" data-target=".method_removeAttribute .collapse">
 <h2>removeAttribute()
@@ -693,7 +714,7 @@ Works:</p>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-01-26T15:40:43+01:00.<br></footer></div>
+            generated on 2013-01-29T23:05:31+01:00.<br></footer></div>
 </div>
 </body>
 </html>

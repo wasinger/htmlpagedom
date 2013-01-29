@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project version="2.0.0a12" title="">
-  <file path="HtmlPage.php" hash="e16d37628d9a2387ce689bd97ed8f38f" package="Default">
+  <file path="HtmlPage.php" hash="688348e809bd5d1f7d5f55ed27d5d842" package="Default">
     <class final="false" abstract="false" namespace="Wa72\HtmlPageDom" line="17" package="Default">
       <extends/>
       <name>HtmlPage</name>
@@ -10,8 +10,7 @@
         <long-description>&lt;p&gt;It offers convenience functions for getting and setting elements of the document
 such as setTitle(), getTitle(), setMeta($name, $value), getBody().&lt;/p&gt;
 
-&lt;p&gt;Internally it uses HtmlPageCrawler to navigate and manipulate the
-DOM tree.&lt;/p&gt;</long-description>
+&lt;p&gt;It uses HtmlPageCrawler to navigate and manipulate the DOM tree.&lt;/p&gt;</long-description>
         <tag line="6" name="author" description="Christoph Singer"/>
         <tag line="6" name="license" description="MIT"/>
       </docblock>
@@ -78,263 +77,310 @@ DOM tree.&lt;/p&gt;</long-description>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="68" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="70" package="Default">
         <name>getCrawler</name>
         <full_name>getCrawler</full_name>
         <docblock line="65">
-          <description></description>
+          <description>Get a HtmlPageCrawler object containing the root node of the HTML document</description>
           <long-description></long-description>
           <tag line="65" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="76" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="80" package="Default">
         <name>getDOMDocument</name>
         <full_name>getDOMDocument</full_name>
-        <docblock line="73">
-          <description></description>
+        <docblock line="75">
+          <description>Get a DOMDocument object for the HTML document</description>
           <long-description></long-description>
-          <tag line="73" name="return" description="" type="\DOMDocument">
+          <tag line="75" name="return" description="" type="\DOMDocument">
             <type by_reference="false">\DOMDocument</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="81" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="90" package="Default">
         <name>setTitle</name>
         <full_name>setTitle</full_name>
-        <argument line="81">
+        <docblock line="85">
+          <description>Sets the page title of the HTML document</description>
+          <long-description></long-description>
+          <tag line="85" name="param" description="" type="string" variable="$title">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="90">
           <name>$title</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="91" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="105" package="Default">
         <name>getTitle</name>
         <full_name>getTitle</full_name>
+        <docblock line="100">
+          <description>Get the page title of the HTML document</description>
+          <long-description></long-description>
+          <tag line="100" name="return" description="" type="null|string">
+            <type by_reference="false">null</type>
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="105" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="120" package="Default">
         <name>setMeta</name>
         <full_name>setMeta</full_name>
-        <docblock line="98">
-          <description>Set a meta tag</description>
+        <docblock line="112">
+          <description>Set a META tag with specified 'name' and 'content' attributes</description>
           <long-description></long-description>
-          <tag line="98" name="TODO" description=": add support for multiple meta tags with the same name but different languages"/>
-          <tag line="98" name="param" description="" type="\Wa72\HtmlPageDom\" variable="$name"/>
-          <tag line="98" name="param" description="" type="\Wa72\HtmlPageDom\" variable="$content"/>
+          <tag line="112" name="TODO" description=": add support for multiple meta tags with the same name but different languages"/>
+          <tag line="112" name="param" description="" type="\Wa72\HtmlPageDom\" variable="$name"/>
+          <tag line="112" name="param" description="" type="\Wa72\HtmlPageDom\" variable="$content"/>
         </docblock>
-        <argument line="105">
+        <argument line="120">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="105">
+        <argument line="120">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="117" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="137" package="Default">
         <name>removeMeta</name>
         <full_name>removeMeta</full_name>
-        <argument line="117">
+        <docblock line="132">
+          <description>Remove all meta tags with the specified name attribute</description>
+          <long-description></long-description>
+          <tag line="132" name="param" description="" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="137">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="123" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="149" package="Default">
         <name>getMeta</name>
         <full_name>getMeta</full_name>
-        <argument line="123">
+        <docblock line="143">
+          <description>Get the content attribute of a meta tag with the specified name attribute</description>
+          <long-description></long-description>
+          <tag line="143" name="param" description="" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="143" name="return" description="" type="null|string">
+            <type by_reference="false">null</type>
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="149">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="133" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="164" package="Default">
         <name>setBaseHref</name>
         <full_name>setBaseHref</full_name>
-        <argument line="133">
+        <docblock line="159">
+          <description>Set the base tag with href attribute set to parameter $url</description>
+          <long-description></long-description>
+          <tag line="159" name="param" description="" type="string" variable="$url">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="164">
           <name>$url</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="143" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="179" package="Default">
         <name>getBaseHref</name>
         <full_name>getBaseHref</full_name>
-      </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="159" package="Default">
-        <name>setHtmlById</name>
-        <full_name>setHtmlById</full_name>
-        <docblock line="153">
-          <description>Sets innerHTML content of an element specified by elementId</description>
+        <docblock line="174">
+          <description>Get the href attribute from the base tag, null if not present in document</description>
           <long-description></long-description>
-          <tag line="153" name="param" description="" type="string" variable="$elementId">
-            <type by_reference="false">string</type>
-          </tag>
-          <tag line="153" name="param" description="" type="string" variable="$html">
+          <tag line="174" name="return" description="" type="null|string">
+            <type by_reference="false">null</type>
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="159">
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="195" package="Default">
+        <name>setHtmlById</name>
+        <full_name>setHtmlById</full_name>
+        <docblock line="189">
+          <description>Sets innerHTML content of an element specified by elementId</description>
+          <long-description></long-description>
+          <tag line="189" name="param" description="" type="string" variable="$elementId">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="189" name="param" description="" type="string" variable="$html">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="195">
           <name>$elementId</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="159">
+        <argument line="195">
           <name>$html</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="168" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="205" package="Default">
         <name>getHeadNode</name>
         <full_name>getHeadNode</full_name>
-        <docblock line="164">
-          <description></description>
+        <docblock line="200">
+          <description>Get the document's HEAD section as DOMElement</description>
           <long-description></long-description>
-          <tag line="164" name="return" description="" type="\DOMNode">
-            <type by_reference="false">\DOMNode</type>
+          <tag line="200" name="return" description="" type="\DOMElement">
+            <type by_reference="false">\DOMElement</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="182" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="220" package="Default">
         <name>getBodyNode</name>
         <full_name>getBodyNode</full_name>
-        <docblock line="178">
-          <description></description>
+        <docblock line="215">
+          <description>Get the document's body as DOMElement</description>
           <long-description></long-description>
-          <tag line="178" name="return" description="" type="\DOMNode">
-            <type by_reference="false">\DOMNode</type>
+          <tag line="215" name="return" description="" type="\DOMElement">
+            <type by_reference="false">\DOMElement</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="195" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="235" package="Default">
         <name>getHead</name>
         <full_name>getHead</full_name>
-        <docblock line="192">
-          <description></description>
+        <docblock line="230">
+          <description>Get the document's HEAD section wrapped in a HtmlPageCrawler instance</description>
           <long-description></long-description>
-          <tag line="192" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="230" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="203" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="245" package="Default">
         <name>getBody</name>
         <full_name>getBody</full_name>
-        <docblock line="200">
-          <description></description>
+        <docblock line="240">
+          <description>Get the document's body wrapped in a HtmlPageCrawler instance</description>
           <long-description></long-description>
-          <tag line="200" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="240" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="208" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="250" package="Default">
         <name>__toString</name>
         <full_name>__toString</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="218" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="261" package="Default">
         <name>save</name>
         <full_name>save</full_name>
-        <docblock line="213">
-          <description></description>
+        <docblock line="255">
+          <description>Save this document to a HTML file or return HTML code as string</description>
           <long-description></long-description>
-          <tag line="213" name="param" description="If provided, output will be saved to this file, otherwise returned" type="string" variable="$filename">
+          <tag line="255" name="param" description="If provided, output will be saved to this file, otherwise returned" type="string" variable="$filename">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="213" name="return" description="" type="string|void">
+          <tag line="255" name="return" description="" type="string|void">
             <type by_reference="false">string</type>
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="218">
+        <argument line="261">
           <name>$filename</name>
           <default>null</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="233" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="277" package="Default">
         <name>getElementById</name>
         <full_name>getElementById</full_name>
-        <docblock line="228">
-          <description></description>
+        <docblock line="271">
+          <description>Get an element in the document by it's id attribute</description>
           <long-description></long-description>
-          <tag line="228" name="param" description="" type="string" variable="$id">
+          <tag line="271" name="param" description="" type="string" variable="$id">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="228" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="271" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="233">
+        <argument line="277">
           <name>$id</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="243" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="288" package="Default">
         <name>filter</name>
         <full_name>filter</full_name>
-        <docblock line="238">
-          <description></description>
+        <docblock line="282">
+          <description>Filter nodes by using a CSS selector</description>
           <long-description></long-description>
-          <tag line="238" name="param" description="CSS selector" type="string" variable="$selector">
+          <tag line="282" name="param" description="CSS selector" type="string" variable="$selector">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="238" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="282" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="243">
+        <argument line="288">
           <name>$selector</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="254" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="300" package="Default">
         <name>filterXPath</name>
         <full_name>filterXPath</full_name>
-        <docblock line="249">
-          <description></description>
+        <docblock line="294">
+          <description>Filter nodes by XPath expression</description>
           <long-description></long-description>
-          <tag line="249" name="param" description="XPath expression" type="string" variable="$xpath">
+          <tag line="294" name="param" description="XPath expression" type="string" variable="$xpath">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="249" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="294" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="254">
+        <argument line="300">
           <name>$xpath</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="Wa72\HtmlPageDom" line="266" package="Default">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="Wa72\HtmlPageDom" line="313" package="Default">
         <name>trimNewlines</name>
         <full_name>trimNewlines</full_name>
-        <docblock line="259">
-          <description>remove newlines from string and minimize whitespace (multiple whitespace characters replaced by one space)
-useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a DOMNode)</description>
-          <long-description></long-description>
-          <tag line="259" name="param" description="" type="string" variable="$string">
+        <docblock line="305">
+          <description>remove newlines from string and minimize whitespace (multiple whitespace characters replaced by one space)</description>
+          <long-description>&lt;p&gt;useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a DOMNode)&lt;/p&gt;</long-description>
+          <tag line="305" name="param" description="" type="string" variable="$string">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="259" name="return" description="" type="string">
+          <tag line="305" name="return" description="" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="266">
+        <argument line="313">
           <name>$string</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="271" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="318" package="Default">
         <name>__clone</name>
         <full_name>__clone</full_name>
       </method>
@@ -346,34 +392,18 @@ useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a
       <critical line="30" code="50019">No short description for property $url</critical>
       <critical line="35" code="50019">No short description for property $crawler</critical>
       <error line="41" code="50010">No DocBlock was found for method __construct()</error>
-      <error line="65" code="50012">No short description for method getCrawler()</error>
-      <error line="73" code="50012">No short description for method getDOMDocument()</error>
-      <error line="81" code="50010">No DocBlock was found for method setTitle()</error>
-      <error line="91" code="50010">No DocBlock was found for method getTitle()</error>
-      <error line="117" code="50010">No DocBlock was found for method removeMeta()</error>
-      <error line="123" code="50010">No DocBlock was found for method getMeta()</error>
-      <error line="133" code="50010">No DocBlock was found for method setBaseHref()</error>
-      <error line="143" code="50010">No DocBlock was found for method getBaseHref()</error>
-      <error line="164" code="50012">No short description for method getHeadNode()</error>
-      <error line="178" code="50012">No short description for method getBodyNode()</error>
-      <error line="192" code="50012">No short description for method getHead()</error>
-      <error line="200" code="50012">No short description for method getBody()</error>
-      <error line="208" code="50010">No DocBlock was found for method __toString()</error>
-      <error line="213" code="50012">No short description for method save()</error>
-      <error line="228" code="50012">No short description for method getElementById()</error>
-      <error line="238" code="50012">No short description for method filter()</error>
-      <error line="249" code="50012">No short description for method filterXPath()</error>
-      <error line="271" code="50010">No DocBlock was found for method __clone()</error>
+      <error line="250" code="50010">No DocBlock was found for method __toString()</error>
+      <error line="318" code="50010">No DocBlock was found for method __clone()</error>
     </parse_markers>
   </file>
-  <file path="HtmlPageCrawler.php" hash="11be2426ae6db83109c2d608b8f96ce3" package="Default">
+  <file path="HtmlPageCrawler.php" hash="e7aa2ad4b05849515d57d6e2d84553aa" package="Default">
     <class final="false" abstract="false" namespace="Wa72\HtmlPageDom" line="15" package="Default">
       <extends>\Symfony\Component\DomCrawler\Crawler</extends>
       <name>HtmlPageCrawler</name>
       <full_name>\Wa72\HtmlPageDom\HtmlPageCrawler</full_name>
       <docblock line="6">
-        <description>This class extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
-for HTML documents inspired by jQuery such as html(), append(), prepend(), before(),
+        <description>Extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
+for HTML documents inspired by jQuery such as html(), css(), append(), prepend(), before(),
 addClass(), removeClass()</description>
         <long-description></long-description>
         <tag line="6" name="author" description="Christoph Singer"/>
@@ -414,7 +444,7 @@ addClass(), removeClass()</description>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="73" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="74" package="Default">
         <name>saveHTML</name>
         <full_name>saveHTML</full_name>
         <docblock line="66">
@@ -426,210 +456,213 @@ the full code of this document.&lt;/p&gt;</long-description>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="94" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="95" package="Default">
         <name>isHtmlDocument</name>
         <full_name>isHtmlDocument</full_name>
-        <docblock line="88">
+        <docblock line="89">
           <description>checks whether the first node contains a complete html document
 (as opposed to a document fragment)</description>
           <long-description></long-description>
-          <tag line="88" name="return" description="" type="boolean">
+          <tag line="89" name="return" description="" type="boolean">
             <type by_reference="false">boolean</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="113" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="114" package="Default">
         <name>getDOMDocument</name>
         <full_name>getDOMDocument</full_name>
-        <docblock line="108">
+        <docblock line="109">
           <description>get ownerDocument of the first element</description>
           <long-description></long-description>
-          <tag line="108" name="return" description="" type="\DOMDocument|null">
+          <tag line="109" name="return" description="" type="\DOMDocument|null">
             <type by_reference="false">\DOMDocument</type>
             <type by_reference="false">null</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="128" package="Default">
-        <name>delete</name>
-        <full_name>delete</full_name>
-        <docblock line="125">
-          <description>delete all nodes in the list</description>
-          <long-description></long-description>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="132" package="Default">
+        <name>remove</name>
+        <full_name>remove</full_name>
+        <docblock line="126">
+          <description>Delete all nodes in the list.</description>
+          <long-description>&lt;p&gt;Removes the nodes from DOM.&lt;/p&gt;
+
+&lt;p&gt;(as opposed to Crawler::detach() which detaches the nodes only from Crawler
+but leaves them in the DOM)&lt;/p&gt;</long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="144" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="148" package="Default">
         <name>setInnerHtml</name>
         <full_name>setInnerHtml</full_name>
-        <docblock line="138">
+        <docblock line="142">
           <description>Set the HTML contents of each element</description>
           <long-description></long-description>
-          <tag line="138" name="param" description="HTML code fragment" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
+          <tag line="142" name="param" description="HTML code fragment" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
             <type by_reference="false">string</type>
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">\DOMNode</type>
             <type by_reference="false">\DOMNodeList</type>
           </tag>
-          <tag line="138" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="142" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="144">
+        <argument line="148">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="170" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="174" package="Default">
         <name>setAttribute</name>
         <full_name>setAttribute</full_name>
-        <docblock line="163">
+        <docblock line="167">
           <description>Sets an attribute on each element</description>
           <long-description></long-description>
-          <tag line="163" name="param" description="" type="string" variable="$name">
+          <tag line="167" name="param" description="" type="string" variable="$name">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="163" name="param" description="" type="string" variable="$value">
+          <tag line="167" name="param" description="" type="string" variable="$value">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="163" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="167" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="170">
+        <argument line="174">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="170">
+        <argument line="174">
           <name>$value</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="190" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="194" package="Default">
         <name>getAttribute</name>
         <full_name>getAttribute</full_name>
-        <docblock line="181">
+        <docblock line="185">
           <description>Returns the attribute value of the first node of the list.</description>
-          <long-description>&lt;p&gt;Alias for attr() for equivalence with setAttribute()&lt;/p&gt;</long-description>
-          <tag line="181" name="param" description="The attribute name" type="string" variable="$name">
+          <long-description>&lt;p&gt;Alias for Crawler::attr() for equivalence with setAttribute()&lt;/p&gt;</long-description>
+          <tag line="185" name="param" description="The attribute name" type="string" variable="$name">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="181" name="return" description="The attribute value" type="string">
+          <tag line="185" name="return" description="The attribute value" type="string">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="181" name="throws" description="When current node is empty" type="\InvalidArgumentException">
+          <tag line="185" name="throws" description="When current node is empty" type="\InvalidArgumentException">
             <type by_reference="false">\InvalidArgumentException</type>
           </tag>
         </docblock>
-        <argument line="190">
+        <argument line="194">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="195" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="199" package="Default">
         <name>removeAttribute</name>
         <full_name>removeAttribute</full_name>
-        <argument line="195">
+        <argument line="199">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="214" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="218" package="Default">
         <name>append</name>
         <full_name>append</full_name>
-        <docblock line="208">
+        <docblock line="212">
           <description>Insert HTML content as child nodes of each element after existing children</description>
           <long-description></long-description>
-          <tag line="208" name="param" description="HTML code fragment or DOMNode to append" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
+          <tag line="212" name="param" description="HTML code fragment or DOMNode to append" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
             <type by_reference="false">string</type>
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">\DOMNode</type>
             <type by_reference="false">\DOMNodeList</type>
           </tag>
-          <tag line="208" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="212" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="214">
+        <argument line="218">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="239" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="243" package="Default">
         <name>prepend</name>
         <full_name>prepend</full_name>
-        <docblock line="233">
+        <docblock line="237">
           <description>Insert HTML content as child nodes of each element before existing children</description>
           <long-description></long-description>
-          <tag line="233" name="param" description="HTML code fragment" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
+          <tag line="237" name="param" description="HTML code fragment" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
             <type by_reference="false">string</type>
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">\DOMNode</type>
             <type by_reference="false">\DOMNodeList</type>
           </tag>
-          <tag line="233" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="237" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="239">
+        <argument line="243">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="268" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="272" package="Default">
         <name>before</name>
         <full_name>before</full_name>
-        <docblock line="262">
+        <docblock line="266">
           <description>Insert content, specified by the parameter, before each element in the set of matched elements.</description>
           <long-description></long-description>
-          <tag line="262" name="param" description="" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
+          <tag line="266" name="param" description="" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
             <type by_reference="false">string</type>
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">\DOMNode</type>
             <type by_reference="false">\DOMNodeList</type>
           </tag>
-          <tag line="262" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="266" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="268">
+        <argument line="272">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="292" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="296" package="Default">
         <name>after</name>
         <full_name>after</full_name>
-        <docblock line="286">
+        <docblock line="290">
           <description>Insert content, specified by the parameter, after each element in the set of matched elements.</description>
           <long-description></long-description>
-          <tag line="286" name="param" description="" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
+          <tag line="290" name="param" description="" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
             <type by_reference="false">string</type>
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">\DOMNode</type>
             <type by_reference="false">\DOMNodeList</type>
           </tag>
-          <tag line="286" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="290" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="292">
+        <argument line="296">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="325" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="329" package="Default">
         <name>wrap</name>
         <full_name>wrap</full_name>
-        <docblock line="315">
+        <docblock line="319">
           <description>Wrap an HTML structure around each element in the set of matched elements</description>
           <long-description>&lt;p&gt;The HTML structure must contain only one root node, e.g.:
 Works:&lt;/p&gt;
@@ -641,430 +674,434 @@ Works:&lt;/p&gt;
 &lt;div&gt;&lt;/div&gt;
 
 &lt;div&gt;&lt;/div&gt;</long-description>
-          <tag line="315" name="param" description="" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode" variable="$wrappingElement">
+          <tag line="319" name="param" description="" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode" variable="$wrappingElement">
             <type by_reference="false">string</type>
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">\DOMNode</type>
           </tag>
-          <tag line="315" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="319" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="325">
+        <argument line="329">
           <name>$wrappingElement</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="361" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="371" package="Default">
         <name>html</name>
         <full_name>html</full_name>
-        <docblock line="354">
-          <description>Get or set the HTML contents
-Function is here for compatibility with jQuery</description>
-          <long-description></long-description>
-          <tag line="354" name="param" description="The HTML content to set, or NULL to get the current content" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList|null" variable="$html">
+        <docblock line="358">
+          <description>Get or set the HTML contents</description>
+          <long-description>&lt;p&gt;Function is here for compatibility with jQuery: When called with a parameter, it is
+equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()&lt;/p&gt;</long-description>
+          <tag line="358" name="see" description="\Wa72\HtmlPageDom\setInnerHtml()" refers="\Wa72\HtmlPageDom\setInnerHtml()"/>
+          <tag line="358" name="see" description="\Wa72\HtmlPageDom\getInnerHtml()" refers="\Wa72\HtmlPageDom\getInnerHtml()"/>
+          <tag line="358" name="param" description="The HTML content to set, or NULL to get the current content" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList|null" variable="$html">
             <type by_reference="false">string</type>
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">\DOMNode</type>
             <type by_reference="false">\DOMNodeList</type>
             <type by_reference="false">null</type>
           </tag>
-          <tag line="354" name="return" description="If no param is provided, returns the HTML content of the first element" type="\Wa72\HtmlPageDom\HtmlPageCrawler|string">
+          <tag line="358" name="return" description="If no param is provided, returns the HTML content of the first element" type="\Wa72\HtmlPageDom\HtmlPageCrawler|string">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="361">
+        <argument line="371">
           <name>$html</name>
           <default>null</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="379" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="393" package="Default">
         <name>css</name>
         <full_name>css</full_name>
-        <docblock line="371">
-          <description>Get one CSS style property of the first element or set it for all elements in the list
-Function is here for compatibility with jQuery</description>
-          <long-description></long-description>
-          <tag line="371" name="param" description="The name of the style property" type="string" variable="$key">
+        <docblock line="381">
+          <description>Get one CSS style property of the first element or set it for all elements in the list</description>
+          <long-description>&lt;p&gt;Function is here for compatibility with jQuery; it is the same as getStyle() and setStyle()&lt;/p&gt;</long-description>
+          <tag line="381" name="see" description="\Wa72\HtmlPageDom\getStyle()" refers="\Wa72\HtmlPageDom\getStyle()"/>
+          <tag line="381" name="see" description="\Wa72\HtmlPageDom\setStyle()" refers="\Wa72\HtmlPageDom\setStyle()"/>
+          <tag line="381" name="param" description="The name of the style property" type="string" variable="$key">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="371" name="param" description="The CSS value to set, or NULL to get the current value" type="null|string" variable="$value">
+          <tag line="381" name="param" description="The CSS value to set, or NULL to get the current value" type="null|string" variable="$value">
             <type by_reference="false">null</type>
             <type by_reference="false">string</type>
           </tag>
-          <tag line="371" name="return" description="If no param is provided, returns the CSS styles of the first element" type="\Wa72\HtmlPageDom\HtmlPageCrawler|string">
+          <tag line="381" name="return" description="If no param is provided, returns the CSS styles of the first element" type="\Wa72\HtmlPageDom\HtmlPageCrawler|string">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="379">
+        <argument line="393">
           <name>$key</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="379">
+        <argument line="393">
           <name>$value</name>
           <default>null</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="394" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="408" package="Default">
         <name>getStyle</name>
         <full_name>getStyle</full_name>
-        <docblock line="388">
+        <docblock line="402">
           <description>get one CSS style property of the first element</description>
           <long-description></long-description>
-          <tag line="388" name="param" description="name of the property" type="string" variable="$key">
+          <tag line="402" name="param" description="name of the property" type="string" variable="$key">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="388" name="return" description="value of the property" type="string|null">
+          <tag line="402" name="return" description="value of the property" type="string|null">
             <type by_reference="false">string</type>
             <type by_reference="false">null</type>
           </tag>
         </docblock>
-        <argument line="394">
+        <argument line="408">
           <name>$key</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="407" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="421" package="Default">
         <name>setStyle</name>
         <full_name>setStyle</full_name>
-        <docblock line="400">
+        <docblock line="414">
           <description>set one CSS style property for all elements in the list</description>
           <long-description></long-description>
-          <tag line="400" name="param" description="name of the property" type="string" variable="$key">
+          <tag line="414" name="param" description="name of the property" type="string" variable="$key">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="400" name="param" description="value of the property" type="string" variable="$value">
+          <tag line="414" name="param" description="value of the property" type="string" variable="$value">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="400" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="414" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="407">
+        <argument line="421">
           <name>$key</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="407">
+        <argument line="421">
           <name>$value</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="430" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="444" package="Default">
         <name>addClass</name>
         <full_name>addClass</full_name>
-        <docblock line="424">
+        <docblock line="438">
           <description>Add a class to all elements in the list</description>
           <long-description></long-description>
-          <tag line="424" name="param" description="" type="string" variable="$name">
+          <tag line="438" name="param" description="" type="string" variable="$name">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="424" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="438" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="430">
+        <argument line="444">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="457" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="471" package="Default">
         <name>hasClass</name>
         <full_name>hasClass</full_name>
-        <docblock line="451">
+        <docblock line="465">
           <description>Check whether the first element has a certain class</description>
           <long-description></long-description>
-          <tag line="451" name="param" description="" type="string" variable="$name">
+          <tag line="465" name="param" description="" type="string" variable="$name">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="451" name="return" description="" type="bool">
+          <tag line="465" name="return" description="" type="bool">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="457">
+        <argument line="471">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="470" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="484" package="Default">
         <name>removeClass</name>
         <full_name>removeClass</full_name>
-        <docblock line="464">
+        <docblock line="478">
           <description>Remove a class from all elements in the list</description>
           <long-description></long-description>
-          <tag line="464" name="param" description="" type="string" variable="$name">
+          <tag line="478" name="param" description="" type="string" variable="$name">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="464" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="478" name="return" description="$this for chaining" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="470">
+        <argument line="484">
           <name>$name</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="493" package="Default">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="507" package="Default">
         <name>getCrawlerFromMixedContent</name>
         <full_name>getCrawlerFromMixedContent</full_name>
-        <docblock line="487">
+        <docblock line="501">
           <description>Get a string or HtmlPageCrawler or DOMNode or DOMNodeList and return a HtmlPageCrawler</description>
           <long-description></long-description>
-          <tag line="487" name="param" description="" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
+          <tag line="501" name="param" description="" type="string|\Wa72\HtmlPageDom\HtmlPageCrawler|\DOMNode|\DOMNodeList" variable="$content">
             <type by_reference="false">string</type>
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
             <type by_reference="false">\DOMNode</type>
             <type by_reference="false">\DOMNodeList</type>
           </tag>
-          <tag line="487" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="501" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="493">
+        <argument line="507">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="508" package="Default">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="522" package="Default">
         <name>cssStringToArray</name>
         <full_name>cssStringToArray</full_name>
-        <docblock line="502">
+        <docblock line="516">
           <description>Convert CSS string to array</description>
           <long-description></long-description>
-          <tag line="502" name="param" description="list of CSS properties separated by ;" type="string" variable="$css">
+          <tag line="516" name="param" description="list of CSS properties separated by ;" type="string" variable="$css">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="502" name="return" description="name=&gt;value pairs of CSS properties" type="array">
+          <tag line="516" name="return" description="name=&gt;value pairs of CSS properties" type="array">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="508">
+        <argument line="522">
           <name>$css</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="534" package="Default">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="548" package="Default">
         <name>cssArrayToString</name>
         <full_name>cssArrayToString</full_name>
-        <docblock line="528">
+        <docblock line="542">
           <description>Convert CSS name-&gt;value array to string</description>
           <long-description></long-description>
-          <tag line="528" name="param" description="name=&gt;value pairs of CSS properties" type="array" variable="$array">
+          <tag line="542" name="param" description="name=&gt;value pairs of CSS properties" type="array" variable="$array">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="528" name="return" description="list of CSS properties separated by ;" type="string">
+          <tag line="542" name="return" description="list of CSS properties separated by ;" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="534">
+        <argument line="548">
           <name>$array</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="546" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="561" package="Default">
         <name>makeEmpty</name>
         <full_name>makeEmpty</full_name>
-        <docblock line="543">
-          <description>Removes all child nodes and text from all nodes in set</description>
+        <docblock line="557">
+          <description>Removes all child nodes and text from all nodes in set
+Equivalent to jQuery's empty() function which is not a valid function name in PHP</description>
           <long-description></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="557" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="572" package="Default">
         <name>filter</name>
         <full_name>filter</full_name>
-        <docblock line="553">
+        <docblock line="568">
           <description></description>
           <long-description></long-description>
-          <tag line="553" name="param" description="" type="string" variable="$selector">
+          <tag line="568" name="param" description="" type="string" variable="$selector">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="553" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="568" name="return" description="" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
         </docblock>
-        <argument line="557">
+        <argument line="572">
           <name>$selector</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="571" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="586" package="Default">
         <name>filterXPath</name>
         <full_name>filterXPath</full_name>
-        <docblock line="562">
+        <docblock line="577">
           <description>Filters the list of nodes with an XPath expression.</description>
           <long-description></long-description>
-          <tag line="562" name="param" description="An XPath expression" type="string" variable="$xpath">
+          <tag line="577" name="param" description="An XPath expression" type="string" variable="$xpath">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="562" name="return" description="A new instance of Crawler with the filtered list of nodes" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
+          <tag line="577" name="return" description="A new instance of Crawler with the filtered list of nodes" type="\Wa72\HtmlPageDom\HtmlPageCrawler">
             <type by_reference="false">\Wa72\HtmlPageDom\HtmlPageCrawler</type>
           </tag>
-          <tag line="562" name="api" description=""/>
+          <tag line="577" name="api" description=""/>
         </docblock>
-        <argument line="571">
+        <argument line="586">
           <name>$xpath</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="598" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="614" package="Default">
         <name>addContent</name>
         <full_name>addContent</full_name>
-        <docblock line="584">
-          <description>Adds HTML/XML content.</description>
+        <docblock line="599">
+          <description>Adds HTML/XML content to the HtmlPageCrawler object (but not to the DOM of an already attached node).</description>
           <long-description>&lt;p&gt;Function overriden from Crawler because there is a hardcoded default charset latin1, we need UTF-8,
 and no way to override the charset for html fragments which do not contain a content-type meta tag&lt;/p&gt;
 
 &lt;p&gt;So the only difference to the parent function is: if given an HTML fragment without content-type meta tag,
 we process it as UTF-8, not latin1&lt;/p&gt;</long-description>
-          <tag line="584" name="param" description="A string to parse as HTML/XML" type="string" variable="$content">
+          <tag line="599" name="param" description="A string to parse as HTML/XML" type="string" variable="$content">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="584" name="param" description="The content type of the string" type="null|string" variable="$type">
+          <tag line="599" name="param" description="The content type of the string" type="null|string" variable="$type">
             <type by_reference="false">null</type>
             <type by_reference="false">string</type>
           </tag>
-          <tag line="584" name="return" description="" type="null|void">
+          <tag line="599" name="return" description="" type="null|void">
             <type by_reference="false">null</type>
             <type by_reference="false">void</type>
           </tag>
         </docblock>
-        <argument line="598">
+        <argument line="614">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="598">
+        <argument line="614">
           <name>$type</name>
           <default>null</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="637" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Wa72\HtmlPageDom" line="653" package="Default">
         <name>addHtmlContent</name>
         <full_name>addHtmlContent</full_name>
-        <docblock line="624">
+        <docblock line="640">
           <description>Adds an HTML content to the list of nodes.</description>
           <long-description>&lt;p&gt;Overrrides the original function form Crawler for loading of HTML fragments. Crawler::addHtmlContent always
 loads HTML code as complete document, i.e. a HTML fragment will be wrapped in &lt;html&gt;&lt;body&gt; tags. This function
 keeps HTML fragments as they are.&lt;/p&gt;</long-description>
-          <tag line="624" name="param" description="The HTML content" type="string" variable="$content">
+          <tag line="640" name="param" description="The HTML content" type="string" variable="$content">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="624" name="param" description="The charset" type="string" variable="$charset">
+          <tag line="640" name="param" description="The charset" type="string" variable="$charset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="624" name="api" description=""/>
+          <tag line="640" name="api" description=""/>
         </docblock>
-        <argument line="637">
+        <argument line="653">
           <name>$content</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="637">
+        <argument line="653">
           <name>$charset</name>
           <default>'UTF-8'</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="655" package="Default">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="671" package="Default">
         <name>getXMLFromHtmlFragment</name>
         <full_name>getXMLFromHtmlFragment</full_name>
-        <docblock line="648">
+        <docblock line="664">
           <description>Get a XML representation from a HTML code fragment for use with DOMDocumentFragment</description>
           <long-description></long-description>
-          <tag line="648" name="param" description="Fragment of html code (MUST NOT contain html and body tags!)" type="string" variable="$html">
+          <tag line="664" name="param" description="Fragment of html code (MUST NOT contain html and body tags!)" type="string" variable="$html">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="648" name="param" description="" type="string" variable="$charset">
+          <tag line="664" name="param" description="" type="string" variable="$charset">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="648" name="return" description="XML code fragment for use with DOMDocumentFragment::loadXML" type="string">
+          <tag line="664" name="return" description="XML code fragment for use with DOMDocumentFragment::loadXML" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="655">
+        <argument line="671">
           <name>$html</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="655">
+        <argument line="671">
           <name>$charset</name>
           <default>'UTF-8'</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="662" package="Default">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="678" package="Default">
         <name>getBodyNodeFromHtmlFragment</name>
         <full_name>getBodyNodeFromHtmlFragment</full_name>
-        <argument line="662">
+        <argument line="678">
           <name>$html</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="662">
+        <argument line="678">
           <name>$charset</name>
           <default>'UTF-8'</default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="687" package="Default">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="Wa72\HtmlPageDom" line="703" package="Default">
         <name>getDOMDocumentFragment</name>
         <full_name>getDOMDocumentFragment</full_name>
-        <docblock line="681">
+        <docblock line="697">
           <description></description>
           <long-description></long-description>
-          <tag line="681" name="param" description="" type="\DOMNode" variable="$node">
+          <tag line="697" name="param" description="" type="\DOMNode" variable="$node">
             <type by_reference="false">\DOMNode</type>
           </tag>
-          <tag line="681" name="param" description="" type="string" variable="$xml">
+          <tag line="697" name="param" description="" type="string" variable="$xml">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="681" name="return" description="" type="\DOMDocumentFragment">
+          <tag line="697" name="return" description="" type="\DOMDocumentFragment">
             <type by_reference="false">\DOMDocumentFragment</type>
           </tag>
         </docblock>
-        <argument line="687">
+        <argument line="703">
           <name>$node</name>
           <default></default>
           <type/>
         </argument>
-        <argument line="687">
+        <argument line="703">
           <name>$xml</name>
           <default></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="Wa72\HtmlPageDom" line="701" package="Default">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="Wa72\HtmlPageDom" line="717" package="Default">
         <name>trimNewlines</name>
         <full_name>trimNewlines</full_name>
-        <docblock line="694">
+        <docblock line="710">
           <description>remove newlines from string and minimize whitespace (multiple whitespace characters replaced by one space)
 useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a DOMNode)</description>
           <long-description></long-description>
-          <tag line="694" name="param" description="" type="string" variable="$string">
+          <tag line="710" name="param" description="" type="string" variable="$string">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="694" name="return" description="" type="string">
+          <tag line="710" name="return" description="" type="string">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="701">
+        <argument line="717">
           <name>$string</name>
           <default></default>
           <type/>
@@ -1073,10 +1110,10 @@ useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a
     </class>
     <parse_markers>
       <error line="0" code="50007">No page-level DocBlock was found in file HtmlPageCrawler.php</error>
-      <error line="195" code="50010">No DocBlock was found for method removeAttribute()</error>
-      <error line="553" code="50012">No short description for method filter()</error>
-      <error line="662" code="50010">No DocBlock was found for method getBodyNodeFromHtmlFragment()</error>
-      <error line="681" code="50012">No short description for method getDOMDocumentFragment()</error>
+      <error line="199" code="50010">No DocBlock was found for method removeAttribute()</error>
+      <error line="568" code="50012">No short description for method filter()</error>
+      <error line="678" code="50010">No DocBlock was found for method getBodyNodeFromHtmlFragment()</error>
+      <error line="697" code="50012">No short description for method getDOMDocumentFragment()</error>
     </parse_markers>
   </file>
   <package name="Default" full_name="Default"/>
