@@ -5,11 +5,11 @@ use Symfony\Component\CssSelector\CssSelector;
 
 /**
  * This class represents a complete HTML document.
+ *
  * It offers convenience functions for getting and setting elements of the document
  * such as setTitle(), getTitle(), setMeta($name, $value), getBody().
  *
- * Internally it uses HtmlPageCrawler to navigate and manipulate the
- * DOM tree.
+ * It uses HtmlPageCrawler to navigate and manipulate the DOM tree.
  *
  * @author Christoph Singer
  * @license MIT
@@ -63,6 +63,8 @@ class HtmlPage
     }
 
     /**
+     * Get a HtmlPageCrawler object containing the root node of the HTML document
+     *
      * @return HtmlPageCrawler
      */
     public function getCrawler()
@@ -71,6 +73,8 @@ class HtmlPage
     }
 
     /**
+     * Get a DOMDocument object for the HTML document
+     *
      * @return \DOMDocument
      */
     public function getDOMDocument()
@@ -78,6 +82,11 @@ class HtmlPage
         return $this->dom;
     }
 
+    /**
+     * Sets the page title of the HTML document
+     *
+     * @param string $title
+     */
     public function setTitle($title)
     {
         $t = $this->dom->getElementsByTagName('title')->item(0);
@@ -88,6 +97,11 @@ class HtmlPage
         $t->nodeValue = htmlspecialchars($title);
     }
 
+    /**
+     * Get the page title of the HTML document
+     *
+     * @return null|string
+     */
     public function getTitle()
     {
         $t = $this->dom->getElementsByTagName('title')->item(0);
@@ -96,7 +110,8 @@ class HtmlPage
     }
 
     /**
-     * Set a meta tag
+     * Set a META tag with specified 'name' and 'content' attributes
+     *
      * @TODO: add support for multiple meta tags with the same name but different languages
      *
      * @param $name
@@ -114,12 +129,23 @@ class HtmlPage
         $c->setAttribute('content', $content);
     }
 
+    /**
+     * Remove all meta tags with the specified name attribute
+     *
+     * @param string $name
+     */
     public function removeMeta($name)
     {
         $meta = $this->filterXPath('descendant-or-self::meta[@name = \'' . $name . '\']');
-        $meta->delete();
+        $meta->remove();
     }
 
+    /**
+     * Get the content attribute of a meta tag with the specified name attribute
+     *
+     * @param string $name
+     * @return null|string
+     */
     public function getMeta($name)
     {
         $node = $this->filterXPath('descendant-or-self::meta[@name = \'' . $name . '\']')->getFirstNode();
@@ -130,6 +156,11 @@ class HtmlPage
         }
     }
 
+    /**
+     * Set the base tag with href attribute set to parameter $url
+     *
+     * @param string $url
+     */
     public function setBaseHref($url)
     {
         $node = $this->filterXPath('descendant-or-self::base')->getFirstNode();
@@ -140,6 +171,11 @@ class HtmlPage
         $node->setAttribute('href', $url);
     }
 
+    /**
+     * Get the href attribute from the base tag, null if not present in document
+     *
+     * @return null|string
+     */
     public function getBaseHref()
     {
         $node = $this->filterXPath('descendant-or-self::base')->getFirstNode();
@@ -162,8 +198,9 @@ class HtmlPage
     }
 
     /**
+     * Get the document's HEAD section as DOMElement
      *
-     * @return \DOMNode
+     * @return \DOMElement
      */
     public function getHeadNode()
     {
@@ -176,8 +213,9 @@ class HtmlPage
     }
 
     /**
+     * Get the document's body as DOMElement
      *
-     * @return \DOMNode
+     * @return \DOMElement
      */
     public function getBodyNode()
     {
@@ -190,6 +228,8 @@ class HtmlPage
     }
 
     /**
+     * Get the document's HEAD section wrapped in a HtmlPageCrawler instance
+     *
      * @return HtmlPageCrawler
      */
     public function getHead()
@@ -198,6 +238,8 @@ class HtmlPage
     }
 
     /**
+     * Get the document's body wrapped in a HtmlPageCrawler instance
+     *
      * @return HtmlPageCrawler
      */
     public function getBody()
@@ -211,6 +253,7 @@ class HtmlPage
     }
 
     /**
+     * Save this document to a HTML file or return HTML code as string
      *
      * @param string $filename If provided, output will be saved to this file, otherwise returned
      * @return string|void
@@ -226,6 +269,7 @@ class HtmlPage
     }
 
     /**
+     * Get an element in the document by it's id attribute
      *
      * @param string $id
      * @return HtmlPageCrawler
@@ -236,6 +280,7 @@ class HtmlPage
     }
 
     /**
+     * Filter nodes by using a CSS selector
      *
      * @param string $selector CSS selector
      * @return HtmlPageCrawler
@@ -247,6 +292,7 @@ class HtmlPage
     }
 
     /**
+     * Filter nodes by XPath expression
      *
      * @param string $xpath XPath expression
      * @return HtmlPageCrawler
@@ -258,6 +304,7 @@ class HtmlPage
 
     /**
      * remove newlines from string and minimize whitespace (multiple whitespace characters replaced by one space)
+     *
      * useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a DOMNode)
      *
      * @param string $string

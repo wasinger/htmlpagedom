@@ -4,8 +4,8 @@ namespace Wa72\HtmlPageDom;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * This class extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
- * for HTML documents inspired by jQuery such as html(), append(), prepend(), before(),
+ * Extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
+ * for HTML documents inspired by jQuery such as html(), css(), append(), prepend(), before(),
  * addClass(), removeClass()
  *
  * @author Christoph Singer
@@ -65,6 +65,7 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Get the HTML code fragment of all elements and their contents.
+     *
      * If the first node contains a complete HTML document return only
      * the full code of this document.
      *
@@ -123,9 +124,12 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * delete all nodes in the list
+     * Delete all nodes in the list. Removes the nodes from DOM.
+     *
+     * (as opposed to Crawler::detach() which detaches the nodes only from Crawler
+     * but leaves them in the DOM)
      */
-    public function delete()
+    public function remove()
     {
         foreach ($this as $node) {
             if ($node->parentNode instanceof \DOMNode) {
@@ -180,7 +184,7 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Returns the attribute value of the first node of the list.
-     * Alias for attr() for equivalence with setAttribute()
+     * Alias for Crawler::attr() for equivalence with setAttribute()
      *
      * @param string $name The attribute name
      * @return string The attribute value
@@ -353,9 +357,15 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Get or set the HTML contents
-     * Function is here for compatibility with jQuery
+     *
+     * Function is here for compatibility with jQuery: When called with a parameter, it is
+     * equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()
+     *
+     * @see setInnerHtml()
+     * @see getInnerHtml()
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|null $html The HTML content to set, or NULL to get the current content
+     *
      * @return HtmlPageCrawler|string If no param is provided, returns the HTML content of the first element
      */
     public function html($html = null)
@@ -370,7 +380,11 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Get one CSS style property of the first element or set it for all elements in the list
-     * Function is here for compatibility with jQuery
+     *
+     * Function is here for compatibility with jQuery; it is the same as getStyle() and setStyle()
+     *
+     * @see getStyle()
+     * @see setStyle()
      *
      * @param string $key The name of the style property
      * @param null|string $value The CSS value to set, or NULL to get the current value
@@ -542,6 +556,7 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Removes all child nodes and text from all nodes in set
+     * Equivalent to jQuery's empty() function which is not a valid function name in PHP
      */
     public function makeEmpty()
     {
@@ -582,7 +597,8 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Adds HTML/XML content.
+     * Adds HTML/XML content to the HtmlPageCrawler object (but not to the DOM of an already attached node).
+     *
      * Function overriden from Crawler because there is a hardcoded default charset latin1, we need UTF-8,
      * and no way to override the charset for html fragments which do not contain a content-type meta tag
      *
