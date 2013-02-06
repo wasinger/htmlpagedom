@@ -361,8 +361,8 @@ class HtmlPageCrawler extends Crawler
      * Function is here for compatibility with jQuery: When called with a parameter, it is
      * equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()
      *
-     * @see setInnerHtml()
-     * @see getInnerHtml()
+     * @see HtmlPageCrawler::setInnerHtml()
+     * @see HtmlPageCrawler::getInnerHtml()
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|null $html The HTML content to set, or NULL to get the current content
      *
@@ -383,8 +383,8 @@ class HtmlPageCrawler extends Crawler
      *
      * Function is here for compatibility with jQuery; it is the same as getStyle() and setStyle()
      *
-     * @see getStyle()
-     * @see setStyle()
+     * @see HtmlPageCrawler::getStyle()
+     * @see HtmlPageCrawler::setStyle()
      *
      * @param string $key The name of the style property
      * @param null|string $value The CSS value to set, or NULL to get the current value
@@ -721,4 +721,105 @@ class HtmlPageCrawler extends Crawler
         $string = preg_replace('/\s+/', ' ', $string);
         return trim($string);
     }
+
+
+    /**
+     * Insert every element in the set of matched elements to the end of the target.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     */
+    public function appendTo($element)
+    {
+        $e = $this->getCrawlerFromMixedContent($element);
+        $e->append($this);
+        return $this;
+    }
+
+    /**
+     * Create a deep copy of the set of matched elements.
+     * TODO: not yet implemented
+     */
+    public function __clone(){}
+
+    /**
+     * Insert every element in the set of matched elements after the target.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     */
+    public function insertAfter($element)
+    {
+        $e = $this->getCrawlerFromMixedContent($element);
+        $e->after($this);
+        return $this;
+    }
+
+    /**
+     * Insert every element in the set of matched elements before the target.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     */
+    public function insertBefore($element)
+    {
+        $e = $this->getCrawlerFromMixedContent($element);
+        $e->before($this);
+        return $this;
+    }
+
+    /**
+     * Insert every element in the set of matched elements to the beginning of the target.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     */
+    public function prependTo($element)
+    {
+        $e = $this->getCrawlerFromMixedContent($element);
+        $e->prepend($this);
+        return $this;
+    }
+
+    /**
+     * Replace each target element with the set of matched elements.
+     * TODO: not yet implemented
+     */
+    public function replaceAll() {}
+
+    /**
+     * Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
+     * TODO: not yet implemented
+     */
+    public function replaceWith() {}
+
+    /**
+     * Add or remove one or more classes from each element in the set of matched elements, depending on either the class’s presence or the value of the switch argument.
+     * TODO: not yet implemented
+     */
+    public function toggleClass() {}
+
+    /**
+     * Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
+     * TODO: not yet implemented
+     */
+    public function unwrap() {}
+
+    /**
+     * Get the current value of the first element in the set of matched elements or set the value of every matched element.
+     * TODO: not yet implemented
+     */
+    public function val() {}
+
+    /**
+     * Wrap an HTML structure around all elements in the set of matched elements.
+     * TODO: not yet implemented
+     */
+    public function wrapAll() {}
+
+    /**
+     * Wrap an HTML structure around the content of each element in the set of matched elements.
+     * TODO: not yet implemented
+     */
+    public function wrapInner() {}
 }
