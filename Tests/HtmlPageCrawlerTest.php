@@ -275,6 +275,13 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $c = new HtmlPageCrawler('plain text node');
         $c->wrap('<div class="ic"></div>');
         $this->assertEquals('<div class="ic">plain text node</div>', $c->parents()->eq(0)->saveHTML());
+
+        $c = HtmlPageCrawler::create('<div>');
+        $m = HtmlPageCrawler::create('message 1')->appendTo($c);
+        $m->wrap('<p>');
+        $m = HtmlPageCrawler::create('message 2')->appendTo($c);
+        $m->wrap('<p>');
+        $this->assertEquals('<div><p>message 1</p><p>message 2</p></div>', $c->saveHTML());
     }
 
 }

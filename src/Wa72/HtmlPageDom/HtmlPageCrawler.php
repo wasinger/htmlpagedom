@@ -126,7 +126,7 @@ class HtmlPageCrawler extends Crawler
     /**
      * Delete all nodes in the list. Removes the nodes from DOM.
      *
-     * (as opposed to Crawler::detach() which detaches the nodes only from Crawler
+     * (as opposed to Crawler::clear() which detaches the nodes only from Crawler
      * but leaves them in the DOM)
      */
     public function remove()
@@ -150,7 +150,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function setInnerHtml($content)
     {
-        $content = $this->getCrawlerFromMixedContent($content);
+        $content = self::create($content);
         foreach ($this as $node) {
             $node->nodeValue = '';
             foreach ($content as $newnode) {
@@ -220,19 +220,23 @@ class HtmlPageCrawler extends Crawler
      */
     public function append($content)
     {
-        $content = $this->getCrawlerFromMixedContent($content);
-        foreach ($this as $node) {
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
             foreach ($content as $newnode) {
-                /** @var \DOMNode $node */
                 /** @var \DOMNode $newnode */
                 if ($newnode->ownerDocument !== $node->ownerDocument) {
                     $newnode = $node->ownerDocument->importNode($newnode, true);
                 } else {
-                    $newnode = $newnode->cloneNode(true);
+                    if ($i > 0) $newnode = $newnode->cloneNode(true);
                 }
                 $node->appendChild($newnode);
+                $newnodes[] = $newnode;
             }
         }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -245,8 +249,9 @@ class HtmlPageCrawler extends Crawler
      */
     public function prepend($content)
     {
-        $content = $this->getCrawlerFromMixedContent($content);
-        foreach ($this as $node) {
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
             $refnode = $node->firstChild;
             /** @var \DOMNode $node */
             foreach ($content as $newnode) {
@@ -254,15 +259,18 @@ class HtmlPageCrawler extends Crawler
                 if ($newnode->ownerDocument !== $node->ownerDocument) {
                     $newnode = $node->ownerDocument->importNode($newnode, true);
                 } else {
-                    $newnode = $newnode->cloneNode(true);
+                    if ($i > 0) $newnode = $newnode->cloneNode(true);
                 }
                 if ($refnode === null) {
                     $node->appendChild($newnode);
                 } else {
                     $node->insertBefore($newnode, $refnode);
                 }
+                $newnodes[] = $newnode;
             }
         }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -274,19 +282,23 @@ class HtmlPageCrawler extends Crawler
      */
     public function before($content)
     {
-        $content = $this->getCrawlerFromMixedContent($content);
-        foreach ($this as $node) {
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
             foreach ($content as $newnode) {
-                /** @var \DOMNode $node */
                 /** @var \DOMNode $newnode */
                 if ($newnode->ownerDocument !== $node->ownerDocument) {
                     $newnode = $node->ownerDocument->importNode($newnode, true);
                 } else {
-                    $newnode = $newnode->cloneNode(true);
+                    if ($i > 0) $newnode = $newnode->cloneNode(true);
                 }
                 $node->parentNode->insertBefore($newnode, $node);
+                $newnodes[] = $newnode;
             }
         }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -298,8 +310,9 @@ class HtmlPageCrawler extends Crawler
      */
     public function after($content)
     {
-        $content = $this->getCrawlerFromMixedContent($content);
-        foreach ($this as $node) {
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
             /** @var \DOMNode $node */
             $refnode = $node->nextSibling;
             foreach ($content as $newnode) {
@@ -307,15 +320,18 @@ class HtmlPageCrawler extends Crawler
                 if ($newnode->ownerDocument !== $node->ownerDocument) {
                     $newnode = $node->ownerDocument->importNode($newnode, true);
                 } else {
-                    $newnode = $newnode->cloneNode(true);
+                    if ($i > 0) $newnode = $newnode->cloneNode(true);
                 }
                 if ($refnode === null) {
                     $node->parentNode->appendChild($newnode);
                 } else {
                     $node->parentNode->insertBefore($newnode, $refnode);
                 }
+                $newnodes[] = $newnode;
             }
         }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -331,15 +347,16 @@ class HtmlPageCrawler extends Crawler
      */
     public function wrap($wrappingElement)
     {
-        $content = $this->getCrawlerFromMixedContent(trim($wrappingElement));
-        foreach ($this as $node) {
+        $content = self::create($wrappingElement);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
             /** @var \DOMNode $node */
             $newnode = $content->getFirstNode();
             /** @var \DOMNode $newnode */
             if ($newnode->ownerDocument !== $node->ownerDocument) {
                 $newnode = $node->ownerDocument->importNode($newnode, true);
             } else {
-                $newnode = $newnode->cloneNode(true);
+                if ($i > 0) $newnode = $newnode->cloneNode(true);
             }
             $oldnode = $node->parentNode->replaceChild($newnode, $node);
             while ($newnode->hasChildNodes()) {
@@ -354,7 +371,10 @@ class HtmlPageCrawler extends Crawler
                 if (!$elementFound) break;
             }
             $newnode->appendChild($oldnode);
+            $newnodes[] = $newnode;
         }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -507,7 +527,7 @@ class HtmlPageCrawler extends Crawler
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
      * @return HtmlPageCrawler
      */
-    protected function getCrawlerFromMixedContent($content)
+    static public function create($content)
     {
         if ($content instanceof HtmlPageCrawler) {
             return $content;
@@ -734,7 +754,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function appendTo($element)
     {
-        $e = $this->getCrawlerFromMixedContent($element);
+        $e = self::create($element);
         $e->append($this);
         return $this;
     }
@@ -753,7 +773,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function insertAfter($element)
     {
-        $e = $this->getCrawlerFromMixedContent($element);
+        $e = self::create($element);
         $e->after($this);
         return $this;
     }
@@ -766,7 +786,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function insertBefore($element)
     {
-        $e = $this->getCrawlerFromMixedContent($element);
+        $e = self::create($element);
         $e->before($this);
         return $this;
     }
@@ -779,7 +799,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function prependTo($element)
     {
-        $e = $this->getCrawlerFromMixedContent($element);
+        $e = self::create($element);
         $e->prepend($this);
         return $this;
     }
