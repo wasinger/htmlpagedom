@@ -271,6 +271,10 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
         $c->filter('h1')->wrap('<div class="ic">asdf</div><div>jkl</div>'); // wrap has more than 1 root element
         $this->assertEquals('<div id="content"><div class="ic">asdf<h1>Title</h1></div></div>', $c->saveHTML()); // only first element is used
+
+        $c = new HtmlPageCrawler('plain text node');
+        $c->wrap('<div class="ic"></div>');
+        $this->assertEquals('<div class="ic">plain text node</div>', $c->parents()->eq(0)->saveHTML());
     }
 
 }
