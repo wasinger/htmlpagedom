@@ -132,7 +132,10 @@ class HtmlPageCrawler extends Crawler
     public function remove()
     {
         foreach ($this as $node) {
-            if ($node->parentNode instanceof \DOMNode) {
+            /**
+             * @var \DOMNode $node
+             */
+            if ($node->parentNode instanceof \DOMElement) {
                 $node->parentNode->removeChild($node);
             }
             $this->detach($node);
