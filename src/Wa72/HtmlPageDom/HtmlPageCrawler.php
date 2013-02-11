@@ -622,11 +622,7 @@ class HtmlPageCrawler extends Crawler
     /**
      * Adds HTML/XML content to the HtmlPageCrawler object (but not to the DOM of an already attached node).
      *
-     * Function overriden from Crawler because there is a hardcoded default charset latin1, we need UTF-8,
-     * and no way to override the charset for html fragments which do not contain a content-type meta tag
-     *
-     * So the only difference to the parent function is: if given an HTML fragment without content-type meta tag,
-     * we process it as UTF-8, not latin1
+     * Function overriden from Crawler because HTML fragments are always added as complete documents there
      *
      *
      * @param string      $content A string to parse as HTML/XML
@@ -639,66 +635,34 @@ class HtmlPageCrawler extends Crawler
         if (empty($type)) {
             $type = 'text/html';
         }
-
-        // DOM only for HTML/XML content
-        if (!preg_match('/(x|ht)ml/i', $type, $matches)) {
-            return null;
-        }
-
-        $charset = 'UTF-8';
-        if (false !== $pos = strpos($type, 'charset=')) {
-            $charset = substr($type, $pos + 8);
-            if (false !== $pos = strpos($charset, ';')) {
-                $charset = substr($charset, 0, $pos);
-            }
-        }
-
-        if ('x' === $matches[1]) {
-            $this->addXmlContent($content, $charset);
+        if ($type == 'text/html' && !preg_match('/<html\b[^>]*>/i', $content)) {
+            // string contains no <html> Tag => no complete document but an HTML fragment!
+            $this->addHtmlFragment($content);
         } else {
-            $this->addHtmlContent($content, $charset);
+            parent::addContent($content, $type);
         }
     }
 
-    /**
-     * Adds an HTML content to the list of nodes.
-     *
-     * Overrrides the original function form Crawler for loading of HTML fragments. Crawler::addHtmlContent always
-     * loads HTML code as complete document, i.e. a HTML fragment will be wrapped in <html><body> tags. This function
-     * keeps HTML fragments as they are.
-     *
-     *
-     * @param string $content The HTML content
-     * @param string $charset The charset
-     *
-     * @api
-     */
-    public function addHtmlContent($content, $charset = 'UTF-8')
+    public function addHtmlFragment($content, $charset = 'UTF-8')
     {
-        if (preg_match('/<html\b/i', $content)) { // complete document containing <html> tag
-            parent::addHtmlContent($content, $charset);
-        } else { // document fragment
-            $bodynode = $this->getBodyNodeFromHtmlFragment(trim($content), $charset);
-            $this->addNodeList($bodynode->childNodes);
+        $d = new \DOMDocument('1.0', $charset);
+        $root = $d->appendChild($d->createElement('_root'));
+        $bodynode = self::getBodyNodeFromHtmlFragment(trim($content), $charset);
+        foreach ($bodynode->childNodes as $child) {
+            $inode = $root->appendChild($d->importNode($child, true));
+            if ($inode) $this->addNode($inode);
         }
-
     }
 
     /**
-     * Get a XML representation from a HTML code fragment for use with DOMDocumentFragment
+     * Helper function for getting a body element
+     * from an HTML fragment
      *
-     * @param string $html Fragment of html code (MUST NOT contain html and body tags!)
+     * @param string $html A fragment of HTML code
      * @param string $charset
-     * @return string XML code fragment for use with DOMDocumentFragment::loadXML
+     * @return \DOMNode The body node containing child nodes created from the HTML fragment
      */
-    protected function getXMLFromHtmlFragment($html, $charset = 'UTF-8')
-    {
-        $bodynode = $this->getBodyNodeFromHtmlFragment($html, $charset);
-        $xml = $bodynode->ownerDocument->saveXML($bodynode);
-        return preg_replace('@^<body[^>]*>|</body>$@', '', $xml);
-    }
-
-    protected function getBodyNodeFromHtmlFragment($html, $charset = 'UTF-8')
+    static function getBodyNodeFromHtmlFragment($html, $charset = 'UTF-8')
     {
         $html = '<html><body>' . $html . '</body></html>';
         $current = libxml_use_internal_errors(true);
@@ -715,19 +679,6 @@ class HtmlPageCrawler extends Crawler
         libxml_use_internal_errors($current);
         libxml_disable_entity_loader($disableEntities);
         return $d->getElementsByTagName('body')->item(0);
-    }
-
-    /**
-     *
-     * @param \DOMNode $node
-     * @param string $xml
-     * @return \DOMDocumentFragment
-     */
-    protected function getDOMDocumentFragment($node, $xml)
-    {
-        $frag = $node->ownerDocument->createDocumentFragment();
-        $frag->appendXML($xml);
-        return $frag;
     }
 
     /**
@@ -806,15 +757,48 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Replace each target element with the set of matched elements.
-     * TODO: not yet implemented
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
      */
-    public function replaceAll() {}
+    public function replaceAll($element) {
+        $e = self::create($element);
+        $e->replaceWith($this);
+        return $this;
+    }
 
     /**
      * Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
-     * TODO: not yet implemented
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
      */
-    public function replaceWith() {}
+    public function replaceWith($content) {
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            $parent = $node->parentNode;
+            $refnode  = $node->nextSibling;
+            foreach ($content as $j => $newnode) {
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    if ($i > 0) $newnode = $newnode->cloneNode(true);
+                }
+                if ($j == 0) {
+                    $parent->replaceChild($newnode, $node);
+                } else {
+                    $parent->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
+        }
+        $content->clear();
+        $content->add($newnodes);
+        return $this;
+    }
 
     /**
      * Add or remove one or more classes from each element in the set of matched elements, depending on either the class’s presence or the value of the switch argument.
@@ -827,12 +811,6 @@ class HtmlPageCrawler extends Crawler
      * TODO: not yet implemented
      */
     public function unwrap() {}
-
-    /**
-     * Get the current value of the first element in the set of matched elements or set the value of every matched element.
-     * TODO: not yet implemented
-     */
-    public function val() {}
 
     /**
      * Wrap an HTML structure around all elements in the set of matched elements.

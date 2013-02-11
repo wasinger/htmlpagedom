@@ -192,21 +192,21 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::addHtmlContent
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::addContent
      */
-    public function testAddHtmlContent()
+    public function testAddContent()
     {
         $c = new HtmlPageCrawler();
-        $c->addHtmlContent('<html><body><div id="content"><h1>Title</h1></div></body>');
+        $c->addContent('<html><body><div id="content"><h1>Title</h1></div></body>');
         $this->assertEquals('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
             . "\n" . '<html><body><div id="content"><h1>Title</h1></div></body></html>' . "\n", $c->saveHTML());
 
         $c = new HtmlPageCrawler();
-        $c->addHtmlContent('<div id="content"><h1>Title');
+        $c->addContent('<div id="content"><h1>Title');
         $this->assertEquals('<div id="content"><h1>Title</h1></div>', $c->saveHTML());
 
         $c = new HtmlPageCrawler();
-        $c->addHtmlContent('<p>asdf<p>asdfaf</p>');
+        $c->addContent('<p>asdf<p>asdfaf</p>');
         $this->assertEquals(2, count($c));
         $this->assertEquals('<p>asdf</p><p>asdfaf</p>', $c->saveHTML());
 
@@ -282,6 +282,29 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $m = HtmlPageCrawler::create('message 2')->appendTo($c);
         $m->wrap('<p>');
         $this->assertEquals('<div><p>message 1</p><p>message 2</p></div>', $c->saveHTML());
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::replaceWith
+     */
+    public function testReplaceWith()
+    {
+        $c = HtmlPageCrawler::create('<div id="content"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div>');
+        $oldparagraphs = $c->filter('p')->replaceWith('<div>newtext 1</div><div>newtext 2</div>');
+        $this->assertEquals('<div id="content"><div>newtext 1</div><div>newtext 2</div><div>newtext 1</div><div>newtext 2</div><div>newtext 1</div><div>newtext 2</div></div>', $c->saveHTML());
+        $this->assertEquals('<p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p>', $oldparagraphs->saveHTML());
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::replaceAll
+     */
+    public function testReplaceAll()
+    {
+        $c = HtmlPageCrawler::create('<div id="content"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div>');
+        $new = HtmlPageCrawler::create('<div>newtext 1</div><div>newtext 2</div>');
+        $new->replaceAll($c->filter('p'));
+        $this->assertEquals('<div id="content"><div>newtext 1</div><div>newtext 2</div><div>newtext 1</div><div>newtext 2</div><div>newtext 1</div><div>newtext 2</div></div>', $c->saveHTML());
+
     }
 
 }
