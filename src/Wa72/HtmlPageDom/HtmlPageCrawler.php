@@ -522,7 +522,9 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Get a string or HtmlPageCrawler or DOMNode or DOMNodeList and return a HtmlPageCrawler
+     * Get an HtmlPageCrawler object from a HTML string, DOMNode, DOMNodeList or HtmlPageCrawler
+     *
+     * This is the equivalent to jQuery's $() function.
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
      * @return HtmlPageCrawler
@@ -579,6 +581,7 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Removes all child nodes and text from all nodes in set
+     *
      * Equivalent to jQuery's empty() function which is not a valid function name in PHP
      */
     public function makeEmpty()
@@ -589,6 +592,8 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * Filters the list of nodes with a CSS selector.
+     *
      * @param string $selector
      * @return HtmlPageCrawler
      */
@@ -814,13 +819,61 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Wrap an HTML structure around all elements in the set of matched elements.
-     * TODO: not yet implemented
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @throws \LogicException
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
      */
-    public function wrapAll() {}
+    public function wrapAll($content)
+    {
+        $content = self::create($content);
+        $newnodes = array();
+        $parent = $this->getFirstNode()->parentNode;
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            if ($node->parentNode !== $parent) throw new \LogicException('Nodes to be wrapped with wrapAll() must all have the same parent');
+        }
+
+        $newnode = $content->getFirstNode();
+        /** @var \DOMNode $newnode */
+        if ($newnode->ownerDocument !== $parent->ownerDocument) {
+            $newnode = $parent->ownerDocument->importNode($newnode, true);
+        }
+
+        $parent->appendChild($newnode);
+        $content->clear();
+        $content->add($newnode);
+
+        while ($newnode->hasChildNodes()) {
+            $elementFound = false;
+            foreach ($newnode->childNodes as $child) {
+                if ($child instanceof \DOMElement) {
+                    $newnode = $child;
+                    $elementFound = true;
+                    break;
+                }
+            }
+            if (!$elementFound) break;
+        }
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            $newnode->appendChild($node);
+        }
+        return $this;
+    }
 
     /**
      * Wrap an HTML structure around the content of each element in the set of matched elements.
-     * TODO: not yet implemented
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
      */
-    public function wrapInner() {}
+    public function wrapInner($content)
+    {
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            self::create($node->childNodes)->wrapAll($content);
+        }
+        return $this;
+    }
 }
