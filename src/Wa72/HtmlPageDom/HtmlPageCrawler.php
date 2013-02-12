@@ -18,7 +18,7 @@ class HtmlPageCrawler extends Crawler
     /**
      * Get an HtmlPageCrawler object from a HTML string, DOMNode, DOMNodeList or HtmlPageCrawler
      *
-     * This is the equivalent to jQuery's $() function.
+     * This is the equivalent to jQuery's $() function when used for wrapping DOMNodes or creating DOMElements from HTML code.
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
      * @return HtmlPageCrawler
@@ -72,6 +72,11 @@ class HtmlPageCrawler extends Crawler
             $html = trim($doc->saveHTML());
             return preg_replace('@^<_root[^>]*>|</_root>$@', '', $html);
         }
+    }
+
+    public function __toString()
+    {
+        return $this->saveHTML();
     }
 
     /**
@@ -644,6 +649,7 @@ class HtmlPageCrawler extends Crawler
         $current = libxml_use_internal_errors(true);
         $disableEntities = libxml_disable_entity_loader(true);
         $d = new \DOMDocument('1.0', $charset);
+        $d->validateOnParse = true;
         if (function_exists('mb_convert_encoding') && in_array(
             strtolower($charset),
             array_map('strtolower', mb_list_encodings())
@@ -816,16 +822,37 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Add or remove one or more classes from each element in the set of matched elements, depending on either the class’s presence or the value of the switch argument.
-     * TODO: not yet implemented
+     *
+     * @param string $classname One or more classnames separated by spaces
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
      */
-    public function toggleClass() {}
+    public function toggleClass($classname) {
+        $classes = explode(' ', $classname);
+        foreach ($this as $i => $node) {
+            $c = self::create($node);
+            /** @var \DOMNode $node */
+               foreach ($classes as $class) {
+                   if ($c->hasClass($class)) $c->removeClass($class);
+                   else $c->addClass($class);
+               }
+        }
+        return $this;
+    }
 
     /**
      * Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
-     * TODO: not yet implemented
+     *
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
      */
     public function unwrap()
     {
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            if ($parent = $node->parentNode) {
+                $parent->parentNode->replaceChild($node, $parent);
+            }
+        }
+        return $this;
     }
 
     /**
@@ -886,5 +913,28 @@ class HtmlPageCrawler extends Crawler
             self::create($node->childNodes)->wrapAll($content);
         }
         return $this;
+    }
+
+    /**
+     * Adds a node to the current list of nodes.
+     *
+     * This method uses the appropriate specialized add*() method based
+     * on the type of the argument.
+     *
+     * Overwritten from parent to allow Crawler to be added
+     *
+     * @param null|\DOMNodeList|array|\DOMNode|Crawler $node A node
+     *
+     * @api
+     */
+    public function add($node)
+    {
+        if ($node instanceof Crawler) {
+            foreach ($node as $childnode) {
+                $this->addNode($childnode);
+            }
+        } else {
+            parent::add($node);
+        }
     }
 }

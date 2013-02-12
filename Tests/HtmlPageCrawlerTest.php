@@ -332,11 +332,20 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnwrap()
     {
-        /*$c = HtmlPageCrawler::create('<div id="content"><div class="a"><p>Absatz 1</p></div></div>');
+        $c = HtmlPageCrawler::create('<div id="content"><div class="a"><p>Absatz 1</p></div></div>');
         $p = $c->filter('p');
         $p->unwrap();
-        $this->assertEquals('<p>Absatz 1</p>', $c->saveHTML());
-        */
+        $this->assertEquals('<div id="content"><p>Absatz 1</p></div>', $c->saveHTML());
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::toggleClass
+     */
+    public function testToggleClass()
+    {
+        $c = HtmlPageCrawler::create('<div id="1" class="a c"><div id="2" class="b c"></div></div>');
+        $c->filter('div')->toggleClass('a d')->toggleClass('b');
+        $this->assertEquals('<div id="1" class="c d b"><div id="2" class="c a d"></div></div>', $c->saveHTML());
     }
 
 }
