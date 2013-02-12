@@ -14,33 +14,21 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class HtmlPageCrawler extends Crawler
 {
-    /**
-     * returns the first node
-     *
-     * @return \DOMNode|null
-     */
-    public function getFirstNode()
-    {
-        $this->rewind();
-        if ($this->valid()) {
-            return $this->current();
-        } else {
-            return null;
-        }
-    }
 
     /**
-     * returns the node name of the first node
+     * Get an HtmlPageCrawler object from a HTML string, DOMNode, DOMNodeList or HtmlPageCrawler
      *
-     * @return string|null
+     * This is the equivalent to jQuery's $() function.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return HtmlPageCrawler
      */
-    public function nodeName()
+    static public function create($content)
     {
-        $node = $this->getFirstNode();
-        if ($node instanceof \DOMNode) {
-            return $node->nodeName;
+        if ($content instanceof HtmlPageCrawler) {
+            return $content;
         } else {
-            return null;
+            return new HtmlPageCrawler($content);
         }
     }
 
@@ -522,23 +510,6 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Get an HtmlPageCrawler object from a HTML string, DOMNode, DOMNodeList or HtmlPageCrawler
-     *
-     * This is the equivalent to jQuery's $() function.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
-     * @return HtmlPageCrawler
-     */
-    static public function create($content)
-    {
-        if ($content instanceof HtmlPageCrawler) {
-            return $content;
-        } else {
-            return new HtmlPageCrawler($content);
-        }
-    }
-
-    /**
      * Convert CSS string to array
      *
      * @param string $css list of CSS properties separated by ;
@@ -701,6 +672,35 @@ class HtmlPageCrawler extends Crawler
         return trim($string);
     }
 
+    /**
+     * returns the first node
+     *
+     * @return \DOMNode|null
+     */
+    public function getFirstNode()
+    {
+        $this->rewind();
+        if ($this->valid()) {
+            return $this->current();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * returns the node name of the first node
+     *
+     * @return string|null
+     */
+    public function nodeName()
+    {
+        $node = $this->getFirstNode();
+        if ($node instanceof \DOMNode) {
+            return $node->nodeName;
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Insert every element in the set of matched elements to the end of the target.
@@ -717,9 +717,18 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Create a deep copy of the set of matched elements.
-     * TODO: not yet implemented
+     *
      */
-    public function __clone(){}
+    public function __clone()
+    {
+        $newnodes = array();
+        foreach ($this as $node) {
+            /** @var \DOMNode $node */
+            $newnodes[] = $node->cloneNode(true);
+        }
+        $this->clear();
+        $this->add($newnodes);
+    }
 
     /**
      * Insert every element in the set of matched elements after the target.
@@ -815,7 +824,9 @@ class HtmlPageCrawler extends Crawler
      * Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
      * TODO: not yet implemented
      */
-    public function unwrap() {}
+    public function unwrap()
+    {
+    }
 
     /**
      * Wrap an HTML structure around all elements in the set of matched elements.
