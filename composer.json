@@ -1,6 +1,5 @@
 {
     "name":"wa72/htmlpagedom",
-    "minimum-stability":"dev",
     "description":"HtmlPageDom is a PHP library for easy manipulation of HTML documents using DOM (like jQuery for PHP)",
     "keywords":["HTML", "DOM", "Crawler"],
     "homepage":"http://github.com/wasinger/htmlpagedom",
@@ -19,6 +18,11 @@
         "symfony/css-selector":">=2.1.0,<2.3-dev"
     },
     "minimum-stability":"dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
     "autoload":{
         "psr-0":{
             "Wa72\\HtmlPageDom":"src/"
