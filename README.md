@@ -46,25 +46,22 @@ as arguments.
 Afterwards you can select nodes from the added DOM tree by calling filter() (equivalent to find() in jQuery) and alter
 the selected elements using the following jQuery-like manipulation functions:
 
--   addClass()
+-   addClass(), hasClass(), removeClass(), toggleClass()
 -   after()
 -   append()
 -   appendTo()
 -   before()
--   css() (or getStyle() / setStyle())
--   html() (or getInnerHmtl() / setInnerHtml())
+-   css() (same as getStyle() / setStyle())
+-   html() (same as getInnerHtml() / setInnerHtml())
 -   insertAfter()
 -   insertBefore()
--   makeEmpty()
+-   makeEmpty() (equivalent to emtpy() in jQuery)
 -   prepend()
 -   prependTo()
 -   remove()
 -   removeAttribute(), getAttribute(), setAttribute()
--   removeClass()
 -   replaceAll()
 -   replaceWith()
--   setAttribute()
--   toggleClass()
 -   unwrap()
 -   wrap()
 -   wrapInner()
@@ -88,6 +85,8 @@ $c->filter('h1')->wrap('<div class="innercontent">');
 
 // return the modified HTML
 echo $c->saveHTML();
+// or simply:
+echo $c; // implicit __toString() calls saveHTML()
 // will output: <div id="content"><div class="innercontent"><h1>Title</h1></div></div>
 
 ```
@@ -131,6 +130,8 @@ echo $page->filter('#content')->saveHTML();
 
 // output the whole HTML page
 echo $page->save();
+// or simply:
+echo $page;
 ```
 
 History
