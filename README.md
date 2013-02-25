@@ -1,6 +1,8 @@
 HtmlPageDom
 ===========
 
+[![Build Status](https://secure.travis-ci.org/wasinger/htmlpagedom.png?branch=master)](http://travis-ci.org/wasinger/htmlpagedom)
+
 Wa72\HtmlPageDom is a PHP library for easy manipulation of HTML documents using DOM.
 It requires [DomCrawler from Symfony2 components](https://github.com/symfony/DomCrawler) for traversing 
 the DOM tree and extends it by adding methods for manipulating the DOM tree of HTML documents.
