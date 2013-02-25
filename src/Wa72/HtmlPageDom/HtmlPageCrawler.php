@@ -628,7 +628,7 @@ class HtmlPageCrawler extends Crawler
     {
         $d = new \DOMDocument('1.0', $charset);
         $root = $d->appendChild($d->createElement('_root'));
-        $bodynode = self::getBodyNodeFromHtmlFragment(trim($content), $charset);
+        $bodynode = self::getBodyNodeFromHtmlFragment($content, $charset);
         foreach ($bodynode->childNodes as $child) {
             $inode = $root->appendChild($d->importNode($child, true));
             if ($inode) $this->addNode($inode);
