@@ -30,11 +30,11 @@ Requirements
 Installation
 ------------
 
--   using composer: simply add "wa72/htmlpagedom": "dev-master" to the "require" section of your composer.json
+-   using [composer] (http://getcomposer.org): add "wa72/htmlpagedom": "dev-master" to the "require" section of your composer.json
 
--   using other PSR-0 compliant autoloader: clone this project to where your vendor libraries are 
-    and point your autoloader to look for the "\Wa72\HtmlPageDom" namespace in the "src" 
-    directory of this project
+-   using other [PSR-0] (https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) compliant autoloader:
+    clone this project to where your included libraries are and point your autoloader to look for the 
+    "\Wa72\HtmlPageDom" namespace in the "src" directory of this project
 
 Usage
 -----
@@ -134,6 +134,18 @@ echo $page->save();
 echo $page;
 ```
 
+Limitations
+-----------
+
+- HtmlPageDom builds on top of PHP's DOM functions and uses the loadHTML() and saveHTML() methods of the DOMDocument class.
+That's why it's output is always HTML, not XHTML.
+
+- The HTML parser used by PHP is built for HTML4. It throws errors 
+on HTML5 specific elements which are ignored by HtmlPageDom, so HtmlPageDom is usable for HTML5 with some limitations.
+
+- HtmlPageDom has not been tested with character encodings other than UTF-8.
+
+
 History
 -------
 
@@ -157,6 +169,5 @@ about 5 minutes. After switching to HtmlPageDom the same script doing the same p
 one second (all on the same server). HtmlPageDom is really fast.
 
 
-
-
+© 2013 Christoph Singer, Web-Agentur 72. Licensed under the MIT License.
 
