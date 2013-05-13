@@ -14,8 +14,8 @@
     ],
     "require":{
         "php":">=5.3.1",
-        "symfony/dom-crawler":">=2.1.0,<2.3-dev",
-        "symfony/css-selector":">=2.1.0,<2.3-dev"
+        "symfony/dom-crawler":"~2.1",
+        "symfony/css-selector":"~2.1"
     },
     "extra": {
         "branch-alias": {
@@ -26,6 +26,6 @@
         "psr-0":{
             "Wa72\\HtmlPageDom":"src/"
         }
-    }
+    },
+    "minimum-stability": "alpha"
 }
-
