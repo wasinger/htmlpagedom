@@ -131,8 +131,8 @@ class HtmlPageCrawler extends Crawler
             if ($node->parentNode instanceof \DOMElement) {
                 $node->parentNode->removeChild($node);
             }
-            $this->detach($node);
         }
+        $this->clear();
     }
 
     /**

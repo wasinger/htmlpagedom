@@ -348,4 +348,65 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('<div id="1" class="c d b"><div id="2" class="c a d"></div></div>', $c->saveHTML());
     }
 
+    public function testRemove()
+    {
+        // remove every third td in tbody
+        $html = <<<END
+<table>
+    <thead>
+    <tr>
+        <th>A</th>
+        <th>B</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="r1">
+        <td class="c11">16.12.2013</td>
+        <td class="c12">asdf asdf</td>
+        <td class="c13">&nbsp;</td>
+    </tr>
+    <tr class="r2">
+        <td class="c21">02.12.2013 16:30</td>
+        <td class="c22">asdf asdf</td>
+        <td class="c23">&nbsp;</td>
+    </tr>
+    <tr class="r3">
+        <td class="c31">25.11.2013 16:30</td>
+        <td class="c32">asdf asdf</td>
+        <td class="c33">&nbsp;</td>
+    </tr>
+    <tr class="r4">
+        <td class="c41">18.11.2013 16:30</td>
+        <td class="c42">asdf asdf</td>
+        <td class="c43">&nbsp;</td>
+    </tr>
+    <tr class="r5">
+        <td class="c51">24.10.2013 16:30</td>
+        <td class="c52">asdf asdf</td>
+        <td class="c53">&nbsp;</td>
+    </tr>
+    <tr class="r6">
+        <td class="c61">10.10.2013 16:30</td>
+        <td class="c62">asdf asdf</td>
+        <td class="c63">&nbsp;</td>
+    </tr>
+</table>
+END;
+        $c = HtmlPageCrawler::create($html);
+        $this->assertEquals(1, count($c->filter('td.c23')));
+        $tbd = $c->filter('table > tbody > tr > td')
+            ->reduce(
+                function($c, $j) {
+                    if (($j+1) % 3 == 0) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+        $this->assertEquals(6, count($tbd));
+        $tbd->remove();
+        $this->assertEquals(0, count($tbd));
+        $this->assertEquals(0, count($c->filter('td.c23')));
+    }
+
 }
