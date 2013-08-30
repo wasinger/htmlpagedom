@@ -614,9 +614,9 @@ class HtmlPageCrawler extends Crawler
     public function addContent($content, $type = null)
     {
         if (empty($type)) {
-            $type = 'text/html';
+            $type = 'text/html;charset=UTF-8';
         }
-        if ($type == 'text/html' && !preg_match('/<html\b[^>]*>/i', $content)) {
+        if (substr($type, 0, 9) == 'text/html' && !preg_match('/<html\b[^>]*>/i', $content)) {
             // string contains no <html> Tag => no complete document but an HTML fragment!
             $this->addHtmlFragment($content);
         } else {
