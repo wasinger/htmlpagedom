@@ -1,8 +1,20 @@
 language: php
 
 php:
-  - 5.4
   - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  - SYMFONY_VERSION=2.3.*
+  - SYMFONY_VERSION=2.5.*
+  - SYMFONY_VERSION=dev-master
 
 before_script:
-  - composer install
+  - composer require symfony/dom-crawler:${SYMFONY_VERSION}
+  - composer require symfony/css-selector:${SYMFONY_VERSION}
+
+matrix:
+  allow_failures:
+    - env: SYMFONY_VERSION=dev-master
+
