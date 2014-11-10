@@ -589,15 +589,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function filterXPath($xpath)
     {
-        $result = array();
-        foreach ($this as $node) {
-            $domxpath = new \DOMXPath($node->ownerDocument);
-            $nodes = $domxpath->query($xpath, $node);
-            foreach ($nodes as $newnode) {
-                $result[] = $newnode;
-            }
-        }
-        return new static($result);
+        return parent::filterXPath($xpath);
     }
 
     /**
@@ -873,7 +865,7 @@ class HtmlPageCrawler extends Crawler
             if ($node->parentNode !== $parent) throw new \LogicException('Nodes to be wrapped with wrapAll() must all have the same parent');
         }
 
-        $newnode = $content->getNode(0);
+        $newnode = $content->getFirstNode();
         /** @var \DOMNode $newnode */
         if ($newnode->ownerDocument !== $parent->ownerDocument) {
             $newnode = $parent->ownerDocument->importNode($newnode, true);
