@@ -692,18 +692,22 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * returns the node name of the first node
+     * Returns the node name of the first node of the list.
      *
-     * @return string|null
+     * in Crawler (parent), this function will be available starting with 2.6.0,
+     * therefore this method be removed from here as soon as we don't need to keep compatibility
+     * with Symfony < 2.6
+     *
+     * @return string The node name
+     *
+     * @throws \InvalidArgumentException When current node is empty
      */
     public function nodeName()
     {
-        $node = $this->getNode(0);
-        if ($node instanceof \DOMNode) {
-            return $node->nodeName;
-        } else {
-            return null;
+        if (!count($this)) {
+            throw new \InvalidArgumentException('The current node list is empty.');
         }
+        return $this->getNode(0)->nodeName;
     }
 
     /**
