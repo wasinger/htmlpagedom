@@ -14,8 +14,8 @@
     ],
     "require":{
         "php":">=5.3.1",
-        "symfony/dom-crawler":"~2.1",
-        "symfony/css-selector":"~2.1"
+        "symfony/dom-crawler":"~2.3",
+        "symfony/css-selector":"~2.3"
     },
     "extra": {
         "branch-alias": {
@@ -27,5 +27,5 @@
             "Wa72\\HtmlPageDom":"src/"
         }
     },
-    "minimum-stability": "alpha"
+    "minimum-stability": "beta"
 }
