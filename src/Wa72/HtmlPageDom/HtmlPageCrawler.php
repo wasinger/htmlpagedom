@@ -39,7 +39,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function getInnerHtml()
     {
-        $node = $this->getFirstNode();
+        $node = $this->getNode(0);
         if ($node instanceof \DOMNode) {
             $doc = new \DOMDocument('1.0', 'UTF-8');
             $doc->appendChild($doc->importNode($node, true));
@@ -87,7 +87,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function isHtmlDocument()
     {
-        $node = $this->getFirstNode();
+        $node = $this->getNode(0);
         if ($node instanceof \DOMElement
             && $node->ownerDocument instanceof \DOMDocument
             && $node->ownerDocument->documentElement === $node
@@ -106,7 +106,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function getDOMDocument()
     {
-        $node = $this->getFirstNode();
+        $node = $this->getNode(0);
         $r = null;
         if ($node instanceof \DOMElement
             && $node->ownerDocument instanceof \DOMDocument
@@ -680,17 +680,15 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * returns the first node
+     * deprecated, use getNode(0) instead
      *
      * @return \DOMNode|null
+     * @deprecated
+     * @see Crawler::getNode
      */
     public function getFirstNode()
     {
-        $this->rewind();
-        if ($this->valid()) {
-            return $this->current();
-        } else {
-            return null;
-        }
+        return $this->getNode(0);
     }
 
     /**
@@ -700,7 +698,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function nodeName()
     {
-        $node = $this->getFirstNode();
+        $node = $this->getNode(0);
         if ($node instanceof \DOMNode) {
             return $node->nodeName;
         } else {
@@ -866,7 +864,7 @@ class HtmlPageCrawler extends Crawler
     {
         $content = self::create($content);
         $newnodes = array();
-        $parent = $this->getFirstNode()->parentNode;
+        $parent = $this->getNode(0)->parentNode;
         foreach ($this as $i => $node) {
             /** @var \DOMNode $node */
             if ($node->parentNode !== $parent) throw new \LogicException('Nodes to be wrapped with wrapAll() must all have the same parent');
