@@ -171,5 +171,5 @@ about 5 minutes. After switching to HtmlPageDom the same script doing the same p
 one second (all on the same server). HtmlPageDom is really fast.
 
 
-© 2013 Christoph Singer, Web-Agentur 72. Licensed under the MIT License.
+© 2014 Christoph Singer, Web-Agentur 72. Licensed under the MIT License.
 
