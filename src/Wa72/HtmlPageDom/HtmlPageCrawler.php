@@ -867,14 +867,13 @@ class HtmlPageCrawler extends Crawler
     public function wrapAll($content)
     {
         $content = self::create($content);
-        $newnodes = array();
         $parent = $this->getNode(0)->parentNode;
         foreach ($this as $i => $node) {
             /** @var \DOMNode $node */
             if ($node->parentNode !== $parent) throw new \LogicException('Nodes to be wrapped with wrapAll() must all have the same parent');
         }
 
-        $newnode = $content->getFirstNode();
+        $newnode = $content->getNode(0);
         /** @var \DOMNode $newnode */
         if ($newnode->ownerDocument !== $parent->ownerDocument) {
             $newnode = $parent->ownerDocument->importNode($newnode, true);
