@@ -75,12 +75,13 @@ or saveHTML() (returns combined "outer" HTML code of all elements in the list).
 Example:
 
 ```php
+use \Wa72\HtmlPageDom\HtmlPageCrawler;
 
 // create an object from a fragment of HTML code as you would do with jQuery's $() function
-$c = \Wa72\HtmlPageDom\HtmlPageCrawler::create('<div id="content"><h1>Title</h1></div>');
+$c = HtmlPageCrawler::create('<div id="content"><h1>Title</h1></div>');
 
 // the above is the same as calling:
-$c = new \Wa72\HtmlPageDom\HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
+$c = new HtmlPageCrawler('<div id="content"><h1>Title</h1></div>');
 
 // filter for h1 elements and wrap them with an HTML structure
 $c->filter('h1')->wrap('<div class="innercontent">');
@@ -96,11 +97,13 @@ echo $c; // implicit __toString() calls saveHTML()
 Usage examples for HtmlPage:
 
 ```php
+use \Wa72\HtmlPageDom\HtmlPage;
+
 // create a new HtmlPage object with an empty HTML skeleton
-$page = new \Wa72\HtmlPageDom\HtmlPage();
+$page = new HtmlPage();
 
 // or create a HtmlPage object from an existing page
-$page = new \Wa72\HtmlPageDom\HtmlPage(file_get_contents('http://www.heise.de'));
+$page = new HtmlPage(file_get_contents('http://www.heise.de'));
 
 // get or set page title
 echo $page->getTitle();
