@@ -2,24 +2,27 @@ HtmlPageDom
 ===========
 
 [![Build Status](https://secure.travis-ci.org/wasinger/htmlpagedom.png?branch=master)](http://travis-ci.org/wasinger/htmlpagedom)
+[![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
+[![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 
-Wa72\HtmlPageDom is a PHP library for easy manipulation of HTML documents using DOM.
+
+`Wa72\HtmlPageDom` is a PHP library for easy manipulation of HTML documents using DOM.
 It requires [DomCrawler from Symfony2 components](https://github.com/symfony/DomCrawler) for traversing 
 the DOM tree and extends it by adding methods for manipulating the DOM tree of HTML documents.
 
 It's useful when you need to not just extract information from an HTML file (what DomCrawler does) but
 also to modify HTML pages. It is usable as a template engine: load your HTML template file, set new
-HTML content on certain elements such as the page title, "div#content" or "ul#menu" and print out
+HTML content on certain elements such as the page title, `div#content` or `ul#menu` and print out
 the modified page.
 
-Wa72\HtmlPageDom consists of two classes:
+`Wa72\HtmlPageDom` consists of two classes:
 
--   *HtmlPageCrawler* extends Symfony\Components\DomCrawler by adding jQuery inspired, HTML specific 
-    DOM *manipulation* functions such as html(), before(), append(), wrap(), addClass() or css().
+-   `HtmlPageCrawler` extends `Symfony\Components\DomCrawler` by adding jQuery inspired, HTML specific 
+    DOM *manipulation* functions such as `html()`, `before()`, `append()`, `wrap()`, `addClass()` or `css()`.
     It's like jQuery for PHP: simply select elements of an HTML page using CSS selectors and change their attributes and content.
 
--   *HtmlPage* represents one complete HTML document and offers convenience functions like setTitle($title),
-    setMeta('description', $description), getBody(). It uses HtmlPageCrawler for filtering and manipulation DOM Elements.
+-   `HtmlPage` represents one complete HTML document and offers convenience functions like `setTitle($title)`,
+    `setMeta('description', $description)`, `getBody()`. It uses `HtmlPageCrawler` for filtering and manipulation DOM Elements.
  
 
 Requirements
@@ -32,7 +35,7 @@ Requirements
 Installation
 ------------
 
--   using [composer] (http://getcomposer.org): add "wa72/htmlpagedom": "dev-master" to the "require" section of your composer.json
+-   using [composer] (http://getcomposer.org): `require "wa72/htmlpagedom":"~1.0"`
 
 -   using other [PSR-0] (https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) compliant autoloader:
     clone this project to where your included libraries are and point your autoloader to look for the 
@@ -41,36 +44,36 @@ Installation
 Usage
 -----
 
-HtmlPageCrawler is a wrapper around DOMNodes. HtmlPageCrawler objects can be created using "new" or the static function
-HtmlPageCrawler::create(), which accepts an HTML string or a DOMNode (or an array of DOMNodes or a DOMNodeList)
+`HtmlPageCrawler` is a wrapper around DOMNodes. `HtmlPageCrawler` objects can be created using `new` or the static function
+`HtmlPageCrawler::create()`, which accepts an HTML string or a DOMNode (or an array of DOMNodes or a DOMNodeList)
 as arguments.
 
-Afterwards you can select nodes from the added DOM tree by calling filter() (equivalent to find() in jQuery) and alter
+Afterwards you can select nodes from the added DOM tree by calling `filter()` (equivalent to find() in jQuery) and alter
 the selected elements using the following jQuery-like manipulation functions:
 
--   addClass(), hasClass(), removeClass(), toggleClass()
--   after()
--   append()
--   appendTo()
--   before()
--   css() (same as getStyle() / setStyle())
--   html() (same as getInnerHtml() / setInnerHtml())
--   insertAfter()
--   insertBefore()
--   makeEmpty() (equivalent to emtpy() in jQuery)
--   prepend()
--   prependTo()
--   remove()
--   removeAttribute(), getAttribute(), setAttribute()
--   replaceAll()
--   replaceWith()
--   unwrap()
--   wrap()
--   wrapInner()
--   wrapAll()
+-   `addClass()`, `hasClass()`, `removeClass()`, `toggleClass()`
+-   `after()`
+-   `append()`
+-   `appendTo()`
+-   `before()`
+-   `css()` (same as `getStyle()` / `setStyle()`)
+-   `html()` (same as `getInnerHtml()` / `setInnerHtml()`)
+-   `insertAfter()`
+-   `insertBefore()`
+-   `makeEmpty()` (equivalent to `emtpy()` in jQuery)
+-   `prepend()`
+-   `prependTo()`
+-   `remove()`
+-   `removeAttribute()`, `getAttribute()`, `setAttribute()`
+-   `replaceAll()`
+-   `replaceWith()`
+-   `unwrap()`
+-   `wrap()`
+-   `wrapInner()`
+-   `wrapAll()`
 
-To get the modified DOM as HTML code use html() (returns innerHTML of the first node in your crawler object)
-or saveHTML() (returns combined "outer" HTML code of all elements in the list).
+To get the modified DOM as HTML code use `html()` (returns innerHTML of the first node in your crawler object)
+or `saveHTML()` (returns combined "outer" HTML code of all elements in the list).
 
 Example:
 
@@ -94,7 +97,7 @@ echo $c; // implicit __toString() calls saveHTML()
 
 ```
 
-Usage examples for HtmlPage:
+Usage examples for the `HtmlPage` class:
 
 ```php
 use \Wa72\HtmlPageDom\HtmlPage;
