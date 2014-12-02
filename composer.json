@@ -23,8 +23,8 @@
         }
     },
     "autoload":{
-        "psr-0":{
-            "Wa72\\HtmlPageDom":"src/"
+        "psr-4":{
+            "Wa72\\HtmlPageDom\\":"src/"
         }
     }
 }
