@@ -1,6 +1,6 @@
 {
     "name":"wa72/htmlpagedom",
-    "description":"HtmlPageDom is a PHP library for easy manipulation of HTML documents using DOM (like jQuery for PHP)",
+    "description":"PHP implementation of the jQuery DOM manipulation API for HTML documents",
     "keywords":["HTML", "DOM", "Crawler"],
     "homepage":"http://github.com/wasinger/htmlpagedom",
     "type":"library",
