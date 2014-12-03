@@ -60,7 +60,7 @@ the selected elements using the following jQuery-like manipulation functions:
 -   `html()` (same as `getInnerHtml()` / `setInnerHtml()`)
 -   `insertAfter()`
 -   `insertBefore()`
--   `makeEmpty()` (equivalent to `emtpy()` in jQuery)
+-   `makeEmpty()` (equivalent to `empty()` in jQuery)
 -   `prepend()`
 -   `prependTo()`
 -   `remove()`
