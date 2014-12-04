@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit colors="true" bootstrap="phpunit_bootstrap.php">
+<phpunit colors="true" bootstrap="./Tests/phpunit_bootstrap.php">
     <testsuites>
         <testsuite name="HtmlPageDom Test Suite">
             <directory suffix="Test.php">./Tests/</directory>
