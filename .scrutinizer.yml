@@ -29,7 +29,6 @@ tools:
             rulesets:
                 - codesize
                 - unusedcode
-                - naming
                 - design
         filter:
             excluded_paths:
