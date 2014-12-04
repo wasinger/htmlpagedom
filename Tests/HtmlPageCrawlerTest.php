@@ -77,7 +77,6 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
 
         $body->setAttribute('class', 'mybodyclass');
         $this->assertEquals('mybodyclass', $body->attr('class'));
-
     }
 
     /**
@@ -100,7 +99,6 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $app = $c->getDOMDocument()->createElement('span', 'Appended Text');
         $c->filter('p')->append($app);
         $this->assertEquals('<p>Paragraph 1<span>Appended Text</span></p><p>Paragraph 2<span>Appended Text</span></p><p>Paragraph 3<span>Appended Text</span></p>', $c->saveHTML());
-
     }
 
     /**
@@ -122,7 +120,6 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
 
         $c = new HtmlPageCrawler('<html><body><div id="content"><h1>Title</h1></div></body></html>');
         $this->assertTrue($c->isHtmlDocument());
-
     }
 
     /**
@@ -209,7 +206,6 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $c->addContent('<p>asdf<p>asdfaf</p>');
         $this->assertEquals(2, count($c));
         $this->assertEquals('<p>asdf</p><p>asdfaf</p>', $c->saveHTML());
-
     }
 
     /**
@@ -304,7 +300,6 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $new = HtmlPageCrawler::create('<div>newtext 1</div><div>newtext 2</div>');
         $new->replaceAll($c->filter('p'));
         $this->assertEquals('<div id="content"><div>newtext 1</div><div>newtext 2</div><div>newtext 1</div><div>newtext 2</div><div>newtext 1</div><div>newtext 2</div></div>', $c->saveHTML());
-
     }
 
     /**
@@ -396,7 +391,7 @@ END;
         $this->assertEquals(1, count($c->filter('td.c23')));
         $tbd = $c->filter('table > tbody > tr > td')
             ->reduce(
-                function($c, $j) {
+                function ($c, $j) {
                     if (($j+1) % 3 == 0) {
                         return true;
                     }
@@ -420,5 +415,4 @@ END;
 
         $this->assertEquals($expected, $c->filter('p')->saveHTML());
     }
-
 }

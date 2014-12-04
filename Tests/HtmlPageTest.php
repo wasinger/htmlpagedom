@@ -58,7 +58,5 @@ class HtmlPageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($title, $hp2->getTitle());
         $this->assertEquals($newtitle, $hp->getTitle());
-
     }
 }
-

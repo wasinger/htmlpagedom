@@ -42,7 +42,9 @@ class HtmlPage
     {
         $this->charset = $charset;
         $this->url = $url;
-        if ($content == '') $content = '<!DOCTYPE html><html><head><title></title></head><body></body></html>';
+        if ($content == '') {
+            $content = '<!DOCTYPE html><html><head><title></title></head><body></body></html>';
+        }
         $current = libxml_use_internal_errors(true);
         $disableEntities = libxml_disable_entity_loader(true);
 
@@ -105,8 +107,11 @@ class HtmlPage
     public function getTitle()
     {
         $t = $this->dom->getElementsByTagName('title')->item(0);
-        if ($t == null) return null;
-        else return $t->nodeValue;
+        if ($t == null) {
+            return null;
+        } else {
+            return $t->nodeValue;
+        }
     }
 
     /**
