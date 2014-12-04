@@ -15,6 +15,13 @@ before_script:
   - composer require symfony/dom-crawler:${SYMFONY_VERSION}
   - composer require symfony/css-selector:${SYMFONY_VERSION}
 
+ 	
+script: phpunit --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
 matrix:
   allow_failures:
     - env: SYMFONY_VERSION=dev-master
