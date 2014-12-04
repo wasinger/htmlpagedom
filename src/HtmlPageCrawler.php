@@ -843,13 +843,13 @@ class HtmlPageCrawler extends Crawler
         foreach ($this as $i => $node) {
             $c = self::create($node);
             /** @var \DOMNode $node */
-               foreach ($classes as $class) {
-                   if ($c->hasClass($class)) {
-                       $c->removeClass($class);
-                   } else {
-                       $c->addClass($class);
-                   }
-               }
+            foreach ($classes as $class) {
+                if ($c->hasClass($class)) {
+                    $c->removeClass($class);
+                } else {
+                    $c->addClass($class);
+                }
+            }
         }
         return $this;
     }
