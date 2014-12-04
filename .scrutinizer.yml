@@ -1,0 +1,57 @@
+before_commands:
+    - 'composer install --dev --no-interaction --prefer-source'
+
+tools:
+    # Code Coverage from Travis
+    external_code_coverage:
+        enabled: true
+        timeout: 300
+        filter:
+            excluded_paths:
+                - 'Tests/*'
+                - 'vendor/*'
+    php_code_coverage:
+        enabled: false
+
+    php_code_sniffer:
+        enabled: true
+        config:
+            standard:         PSR2
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+
+    # PHP Mess Detector (http://phpmd.org).
+    php_mess_detector:
+        enabled:              true
+        command:              phpmd
+        config:
+            rulesets:
+                - codesize
+                - unusedcode
+                - naming
+                - design
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+
+    php_pdepend:
+        enabled: true
+        excluded_dirs: [vendor, Tests]
+
+    php_loc:
+        enabled: true
+        excluded_dirs: [vendor, Tests]
+
+    php_cpd:
+        enabled: true
+        excluded_dirs: [vendor, Tests]
+
+    php_analyzer:
+        enabled:              true
+        filter:
+            excluded_paths:
+                - 'Tests/*'
+                - 'vendor/*'
+
+
