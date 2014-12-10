@@ -268,6 +268,11 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $c->filter('h1')->wrap('<div class="ic">asdf</div><div>jkl</div>'); // wrap has more than 1 root element
         $this->assertEquals('<div id="content"><div class="ic">asdf<h1>Title</h1></div></div>', $c->saveHTML()); // only first element is used
 
+        // Test for wrapping multiple nodes
+        $c = new HtmlPageCrawler('<div id="content"><p>p1</p><p>p2</p></div>');
+        $c->filter('p')->wrap('<div class="p"></div>');
+        $this->assertEquals('<div id="content"><div class="p"><p>p1</p></div><div class="p"><p>p2</p></div></div>', $c->saveHTML());
+
         $c = new HtmlPageCrawler('plain text node');
         $c->wrap('<div class="ic"></div>');
         $this->assertEquals('<div class="ic">plain text node</div>', $c->parents()->eq(0)->saveHTML());
@@ -310,6 +315,11 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $c = HtmlPageCrawler::create('<div id="content"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div>');
         $c->filter('p')->wrapAll('<div class="a">');
         $this->assertEquals('<div id="content"><div class="a"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div></div>', $c->saveHTML());
+
+        // Test for wrapping with elements that have children
+        $c = HtmlPageCrawler::create('<div id="content"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div>');
+        $c->filter('p')->wrapAll('<article><section><div class="a"></div></section></article>');
+        $this->assertEquals('<div id="content"><article><section><div class="a"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div></section></article></div>', $c->saveHTML());
     }
 
     /**
