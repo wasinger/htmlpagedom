@@ -75,7 +75,7 @@ the selected elements using the following jQuery-like manipulation functions:
 To get the modified DOM as HTML code use `html()` (returns innerHTML of the first node in your crawler object)
 or `saveHTML()` (returns combined "outer" HTML code of all elements in the list).
 
-Example:
+**Example:**
 
 ```php
 use \Wa72\HtmlPageDom\HtmlPageCrawler;
@@ -94,10 +94,47 @@ echo $c->saveHTML();
 // or simply:
 echo $c; // implicit __toString() calls saveHTML()
 // will output: <div id="content"><div class="innercontent"><h1>Title</h1></div></div>
-
 ```
 
-Usage examples for the `HtmlPage` class:
+**Advanced example: remove the third column from an HTML table**
+
+```php
+use \Wa72\HtmlPageDom\HtmlPageCrawler;
+$html = <<<END
+<table>
+    <tr>
+        <td>abc</td>
+        <td>adsf</td>
+        <td>to be removed</td>
+    </tr>
+    <tr>
+        <td>abc</td>
+        <td>adsf</td>
+        <td>to be removed</td>
+    </tr>
+    <tr>
+        <td>abc</td>
+        <td>adsf</td>
+        <td>to be removed</td>
+    </tr>
+</table>    
+END;  
+
+$c = HtmlPageCrawler::create($html);
+$tr = $c->filter('table > tr > td')
+    ->reduce(
+        function ($c, $j) {
+            if (($j+1) % 3 == 0) {
+                return true;
+            }
+            return false;
+        }
+    );
+$tr->remove();
+echo $c->saveHTML();
+```
+
+**Usage examples for the `HtmlPage` class:**
 
 ```php
 use \Wa72\HtmlPageDom\HtmlPage;
