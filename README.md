@@ -2,6 +2,7 @@ HtmlPageDom
 ===========
 
 [![Build Status](https://secure.travis-ci.org/wasinger/htmlpagedom.png?branch=master)](http://travis-ci.org/wasinger/htmlpagedom)
+[![Code Coverage](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/?branch=master)
 [![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 [![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 
