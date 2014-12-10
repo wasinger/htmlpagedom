@@ -153,7 +153,7 @@ class HtmlPage
      */
     public function getMeta($name)
     {
-        $node = $this->filterXPath('descendant-or-self::meta[@name = \'' . $name . '\']')->getNode(0);
+        $node = $this->filterXPath('descendant-or-self::meta[@name = \'' . $name . '\']')->getFirstNode();
         if ($node instanceof \DOMElement) {
             return $node->getAttribute('content');
         } else {
@@ -168,7 +168,7 @@ class HtmlPage
      */
     public function setBaseHref($url)
     {
-        $node = $this->filterXPath('descendant-or-self::base')->getNode(0);
+        $node = $this->filterXPath('descendant-or-self::base')->getFirstNode();
         if ($node == null) {
             $node = $this->dom->createElement('base');
             $this->getHeadNode()->appendChild($node);
@@ -183,7 +183,7 @@ class HtmlPage
      */
     public function getBaseHref()
     {
-        $node = $this->filterXPath('descendant-or-self::base')->getNode(0);
+        $node = $this->filterXPath('descendant-or-self::base')->getFirstNode();
         if ($node instanceof \DOMElement) {
             return $node->getAttribute('href');
         } else {
