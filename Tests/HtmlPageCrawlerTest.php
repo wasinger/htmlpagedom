@@ -195,8 +195,11 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
     {
         $c = new HtmlPageCrawler();
         $c->addContent('<html><body><div id="content"><h1>Title</h1></div></body>');
-        $this->assertEquals('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
-            . "\n" . '<html><body><div id="content"><h1>Title</h1></div></body></html>' . "\n", $c->saveHTML());
+        $this->assertEquals(
+            '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
+            . "\n" . '<html><body><div id="content"><h1>Title</h1></div></body></html>' . "\n",
+            $c->saveHTML()
+        );
 
         $c = new HtmlPageCrawler();
         $c->addContent('<div id="content"><h1>Title');
