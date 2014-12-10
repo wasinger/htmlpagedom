@@ -351,7 +351,7 @@ class HtmlPageCrawler extends Crawler
         $newnodes = array();
         foreach ($this as $i => $node) {
             /** @var \DOMNode $node */
-            $newnode = $content->getFirstNode();
+            $newnode = $content->getNode(0);
             /** @var \DOMNode $newnode */
             if ($newnode->ownerDocument !== $node->ownerDocument) {
                 $newnode = $node->ownerDocument->importNode($newnode, true);
@@ -888,7 +888,7 @@ class HtmlPageCrawler extends Crawler
             }
         }
 
-        $newnode = $content->getFirstNode();
+        $newnode = $content->getNode(0);
         /** @var \DOMNode $newnode */
         if ($newnode->ownerDocument !== $parent->ownerDocument) {
             $newnode = $parent->ownerDocument->importNode($newnode, true);
