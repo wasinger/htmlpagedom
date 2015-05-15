@@ -191,6 +191,8 @@ on HTML5 specific elements which are ignored by HtmlPageDom, so HtmlPageDom is u
 
 - HtmlPageDom has not been tested with character encodings other than UTF-8.
 
+- According to failing Travis-CI tests, it does not work with HHVM (fixes welcome)
+
 
 History
 -------
