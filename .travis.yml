@@ -9,7 +9,6 @@ php:
 env:
   - SYMFONY_VERSION=2.3.*
   - SYMFONY_VERSION=2.6.*
-  - SYMFONY_VERSION=dev-master
 
 before_script:
   - composer require symfony/dom-crawler:${SYMFONY_VERSION}
@@ -22,10 +21,6 @@ after_script:
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 matrix:
-  allow_failures:
-    - env: SYMFONY_VERSION=dev-master
   exclude:
-    - env: SYMFONY_VERSION=dev-master
-      php: 5.3
     - env: SYMFONY_VERSION=2.3.*
       php: 5.6

@@ -1,7 +1,7 @@
 HtmlPageDom
 ===========
 
-[![Build Status](https://secure.travis-ci.org/wasinger/htmlpagedom.png?branch=master)](http://travis-ci.org/wasinger/htmlpagedom)
+[![Build Status](https://secure.travis-ci.org/wasinger/htmlpagedom.png?branch=1.0)](http://travis-ci.org/wasinger/htmlpagedom)
 [![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 [![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 
@@ -29,8 +29,8 @@ Requirements
 ------------
 
 -   PHP 5.3+
--   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler)
--   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector)
+-   [Symfony\Components\DomCrawler ~2.3](https://github.com/symfony/DomCrawler)
+-   [Symfony\Components\CssSelector ~2.3](https://github.com/symfony/CssSelector)
 
 Installation
 ------------
