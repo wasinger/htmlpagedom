@@ -209,7 +209,7 @@ class HtmlPageCrawler extends Crawler
     public function attr($name, $value = null)
     {
         if ($value === null) {
-            return parent::attr($name);
+            return $this->getAttribute($name);
         } else {
             return $this->setAttribute($name, $value);
         }
