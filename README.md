@@ -59,13 +59,13 @@ the selected elements using the following jQuery-like manipulation functions:
 -   `before()`
 -   `css()` (same as `getStyle()` / `setStyle()`)
 -   `html()` (same as `getInnerHtml()` / `setInnerHtml()`)
+-   `attr()` (same as `getAttribute()` / `setAttribute()`), `removeAttribute()`
 -   `insertAfter()`
 -   `insertBefore()`
 -   `makeEmpty()` (equivalent to `empty()` in jQuery)
 -   `prepend()`
 -   `prependTo()`
 -   `remove()`
--   `removeAttribute()`, `getAttribute()`, `setAttribute()`
 -   `replaceAll()`
 -   `replaceWith()`
 -   `unwrap()`

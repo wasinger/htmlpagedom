@@ -179,7 +179,6 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Returns the attribute value of the first node of the list.
-     * Alias for Crawler::attr() for equivalence with setAttribute()
      *
      * @param string $name The attribute name
      * @return string The attribute value
@@ -188,7 +187,26 @@ class HtmlPageCrawler extends Crawler
      */
     public function getAttribute($name)
     {
-        return $this->attr($name);
+        return parent::attr($name);
+    }
+
+    /**
+     * Returns the attribute value of the first node of the list, or sets an attribute on each element
+     *
+     * @see HtmlPageCrawler::getAttribute()
+     * @see HtmlPageCrawler::setAttribute
+     *
+     * @param string $name
+     * @param null $value
+     * @return null|string|HtmlPageCrawler
+     */
+    public function attr($name, $value = null)
+    {
+        if ($value === null) {
+            return parent::attr($name);
+        } else {
+            return $this->setAttribute($name, $value);
+        }
     }
 
     public function removeAttribute($name)

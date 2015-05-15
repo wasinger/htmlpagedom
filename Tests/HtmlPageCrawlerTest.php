@@ -428,4 +428,17 @@ END;
 
         $this->assertEquals($expected, $c->filter('p')->saveHTML());
     }
+
+    public function testAttr()
+    {
+        $c = HtmlPageCrawler::create('<div>');
+        $this->assertNull($c->attr('data-foo'));
+        $c->attr('data-foo', 'bar');
+        $this->assertEquals('bar', $c->attr('data-foo'));
+        $this->assertEquals('bar', $c->getAttribute('data-foo'));
+        $c->removeAttribute('data-foo');
+        $this->assertNull($c->attr('data-foo'));
+        $c->setAttribute('data-foo', 'bar');
+        $this->assertEquals('bar', $c->attr('data-foo'));
+    }
 }
