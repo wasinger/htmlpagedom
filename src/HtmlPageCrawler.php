@@ -181,13 +181,19 @@ class HtmlPageCrawler extends Crawler
      * Returns the attribute value of the first node of the list.
      *
      * @param string $name The attribute name
-     * @return string The attribute value
+     * @return string|null The attribute value or null if the attribute does not exist
      * @throws \InvalidArgumentException When current node is empty
      *
      */
     public function getAttribute($name)
     {
-        return parent::attr($name);
+        if (!count($this)) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+
+        $node = $this->getNode(0);
+
+        return $node->hasAttribute($name) ? $node->getAttribute($name) : null;
     }
 
     /**
