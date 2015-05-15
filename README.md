@@ -38,7 +38,7 @@ Installation
 
 -   using [composer] (http://getcomposer.org): `require "wa72/htmlpagedom":"~1.0"`
 
--   using other [PSR-0] (https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) compliant autoloader:
+-   using other [PSR-4] (http://www.php-fig.org/psr/psr-4/) compliant autoloader:
     clone this project to where your included libraries are and point your autoloader to look for the 
     "\Wa72\HtmlPageDom" namespace in the "src" directory of this project
 
