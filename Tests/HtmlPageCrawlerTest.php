@@ -441,4 +441,40 @@ END;
         $c->setAttribute('data-foo', 'bar');
         $this->assertEquals('bar', $c->attr('data-foo'));
     }
+
+    public function testReturnValues()
+    {
+        // appendTo, insertBefore, insertAfter, replaceAll should always return new Crawler objects
+        // see http://jquery.com/upgrade-guide/1.9/#appendto-insertbefore-insertafter-and-replaceall
+
+        $c1 = HtmlPageCrawler::create('<h1>Headline</h1>');
+        $c2 = HtmlPageCrawler::create('<p>1</p><p>2</p><p>3</p>');
+        $c3 = HtmlPageCrawler::create('<span>asdf</span>');
+
+        $r1 = $c3->appendTo($c1);
+        $this->assertNotEquals(spl_object_hash($c3), spl_object_hash($r1));
+
+        $r2 = $c3->insertBefore($c1);
+        $this->assertNotEquals(spl_object_hash($c3), spl_object_hash($r2));
+
+        $r3 = $c3->insertAfter($c1);
+        $this->assertNotEquals(spl_object_hash($c3), spl_object_hash($r3));
+
+        $r4 = $c3->replaceAll($c1);
+        $this->assertNotEquals(spl_object_hash($c3), spl_object_hash($r4));
+
+
+        $r1 = $c3->appendTo($c2);
+        $this->assertNotEquals(spl_object_hash($c2), spl_object_hash($r1));
+
+        $r2 = $c3->insertBefore($c2);
+        $this->assertNotEquals(spl_object_hash($c2), spl_object_hash($r2));
+
+        $r3 = $c3->insertAfter($c2);
+        $this->assertNotEquals(spl_object_hash($c2), spl_object_hash($r3));
+
+        $r4 = $c3->replaceAll($c2);
+        $this->assertNotEquals(spl_object_hash($c2), spl_object_hash($r4));
+
+    }
 }

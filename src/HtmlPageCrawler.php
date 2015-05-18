@@ -236,25 +236,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function append($content)
     {
-        $content = self::create($content);
-        $newnodes = array();
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            foreach ($content as $newnode) {
-                /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    if ($i > 0) {
-                        $newnode = $newnode->cloneNode(true);
-                    }
-                }
-                $node->appendChild($newnode);
-                $newnodes[] = $newnode;
-            }
-        }
-        $content->clear();
-        $content->add($newnodes);
+        self::create($content)->appendTo($this);
         return $this;
     }
 
@@ -302,25 +284,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function before($content)
     {
-        $content = self::create($content);
-        $newnodes = array();
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            foreach ($content as $newnode) {
-                /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    if ($i > 0) {
-                        $newnode = $newnode->cloneNode(true);
-                    }
-                }
-                $node->parentNode->insertBefore($newnode, $node);
-                $newnodes[] = $newnode;
-            }
-        }
-        $content->clear();
-        $content->add($newnodes);
+        self::create($content)->insertBefore($this);
         return $this;
     }
 
@@ -332,30 +296,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function after($content)
     {
-        $content = self::create($content);
-        $newnodes = array();
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            $refnode = $node->nextSibling;
-            foreach ($content as $newnode) {
-                /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    if ($i > 0) {
-                        $newnode = $newnode->cloneNode(true);
-                    }
-                }
-                if ($refnode === null) {
-                    $node->parentNode->appendChild($newnode);
-                } else {
-                    $node->parentNode->insertBefore($newnode, $refnode);
-                }
-                $newnodes[] = $newnode;
-            }
-        }
-        $content->clear();
-        $content->add($newnodes);
+        self::create($content)->insertAfter($this);
         return $this;
     }
 
@@ -743,13 +684,28 @@ class HtmlPageCrawler extends Crawler
      * Insert every element in the set of matched elements to the end of the target.
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
      */
     public function appendTo($element)
     {
         $e = self::create($element);
-        $e->append($this);
-        return $this;
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            /** @var \DOMNode $node */
+            foreach ($this as $newnode) {
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    if ($i > 0) {
+                        $newnode = $newnode->cloneNode(true);
+                    }
+                }
+                $node->appendChild($newnode);
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
     }
 
     /**
@@ -771,26 +727,61 @@ class HtmlPageCrawler extends Crawler
      * Insert every element in the set of matched elements after the target.
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
      */
     public function insertAfter($element)
     {
         $e = self::create($element);
-        $e->after($this);
-        return $this;
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            /** @var \DOMNode $node */
+            $refnode = $node->nextSibling;
+            foreach ($this as $newnode) {
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    if ($i > 0) {
+                        $newnode = $newnode->cloneNode(true);
+                    }
+                }
+                if ($refnode === null) {
+                    $node->parentNode->appendChild($newnode);
+                } else {
+                    $node->parentNode->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
     }
 
     /**
      * Insert every element in the set of matched elements before the target.
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
      */
     public function insertBefore($element)
     {
         $e = self::create($element);
-        $e->before($this);
-        return $this;
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            /** @var \DOMNode $node */
+            foreach ($this as $newnode) {
+                /** @var \DOMNode $newnode */
+                if ($newnode->ownerDocument !== $node->ownerDocument) {
+                    $newnode = $node->ownerDocument->importNode($newnode, true);
+                } else {
+                    if ($i > 0) {
+                        $newnode = $newnode->cloneNode(true);
+                    }
+                }
+                $node->parentNode->insertBefore($newnode, $node);
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
     }
 
     /**
@@ -810,30 +801,17 @@ class HtmlPageCrawler extends Crawler
      * Replace each target element with the set of matched elements.
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
      */
     public function replaceAll($element)
     {
         $e = self::create($element);
-        $e->replaceWith($this);
-        return $this;
-    }
-
-    /**
-     * Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
-     */
-    public function replaceWith($content)
-    {
-        $content = self::create($content);
         $newnodes = array();
-        foreach ($this as $i => $node) {
+        foreach ($e as $i => $node) {
             /** @var \DOMNode $node */
             $parent = $node->parentNode;
             $refnode  = $node->nextSibling;
-            foreach ($content as $j => $newnode) {
+            foreach ($this as $j => $newnode) {
                 /** @var \DOMNode $newnode */
                 if ($newnode->ownerDocument !== $node->ownerDocument) {
                     $newnode = $node->ownerDocument->importNode($newnode, true);
@@ -850,8 +828,18 @@ class HtmlPageCrawler extends Crawler
                 $newnodes[] = $newnode;
             }
         }
-        $content->clear();
-        $content->add($newnodes);
+        return self::create($newnodes);
+    }
+
+    /**
+     * Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     */
+    public function replaceWith($content)
+    {
+        self::create($content)->replaceAll($this);
         return $this;
     }
 
