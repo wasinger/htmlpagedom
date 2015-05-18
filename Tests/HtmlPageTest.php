@@ -59,4 +59,45 @@ class HtmlPageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($title, $hp2->getTitle());
         $this->assertEquals($newtitle, $hp->getTitle());
     }
+
+    public function testScript()
+    {
+        $html =<<<END
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script>
+// this will be awesome
+alert('Hello world');
+</script>
+</head>
+<body>
+</body>
+</html>
+
+END;
+        $hp = new HtmlPage($html);
+        $hp->getBody()->append('<h1>Script Test</h1>');
+        $newhtml = $hp->save();
+
+        $expected =<<<END
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script>
+// this will be awesome
+alert('Hello world');
+</script>
+</head>
+<body>
+<h1>Script Test</h1>
+</body>
+</html>
+
+END;
+        $this->assertEquals($expected, $newhtml);
+
+    }
 }
