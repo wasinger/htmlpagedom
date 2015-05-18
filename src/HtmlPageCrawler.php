@@ -14,6 +14,9 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class HtmlPageCrawler extends Crawler
 {
+    // the (internal) root element name used when importing html fragments
+    const FRAGMENT_ROOT_TAGNAME = '_root';
+
     /**
      * Get an HtmlPageCrawler object from a HTML string, DOMNode, DOMNodeList or HtmlPageCrawler
      *
@@ -69,7 +72,7 @@ class HtmlPageCrawler extends Crawler
                 $root->appendChild($doc->importNode($node, true));
             }
             $html = trim($doc->saveHTML());
-            return preg_replace('@^<_root[^>]*>|</_root>$@', '', $html);
+            return preg_replace('@^<'.self::FRAGMENT_ROOT_TAGNAME.'[^>]*>|</'.self::FRAGMENT_ROOT_TAGNAME.'>$@', '', $html);
         }
     }
 
@@ -257,7 +260,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function before($content)
     {
-        self::create($content)->insertBefore($this);
+        if (!$this->is_disconnected()) self::create($content)->insertBefore($this);
         return $this;
     }
 
@@ -269,7 +272,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function after($content)
     {
-        self::create($content)->insertAfter($this);
+        if (!$this->is_disconnected()) self::create($content)->insertAfter($this);
         return $this;
     }
 
@@ -562,7 +565,7 @@ class HtmlPageCrawler extends Crawler
     public function addHtmlFragment($content, $charset = 'UTF-8')
     {
         $d = new \DOMDocument('1.0', $charset);
-        $root = $d->appendChild($d->createElement('_root'));
+        $root = $d->appendChild($d->createElement(self::FRAGMENT_ROOT_TAGNAME));
         $bodynode = self::getBodyNodeFromHtmlFragment($content, $charset);
         foreach ($bodynode->childNodes as $child) {
             $inode = $root->appendChild($d->importNode($child, true));
@@ -796,7 +799,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function replaceWith($content)
     {
-        self::create($content)->replaceAll($this);
+        if (!$this->is_disconnected()) self::create($content)->replaceAll($this);
         return $this;
     }
 
@@ -931,5 +934,16 @@ class HtmlPageCrawler extends Crawler
                 $newnode = $newnode->cloneNode(true);
             }
         }
+    }
+
+    /**
+     * Checks whether the first node in the set is disconnected (has no parent node)
+     *
+     * @return bool
+     */
+    public function is_disconnected()
+    {
+        $parent = $this->getNode(0)->parentNode;
+        return ($parent == null || $parent->tagName == self::FRAGMENT_ROOT_TAGNAME);
     }
 }

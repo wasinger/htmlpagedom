@@ -477,4 +477,36 @@ END;
         $this->assertNotEquals(spl_object_hash($c2), spl_object_hash($r4));
 
     }
+
+    public function testDisconnectedNodes()
+    {
+        // if after(), before() or replaceWith() is called on a node without parent,
+        // the unmodified Crawler object should be returned
+        //
+        // see http://jquery.com/upgrade-guide/1.9/#after-before-and-replacewith-with-disconnected-nodes
+        $c = HtmlPageCrawler::create('<div>abc</div>');
+        $r = HtmlPageCrawler::create('<div>def</div>');
+
+        $r1 = $c->after($r);
+        $this->assertEquals(spl_object_hash($r1), spl_object_hash($c));
+        $this->assertEquals(count($r1), count($c));
+
+        $r2 = $c->before($r);
+        $this->assertEquals(spl_object_hash($r2), spl_object_hash($c));
+        $this->assertEquals(count($r2), count($c));
+
+        $r3 = $c->replaceWith($r);
+        $this->assertEquals(spl_object_hash($r3), spl_object_hash($c));
+        $this->assertEquals(count($r3), count($c));
+    }
+
+    public function testIsDisconnected()
+    {
+        $c = HtmlPageCrawler::create('<div><p>asdf</p></div>');
+        $p = $c->filter('p');
+
+        $this->assertTrue($c->is_disconnected());
+        $this->assertFalse($p->is_disconnected());
+    }
+
 }
