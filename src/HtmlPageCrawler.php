@@ -148,11 +148,7 @@ class HtmlPageCrawler extends Crawler
             foreach ($content as $newnode) {
                 /** @var \DOMNode $node */
                 /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    $newnode = $newnode->cloneNode(true);
-                }
+                $this->import_newnode($newnode, $node);
                 $node->appendChild($newnode);
             }
         }
@@ -295,13 +291,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             $newnode = $content->getNode(0);
             /** @var \DOMNode $newnode */
-            if ($newnode->ownerDocument !== $node->ownerDocument) {
-                $newnode = $node->ownerDocument->importNode($newnode, true);
-            } else {
-                if ($i > 0) {
-                    $newnode = $newnode->cloneNode(true);
-                }
-            }
+            $this->import_newnode($newnode, $node, $i);
             $oldnode = $node->parentNode->replaceChild($newnode, $node);
             while ($newnode->hasChildNodes()) {
                 $elementFound = false;
@@ -671,7 +661,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->prepare_newnode($newnode, $node, $i);
+                $this->import_newnode($newnode, $node, $i);
                 $node->appendChild($newnode);
                 $newnodes[] = $newnode;
             }
@@ -709,7 +699,7 @@ class HtmlPageCrawler extends Crawler
             $refnode = $node->nextSibling;
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->prepare_newnode($newnode, $node, $i);
+                $this->import_newnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->parentNode->appendChild($newnode);
                 } else {
@@ -735,7 +725,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->prepare_newnode($newnode, $node, $i);
+                $this->import_newnode($newnode, $node, $i);
                 $node->parentNode->insertBefore($newnode, $node);
                 $newnodes[] = $newnode;
             }
@@ -758,7 +748,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->prepare_newnode($newnode, $node, $i);
+                $this->import_newnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->appendChild($newnode);
                 } else {
@@ -786,7 +776,7 @@ class HtmlPageCrawler extends Crawler
             $refnode  = $node->nextSibling;
             foreach ($this as $j => $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->prepare_newnode($newnode, $node, $i);
+                $this->import_newnode($newnode, $node, $i);
                 if ($j == 0) {
                     $parent->replaceChild($newnode, $node);
                 } else {
@@ -869,9 +859,7 @@ class HtmlPageCrawler extends Crawler
 
         $newnode = $content->getNode(0);
         /** @var \DOMNode $newnode */
-        if ($newnode->ownerDocument !== $parent->ownerDocument) {
-            $newnode = $parent->ownerDocument->importNode($newnode, true);
-        }
+        $this->import_newnode($newnode, $parent);
 
         $parent->appendChild($newnode);
         $content->clear();
@@ -935,11 +923,11 @@ class HtmlPageCrawler extends Crawler
         }
     }
 
-    protected function prepare_newnode(\DOMNode &$newnode, \DOMNode $node, $count) {
-        if ($newnode->ownerDocument !== $node->ownerDocument) {
-            $newnode = $node->ownerDocument->importNode($newnode, true);
+    protected function import_newnode(\DOMNode &$newnode, \DOMNode $referencenode, $clone = 0) {
+        if ($newnode->ownerDocument !== $referencenode->ownerDocument) {
+            $newnode = $referencenode->ownerDocument->importNode($newnode, true);
         } else {
-            if ($count > 0) {
+            if ($clone > 0) {
                 $newnode = $newnode->cloneNode(true);
             }
         }
