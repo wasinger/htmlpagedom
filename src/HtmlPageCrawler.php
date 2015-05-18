@@ -22,7 +22,7 @@ class HtmlPageCrawler extends Crawler
      *
      * This is the equivalent to jQuery's $() function when used for wrapping DOMNodes or creating DOMElements from HTML code.
      *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|array $content
      * @return HtmlPageCrawler
      */
     public static function create($content)
@@ -151,7 +151,7 @@ class HtmlPageCrawler extends Crawler
             foreach ($content as $newnode) {
                 /** @var \DOMNode $node */
                 /** @var \DOMNode $newnode */
-                $this->import_newnode($newnode, $node);
+                $this->importNewnode($newnode, $node);
                 $node->appendChild($newnode);
             }
         }
@@ -260,7 +260,9 @@ class HtmlPageCrawler extends Crawler
      */
     public function before($content)
     {
-        if (!$this->is_disconnected()) self::create($content)->insertBefore($this);
+        if (!$this->isDisconnected()) {
+            self::create($content)->insertBefore($this);
+        }
         return $this;
     }
 
@@ -272,7 +274,9 @@ class HtmlPageCrawler extends Crawler
      */
     public function after($content)
     {
-        if (!$this->is_disconnected()) self::create($content)->insertAfter($this);
+        if (!$this->isDisconnected()) {
+            self::create($content)->insertAfter($this);
+        }
         return $this;
     }
 
@@ -294,7 +298,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             $newnode = $content->getNode(0);
             /** @var \DOMNode $newnode */
-            $this->import_newnode($newnode, $node, $i);
+            $this->importNewnode($newnode, $node, $i);
             $oldnode = $node->parentNode->replaceChild($newnode, $node);
             while ($newnode->hasChildNodes()) {
                 $elementFound = false;
@@ -664,7 +668,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->import_newnode($newnode, $node, $i);
+                $this->importNewnode($newnode, $node, $i);
                 $node->appendChild($newnode);
                 $newnodes[] = $newnode;
             }
@@ -702,7 +706,7 @@ class HtmlPageCrawler extends Crawler
             $refnode = $node->nextSibling;
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->import_newnode($newnode, $node, $i);
+                $this->importNewnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->parentNode->appendChild($newnode);
                 } else {
@@ -728,7 +732,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->import_newnode($newnode, $node, $i);
+                $this->importNewnode($newnode, $node, $i);
                 $node->parentNode->insertBefore($newnode, $node);
                 $newnodes[] = $newnode;
             }
@@ -751,7 +755,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->import_newnode($newnode, $node, $i);
+                $this->importNewnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->appendChild($newnode);
                 } else {
@@ -779,7 +783,7 @@ class HtmlPageCrawler extends Crawler
             $refnode  = $node->nextSibling;
             foreach ($this as $j => $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->import_newnode($newnode, $node, $i);
+                $this->importNewnode($newnode, $node, $i);
                 if ($j == 0) {
                     $parent->replaceChild($newnode, $node);
                 } else {
@@ -799,7 +803,9 @@ class HtmlPageCrawler extends Crawler
      */
     public function replaceWith($content)
     {
-        if (!$this->is_disconnected()) self::create($content)->replaceAll($this);
+        if (!$this->isDisconnected()) {
+            self::create($content)->replaceAll($this);
+        }
         return $this;
     }
 
@@ -862,7 +868,7 @@ class HtmlPageCrawler extends Crawler
 
         $newnode = $content->getNode(0);
         /** @var \DOMNode $newnode */
-        $this->import_newnode($newnode, $parent);
+        $this->importNewnode($newnode, $parent);
 
         $parent->appendChild($newnode);
         $content->clear();
@@ -926,7 +932,7 @@ class HtmlPageCrawler extends Crawler
         }
     }
 
-    protected function import_newnode(\DOMNode &$newnode, \DOMNode $referencenode, $clone = 0) {
+    protected function importNewnode(\DOMNode &$newnode, \DOMNode $referencenode, $clone = 0) {
         if ($newnode->ownerDocument !== $referencenode->ownerDocument) {
             $newnode = $referencenode->ownerDocument->importNode($newnode, true);
         } else {
@@ -941,7 +947,7 @@ class HtmlPageCrawler extends Crawler
      *
      * @return bool
      */
-    public function is_disconnected()
+    public function isDisconnected()
     {
         $parent = $this->getNode(0)->parentNode;
         return ($parent == null || $parent->tagName == self::FRAGMENT_ROOT_TAGNAME);

@@ -505,8 +505,8 @@ END;
         $c = HtmlPageCrawler::create('<div><p>asdf</p></div>');
         $p = $c->filter('p');
 
-        $this->assertTrue($c->is_disconnected());
-        $this->assertFalse($p->is_disconnected());
+        $this->assertTrue($c->isDisconnected());
+        $this->assertFalse($p->isDisconnected());
     }
 
 }
