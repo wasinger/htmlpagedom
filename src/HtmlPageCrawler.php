@@ -249,30 +249,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function prepend($content)
     {
-        $content = self::create($content);
-        $newnodes = array();
-        foreach ($this as $i => $node) {
-            $refnode = $node->firstChild;
-            /** @var \DOMNode $node */
-            foreach ($content as $newnode) {
-                /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    if ($i > 0) {
-                        $newnode = $newnode->cloneNode(true);
-                    }
-                }
-                if ($refnode === null) {
-                    $node->appendChild($newnode);
-                } else {
-                    $node->insertBefore($newnode, $refnode);
-                }
-                $newnodes[] = $newnode;
-            }
-        }
-        $content->clear();
-        $content->add($newnodes);
+        self::create($content)->prependTo($this);
         return $this;
     }
 
@@ -694,13 +671,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    if ($i > 0) {
-                        $newnode = $newnode->cloneNode(true);
-                    }
-                }
+                $this->prepare_newnode($newnode, $node, $i);
                 $node->appendChild($newnode);
                 $newnodes[] = $newnode;
             }
@@ -738,13 +709,7 @@ class HtmlPageCrawler extends Crawler
             $refnode = $node->nextSibling;
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    if ($i > 0) {
-                        $newnode = $newnode->cloneNode(true);
-                    }
-                }
+                $this->prepare_newnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->parentNode->appendChild($newnode);
                 } else {
@@ -770,13 +735,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    if ($i > 0) {
-                        $newnode = $newnode->cloneNode(true);
-                    }
-                }
+                $this->prepare_newnode($newnode, $node, $i);
                 $node->parentNode->insertBefore($newnode, $node);
                 $newnodes[] = $newnode;
             }
@@ -788,13 +747,27 @@ class HtmlPageCrawler extends Crawler
      * Insert every element in the set of matched elements to the beginning of the target.
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements prepended to the target elements
      */
     public function prependTo($element)
     {
         $e = self::create($element);
-        $e->prepend($this);
-        return $this;
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            $refnode = $node->firstChild;
+            /** @var \DOMNode $node */
+            foreach ($this as $newnode) {
+                /** @var \DOMNode $newnode */
+                $this->prepare_newnode($newnode, $node, $i);
+                if ($refnode === null) {
+                    $node->appendChild($newnode);
+                } else {
+                    $node->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
     }
 
     /**
@@ -813,13 +786,7 @@ class HtmlPageCrawler extends Crawler
             $refnode  = $node->nextSibling;
             foreach ($this as $j => $newnode) {
                 /** @var \DOMNode $newnode */
-                if ($newnode->ownerDocument !== $node->ownerDocument) {
-                    $newnode = $node->ownerDocument->importNode($newnode, true);
-                } else {
-                    if ($i > 0) {
-                        $newnode = $newnode->cloneNode(true);
-                    }
-                }
+                $this->prepare_newnode($newnode, $node, $i);
                 if ($j == 0) {
                     $parent->replaceChild($newnode, $node);
                 } else {
@@ -965,6 +932,16 @@ class HtmlPageCrawler extends Crawler
             }
         } else {
             parent::add($node);
+        }
+    }
+
+    protected function prepare_newnode(\DOMNode &$newnode, \DOMNode $node, $count) {
+        if ($newnode->ownerDocument !== $node->ownerDocument) {
+            $newnode = $node->ownerDocument->importNode($newnode, true);
+        } else {
+            if ($count > 0) {
+                $newnode = $newnode->cloneNode(true);
+            }
         }
     }
 }
