@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="//code.jquery.com/jquery-2.1.4.js"></script>
+    <title>Testing jquery object identities</title>
+</head>
+<body>
+<h1>Testing jquery object identities</h1>
+<p>This page contains javascript code to figure out in which cases jQuery returns references to existing objects
+and when it makes copies.
+</p>
+<p>test paragraph 2</p>
+<p>test paragraph 3</p>
+
+<script>
+    (function() {
+        if ( typeof Object.prototype.uniqueId == "undefined" ) {
+            var id = 0;
+            Object.prototype.uniqueId = function() {
+                if ( typeof this.__uniqueid == "undefined" ) {
+                    this.__uniqueid = ++id;
+                }
+                return this.__uniqueid;
+            };
+        }
+    })();
+    $(document).ready(function(){
+        var $a = $('<span style="font-weight: bold;"> asdf</span>');
+        var $b = $('p');
+        var $h = $('h1');
+        var $ba, $ha;
+
+        $ba = $a.appendTo($b);
+        $ha = $a.appendTo($h);
+
+        console.log('$a: ' + $a.uniqueId());
+        console.log('span: ' + $a[0].uniqueId());
+
+        console.log('$b: ' + $b.uniqueId());
+        console.log($ba);
+        console.log('$ba: ' + $ba.uniqueId());
+        console.log('$ba span 0: ' + $ba[0].uniqueId());
+        console.log('$ba span 1: ' + $ba[1].uniqueId());
+        console.log('$ba span 2: ' + $ba[2].uniqueId());
+
+        console.log('$ha: ' + $ha.uniqueId());
+        console.log('$ha span 0: ' + $ha[0].uniqueId());
+
+    });
+</script>
+</body>
+</html>
