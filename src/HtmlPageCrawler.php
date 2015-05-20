@@ -216,6 +216,12 @@ class HtmlPageCrawler extends Crawler
         }
     }
 
+    /**
+     * Remove an attribute from each element in the set of matched elements.
+     *
+     * @param string $name
+     * @return HtmlPageCrawler
+     */
     public function removeAttribute($name)
     {
         foreach ($this as $node) {
@@ -227,6 +233,19 @@ class HtmlPageCrawler extends Crawler
             }
         }
         return $this;
+    }
+
+    /**
+     * Remove an attribute from each element in the set of matched elements.
+     *
+     * Alias for removeAttribute for compatibility with jQuery
+     *
+     * @param string $name
+     * @return HtmlPageCrawler
+     */
+    public function removeAttr($name)
+    {
+        return $this->removeAttribute($name);
     }
 
     /**
