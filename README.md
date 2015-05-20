@@ -36,7 +36,7 @@ Requirements
 Installation
 ------------
 
--   using [composer] (http://getcomposer.org): `require "wa72/htmlpagedom":"~1.0"`
+-   using [composer] (http://getcomposer.org): `require "wa72/htmlpagedom":"~1.1"`
 
 -   using other [PSR-4] (http://www.php-fig.org/psr/psr-4/) compliant autoloader:
     clone this project to where your included libraries are and point your autoloader to look for the 

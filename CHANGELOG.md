@@ -1,5 +1,8 @@
 1.1
 ===
+
+2015-05-20
+
 - `text()` function now returns combined text of all elements in set (as jQuery does; previously only the nodeValue of 
   the first element was returned) and can act as a setter `text($string)` that sets the nodeValue of all elements to
   the specified string
