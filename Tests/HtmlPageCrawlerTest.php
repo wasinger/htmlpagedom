@@ -186,6 +186,9 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $t->removeClass('nochneklasse');
         $this->assertTrue($t->hasClass('ueberschrift'));
         $this->assertFalse($t->hasClass('nochneklasse'));
+        $t->addClass('class1 class2');
+        $this->assertTrue($t->hasClass('class1'));
+        $this->assertTrue($t->hasClass('class2'));
     }
 
     /**
@@ -440,6 +443,9 @@ END;
         $this->assertNull($c->attr('data-foo'));
         $c->setAttribute('data-foo', 'bar');
         $this->assertEquals('bar', $c->attr('data-foo'));
+        $c->removeAttr('data-foo');
+        $this->assertNull($c->attr('data-foo'));
+
     }
 
     public function testReturnValues()

@@ -26,6 +26,7 @@ class HtmlPageCrawler extends Crawler
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|array $content
      * @return HtmlPageCrawler
+     * @api
      */
     public static function create($content)
     {
@@ -35,6 +36,36 @@ class HtmlPageCrawler extends Crawler
             return new HtmlPageCrawler($content);
         }
     }
+
+    /**
+     * Adds the specified class(es) to each element in the set of matched elements.
+     *
+     * @param string $name One or more space-separated classes to be added to the class attribute of each matched element.
+     * @return HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function addClass($name)
+    {
+        foreach ($this as $node) {
+            if ($node instanceof \DOMElement) {
+                /** @var \DOMElement $node */
+                $classes = preg_split('/\s+/s', $node->getAttribute('class'));
+                $found = false;
+                for ($i = 0; $i < count($classes); $i++) {
+                    if ($classes[$i] == $name) {
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    $classes[] = $name;
+                    $node->setAttribute('class', trim(join(' ', $classes)));
+                }
+            }
+        }
+        return $this;
+    }
+
+
 
     /**
      * Get the innerHTML contents of the first element
@@ -417,33 +448,6 @@ class HtmlPageCrawler extends Crawler
                     unset($styles[$key]);
                 }
                 $node->setAttribute('style', static::cssArrayToString($styles));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Add a class to all elements in the list
-     *
-     * @param string $name
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function addClass($name)
-    {
-        foreach ($this as $node) {
-            if ($node instanceof \DOMElement) {
-                /** @var \DOMElement $node */
-                $classes = preg_split('/\s+/s', $node->getAttribute('class'));
-                $found = false;
-                for ($i = 0; $i < count($classes); $i++) {
-                    if ($classes[$i] == $name) {
-                        $found = true;
-                    }
-                }
-                if (!$found) {
-                    $classes[] = $name;
-                    $node->setAttribute('class', trim(join(' ', $classes)));
-                }
             }
         }
         return $this;
