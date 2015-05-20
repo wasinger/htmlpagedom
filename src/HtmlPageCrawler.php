@@ -14,7 +14,9 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class HtmlPageCrawler extends Crawler
 {
-    // the (internal) root element name used when importing html fragments
+    /**
+     * the (internal) root element name used when importing html fragments
+     * */
     const FRAGMENT_ROOT_TAGNAME = '_root';
 
     /**
@@ -151,7 +153,7 @@ class HtmlPageCrawler extends Crawler
             foreach ($content as $newnode) {
                 /** @var \DOMNode $node */
                 /** @var \DOMNode $newnode */
-                $this->importNewnode($newnode, $node);
+                static::importNewnode($newnode, $node);
                 $node->appendChild($newnode);
             }
         }
@@ -298,7 +300,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             $newnode = $content->getNode(0);
             /** @var \DOMNode $newnode */
-            $this->importNewnode($newnode, $node, $i);
+            static::importNewnode($newnode, $node, $i);
             $oldnode = $node->parentNode->replaceChild($newnode, $node);
             while ($newnode->hasChildNodes()) {
                 $elementFound = false;
@@ -373,7 +375,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function getStyle($key)
     {
-        $styles = $this->cssStringToArray($this->getAttribute('style'));
+        $styles = static::cssStringToArray($this->getAttribute('style'));
         return (isset($styles[$key]) ? $styles[$key] : null);
     }
 
@@ -389,13 +391,13 @@ class HtmlPageCrawler extends Crawler
         foreach ($this as $node) {
             if ($node instanceof \DOMElement) {
                 /** @var \DOMElement $node */
-                $styles = $this->cssStringToArray($node->getAttribute('style'));
+                $styles = static::cssStringToArray($node->getAttribute('style'));
                 if ($value != '') {
                     $styles[$key] = $value;
                 } elseif (isset($styles[$key])) {
                     unset($styles[$key]);
                 }
-                $node->setAttribute('style', $this->cssArrayToString($styles));
+                $node->setAttribute('style', static::cssArrayToString($styles));
             }
         }
         return $this;
@@ -470,7 +472,7 @@ class HtmlPageCrawler extends Crawler
      * @param string $css list of CSS properties separated by ;
      * @return array name=>value pairs of CSS properties
      */
-    protected function cssStringToArray($css)
+    static protected function cssStringToArray($css)
     {
         $statements = explode(';', preg_replace('/\s+/s', ' ', $css));
         $styles = array();
@@ -496,7 +498,7 @@ class HtmlPageCrawler extends Crawler
      * @param array $array name=>value pairs of CSS properties
      * @return string list of CSS properties separated by ;
      */
-    protected function cssArrayToString($array)
+    static protected function cssArrayToString($array)
     {
         $styles = '';
         foreach ($array as $key => $value) {
@@ -668,7 +670,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->importNewnode($newnode, $node, $i);
+                static::importNewnode($newnode, $node, $i);
                 $node->appendChild($newnode);
                 $newnodes[] = $newnode;
             }
@@ -706,7 +708,7 @@ class HtmlPageCrawler extends Crawler
             $refnode = $node->nextSibling;
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->importNewnode($newnode, $node, $i);
+                static::importNewnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->parentNode->appendChild($newnode);
                 } else {
@@ -732,7 +734,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->importNewnode($newnode, $node, $i);
+                static::importNewnode($newnode, $node, $i);
                 $node->parentNode->insertBefore($newnode, $node);
                 $newnodes[] = $newnode;
             }
@@ -755,7 +757,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->importNewnode($newnode, $node, $i);
+                static::importNewnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->appendChild($newnode);
                 } else {
@@ -783,7 +785,7 @@ class HtmlPageCrawler extends Crawler
             $refnode  = $node->nextSibling;
             foreach ($this as $j => $newnode) {
                 /** @var \DOMNode $newnode */
-                $this->importNewnode($newnode, $node, $i);
+                static::importNewnode($newnode, $node, $i);
                 if ($j == 0) {
                     $parent->replaceChild($newnode, $node);
                 } else {
@@ -868,7 +870,7 @@ class HtmlPageCrawler extends Crawler
 
         $newnode = $content->getNode(0);
         /** @var \DOMNode $newnode */
-        $this->importNewnode($newnode, $parent);
+        static::importNewnode($newnode, $parent);
 
         $parent->appendChild($newnode);
         $content->clear();
@@ -932,7 +934,7 @@ class HtmlPageCrawler extends Crawler
         }
     }
 
-    protected function importNewnode(\DOMNode &$newnode, \DOMNode $referencenode, $clone = 0) {
+    protected static function importNewnode(\DOMNode &$newnode, \DOMNode $referencenode, $clone = 0) {
         if ($newnode->ownerDocument !== $referencenode->ownerDocument) {
             $newnode = $referencenode->ownerDocument->importNode($newnode, true);
         } else {
