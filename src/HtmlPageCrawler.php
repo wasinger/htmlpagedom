@@ -240,7 +240,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function getStyle($key)
     {
-        $styles = static::cssStringToArray($this->getAttribute('style'));
+        $styles = Helpers::cssStringToArray($this->getAttribute('style'));
         return (isset($styles[$key]) ? $styles[$key] : null);
     }
 
@@ -256,13 +256,13 @@ class HtmlPageCrawler extends Crawler
         foreach ($this as $node) {
             if ($node instanceof \DOMElement) {
                 /** @var \DOMElement $node */
-                $styles = static::cssStringToArray($node->getAttribute('style'));
+                $styles = Helpers::cssStringToArray($node->getAttribute('style'));
                 if ($value != '') {
                     $styles[$key] = $value;
                 } elseif (isset($styles[$key])) {
                     unset($styles[$key]);
                 }
-                $node->setAttribute('style', static::cssArrayToString($styles));
+                $node->setAttribute('style', Helpers::cssArrayToString($styles));
             }
         }
         return $this;
@@ -307,7 +307,8 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Get or set the HTML contents
+     * Get the HTML contents of the first element in the set of matched elements
+     * or set the HTML contents of every matched element.
      *
      * Function is here for compatibility with jQuery: When called with a parameter, it is
      * equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()
@@ -318,6 +319,7 @@ class HtmlPageCrawler extends Crawler
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|null $html The HTML content to set, or NULL to get the current content
      *
      * @return HtmlPageCrawler|string If no param is provided, returns the HTML content of the first element
+     * @api
      */
     public function html($html = null)
     {
@@ -349,12 +351,394 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * Set the HTML contents of each element
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
+     * @return HtmlPageCrawler $this for chaining
+     */
+    public function setInnerHtml($content)
+    {
+        $content = self::create($content);
+        foreach ($this as $node) {
+            $node->nodeValue = '';
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $node */
+                /** @var \DOMNode $newnode */
+                static::importNewnode($newnode, $node);
+                $node->appendChild($newnode);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Insert every element in the set of matched elements after the target.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
+     * @api
+     */
+    public function insertAfter($element)
+    {
+        $e = self::create($element);
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            /** @var \DOMNode $node */
+            $refnode = $node->nextSibling;
+            foreach ($this as $newnode) {
+                /** @var \DOMNode $newnode */
+                static::importNewnode($newnode, $node, $i);
+                if ($refnode === null) {
+                    $node->parentNode->appendChild($newnode);
+                } else {
+                    $node->parentNode->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
+    }
+
+    /**
+     * Insert every element in the set of matched elements before the target.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
+     * @api
+     */
+    public function insertBefore($element)
+    {
+        $e = self::create($element);
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            /** @var \DOMNode $node */
+            foreach ($this as $newnode) {
+                /** @var \DOMNode $newnode */
+                static::importNewnode($newnode, $node, $i);
+                $node->parentNode->insertBefore($newnode, $node);
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
+    }
+
+    /**
+     * Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
+     * @return HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function prepend($content)
+    {
+        self::create($content)->prependTo($this);
+        return $this;
+    }
+
+    /**
+     * Insert every element in the set of matched elements to the beginning of the target.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements prepended to the target elements
+     * @api
+     */
+    public function prependTo($element)
+    {
+        $e = self::create($element);
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            $refnode = $node->firstChild;
+            /** @var \DOMNode $node */
+            foreach ($this as $newnode) {
+                /** @var \DOMNode $newnode */
+                static::importNewnode($newnode, $node, $i);
+                if ($refnode === null) {
+                    $node->appendChild($newnode);
+                } else {
+                    $node->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
+    }
+
+    /**
+     * Remove the set of matched elements from the DOM.
+     *
+     * (as opposed to Crawler::clear() which detaches the nodes only from Crawler
+     * but leaves them in the DOM)
+     *
+     * @api
+     */
+    public function remove()
+    {
+        foreach ($this as $node) {
+            /**
+             * @var \DOMNode $node
+             */
+            if ($node->parentNode instanceof \DOMElement) {
+                $node->parentNode->removeChild($node);
+            }
+        }
+        $this->clear();
+    }
+
+    /**
+     * Remove an attribute from each element in the set of matched elements.
+     *
+     * Alias for removeAttribute for compatibility with jQuery
+     *
+     * @param string $name
+     * @return HtmlPageCrawler
+     * @api
+     */
+    public function removeAttr($name)
+    {
+        return $this->removeAttribute($name);
+    }
+
+    /**
+     * Remove an attribute from each element in the set of matched elements.
+     *
+     * @param string $name
+     * @return HtmlPageCrawler
+     */
+    public function removeAttribute($name)
+    {
+        foreach ($this as $node) {
+            if ($node instanceof \DOMElement) {
+                /** @var \DOMElement $node */
+                if ($node->hasAttribute($name)) {
+                    $node->removeAttribute($name);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Remove a class from each element in the list
+     *
+     * @param string $name
+     * @return HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function removeClass($name)
+    {
+        foreach ($this as $node) {
+            if ($node instanceof \DOMElement) {
+                /** @var \DOMElement $node */
+                $classes = preg_split('/\s+/s', $node->getAttribute('class'));
+                for ($i = 0; $i < count($classes); $i++) {
+                    if ($classes[$i] == $name) {
+                        unset($classes[$i]);
+                    }
+                }
+                $node->setAttribute('class', trim(join(' ', $classes)));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Replace each target element with the set of matched elements.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
+     * @api
+     */
+    public function replaceAll($element)
+    {
+        $e = self::create($element);
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            /** @var \DOMNode $node */
+            $parent = $node->parentNode;
+            $refnode  = $node->nextSibling;
+            foreach ($this as $j => $newnode) {
+                /** @var \DOMNode $newnode */
+                static::importNewnode($newnode, $node, $i);
+                if ($j == 0) {
+                    $parent->replaceChild($newnode, $node);
+                } else {
+                    $parent->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
+    }
+
+    /**
+     * Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function replaceWith($content)
+    {
+        if (!$this->isDisconnected()) {
+            self::create($content)->replaceAll($this);
+        }
+        return $this;
+    }
+
+    /**
+     * Add or remove one or more classes from each element in the set of matched elements, depending the class’s presence.
+     *
+     * @param string $classname One or more classnames separated by spaces
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function toggleClass($classname)
+    {
+        $classes = explode(' ', $classname);
+        foreach ($this as $i => $node) {
+            $c = self::create($node);
+            /** @var \DOMNode $node */
+            foreach ($classes as $class) {
+                if ($c->hasClass($class)) {
+                    $c->removeClass($class);
+                } else {
+                    $c->addClass($class);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
+     *
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function unwrap()
+    {
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            if ($parent = $node->parentNode) {
+                $parent->parentNode->replaceChild($node, $parent);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Wrap an HTML structure around each element in the set of matched elements
+     *
+     * The HTML structure must contain only one root node, e.g.:
+     * Works: <div><div></div></div>
+     * Does not work: <div></div><div></div>
+     *
+     * @param string|HtmlPageCrawler|\DOMNode $wrappingElement
+     * @return HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function wrap($wrappingElement)
+    {
+        $content = self::create($wrappingElement);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            $newnode = $content->getNode(0);
+            /** @var \DOMNode $newnode */
+            static::importNewnode($newnode, $node, $i);
+            $oldnode = $node->parentNode->replaceChild($newnode, $node);
+            while ($newnode->hasChildNodes()) {
+                $elementFound = false;
+                foreach ($newnode->childNodes as $child) {
+                    if ($child instanceof \DOMElement) {
+                        $newnode = $child;
+                        $elementFound = true;
+                        break;
+                    }
+                }
+                if (!$elementFound) {
+                    break;
+                }
+            }
+            $newnode->appendChild($oldnode);
+            $newnodes[] = $newnode;
+        }
+        $content->clear();
+        $content->add($newnodes);
+        return $this;
+    }
+
+    /**
+     * Wrap an HTML structure around all elements in the set of matched elements.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @throws \LogicException
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function wrapAll($content)
+    {
+        $content = self::create($content);
+        $parent = $this->getNode(0)->parentNode;
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            if ($node->parentNode !== $parent) {
+                throw new \LogicException('Nodes to be wrapped with wrapAll() must all have the same parent');
+            }
+        }
+
+        $newnode = $content->getNode(0);
+        /** @var \DOMNode $newnode */
+        static::importNewnode($newnode, $parent);
+
+        $parent->appendChild($newnode);
+        $content->clear();
+        $content->add($newnode);
+
+        while ($newnode->hasChildNodes()) {
+            $elementFound = false;
+            foreach ($newnode->childNodes as $child) {
+                if ($child instanceof \DOMElement) {
+                    $newnode = $child;
+                    $elementFound = true;
+                    break;
+                }
+            }
+            if (!$elementFound) {
+                break;
+            }
+        }
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            $newnode->appendChild($node);
+        }
+        return $this;
+    }
+
+    /**
+     * Wrap an HTML structure around the content of each element in the set of matched elements.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function wrapInner($content)
+    {
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            self::create($node->childNodes)->wrapAll($content);
+        }
+        return $this;
+    }
+
+    /**
      * Get the HTML code fragment of all elements and their contents.
      *
      * If the first node contains a complete HTML document return only
      * the full code of this document.
      *
      * @return string HTML code (fragment)
+     * @api
      */
     public function saveHTML()
     {
@@ -414,198 +798,6 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Delete all nodes in the list. Removes the nodes from DOM.
-     *
-     * (as opposed to Crawler::clear() which detaches the nodes only from Crawler
-     * but leaves them in the DOM)
-     */
-    public function remove()
-    {
-        foreach ($this as $node) {
-            /**
-             * @var \DOMNode $node
-             */
-            if ($node->parentNode instanceof \DOMElement) {
-                $node->parentNode->removeChild($node);
-            }
-        }
-        $this->clear();
-    }
-
-    /**
-     * Set the HTML contents of each element
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function setInnerHtml($content)
-    {
-        $content = self::create($content);
-        foreach ($this as $node) {
-            $node->nodeValue = '';
-            foreach ($content as $newnode) {
-                /** @var \DOMNode $node */
-                /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node);
-                $node->appendChild($newnode);
-            }
-        }
-        return $this;
-    }
-
-
-
-    /**
-     * Remove an attribute from each element in the set of matched elements.
-     *
-     * @param string $name
-     * @return HtmlPageCrawler
-     */
-    public function removeAttribute($name)
-    {
-        foreach ($this as $node) {
-            if ($node instanceof \DOMElement) {
-                /** @var \DOMElement $node */
-                if ($node->hasAttribute($name)) {
-                    $node->removeAttribute($name);
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove an attribute from each element in the set of matched elements.
-     *
-     * Alias for removeAttribute for compatibility with jQuery
-     *
-     * @param string $name
-     * @return HtmlPageCrawler
-     */
-    public function removeAttr($name)
-    {
-        return $this->removeAttribute($name);
-    }
-
-    /**
-     * Insert HTML content as child nodes of each element before existing children
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function prepend($content)
-    {
-        self::create($content)->prependTo($this);
-        return $this;
-    }
-
-    /**
-     * Wrap an HTML structure around each element in the set of matched elements
-     *
-     * The HTML structure must contain only one root node, e.g.:
-     * Works: <div><div></div></div>
-     * Does not work: <div></div><div></div>
-     *
-     * @param string|HtmlPageCrawler|\DOMNode $wrappingElement
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function wrap($wrappingElement)
-    {
-        $content = self::create($wrappingElement);
-        $newnodes = array();
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            $newnode = $content->getNode(0);
-            /** @var \DOMNode $newnode */
-            static::importNewnode($newnode, $node, $i);
-            $oldnode = $node->parentNode->replaceChild($newnode, $node);
-            while ($newnode->hasChildNodes()) {
-                $elementFound = false;
-                foreach ($newnode->childNodes as $child) {
-                    if ($child instanceof \DOMElement) {
-                        $newnode = $child;
-                        $elementFound = true;
-                        break;
-                    }
-                }
-                if (!$elementFound) {
-                    break;
-                }
-            }
-            $newnode->appendChild($oldnode);
-            $newnodes[] = $newnode;
-        }
-        $content->clear();
-        $content->add($newnodes);
-        return $this;
-    }
-
-    /**
-     * Remove a class from all elements in the list
-     *
-     * @param string $name
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function removeClass($name)
-    {
-        foreach ($this as $node) {
-            if ($node instanceof \DOMElement) {
-                /** @var \DOMElement $node */
-                $classes = preg_split('/\s+/s', $node->getAttribute('class'));
-                for ($i = 0; $i < count($classes); $i++) {
-                    if ($classes[$i] == $name) {
-                        unset($classes[$i]);
-                    }
-                }
-                $node->setAttribute('class', trim(join(' ', $classes)));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Convert CSS string to array
-     *
-     * @param string $css list of CSS properties separated by ;
-     * @return array name=>value pairs of CSS properties
-     */
-    static protected function cssStringToArray($css)
-    {
-        $statements = explode(';', preg_replace('/\s+/s', ' ', $css));
-        $styles = array();
-        foreach ($statements as $statement) {
-            $statement = trim($statement);
-            if ('' === $statement) {
-                continue;
-            }
-            $p = strpos($statement, ':');
-            if ($p <= 0) {
-                continue;
-            } // invalid statement, just ignore it
-            $key = trim(substr($statement, 0, $p));
-            $value = trim(substr($statement, $p + 1));
-            $styles[$key] = $value;
-        }
-        return $styles;
-    }
-
-    /**
-     * Convert CSS name->value array to string
-     *
-     * @param array $array name=>value pairs of CSS properties
-     * @return string list of CSS properties separated by ;
-     */
-    static protected function cssArrayToString($array)
-    {
-        $styles = '';
-        foreach ($array as $key => $value) {
-            $styles .= $key . ': ' . $value . ';';
-        }
-        return $styles;
-    }
-
-
-    /**
      * Filters the list of nodes with a CSS selector.
      *
      * @param string $selector
@@ -658,56 +850,13 @@ class HtmlPageCrawler extends Crawler
     {
         $d = new \DOMDocument('1.0', $charset);
         $root = $d->appendChild($d->createElement(self::FRAGMENT_ROOT_TAGNAME));
-        $bodynode = self::getBodyNodeFromHtmlFragment($content, $charset);
+        $bodynode = Helpers::getBodyNodeFromHtmlFragment($content, $charset);
         foreach ($bodynode->childNodes as $child) {
             $inode = $root->appendChild($d->importNode($child, true));
             if ($inode) {
                 $this->addNode($inode);
             }
         }
-    }
-
-    /**
-     * Helper function for getting a body element
-     * from an HTML fragment
-     *
-     * @param string $html A fragment of HTML code
-     * @param string $charset
-     * @return \DOMNode The body node containing child nodes created from the HTML fragment
-     */
-    public static function getBodyNodeFromHtmlFragment($html, $charset = 'UTF-8')
-    {
-        $html = '<html><body>' . $html . '</body></html>';
-        $current = libxml_use_internal_errors(true);
-        $disableEntities = libxml_disable_entity_loader(true);
-        $d = new \DOMDocument('1.0', $charset);
-        $d->validateOnParse = true;
-        if (function_exists('mb_convert_encoding') && in_array(
-            strtolower($charset),
-            array_map('strtolower', mb_list_encodings())
-        )
-        ) {
-            $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
-        }
-        @$d->loadHTML($html);
-        libxml_use_internal_errors($current);
-        libxml_disable_entity_loader($disableEntities);
-        return $d->getElementsByTagName('body')->item(0);
-    }
-
-    /**
-     * remove newlines from string and minimize whitespace (multiple whitespace characters replaced by one space)
-     * useful for cleaning up text retrieved by HtmlPageCrawler::text() (nodeValue of a DOMNode)
-     *
-     * @param string $string
-     * @return string
-     */
-    public static function trimNewlines($string)
-    {
-        $string = str_replace("\n", ' ', $string);
-        $string = str_replace("\r", ' ', $string);
-        $string = preg_replace('/\s+/', ' ', $string);
-        return trim($string);
     }
 
     /**
@@ -740,224 +889,6 @@ class HtmlPageCrawler extends Crawler
             throw new \InvalidArgumentException('The current node list is empty.');
         }
         return $this->getNode(0)->nodeName;
-    }
-
-    /**
-     * Insert every element in the set of matched elements after the target.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
-     */
-    public function insertAfter($element)
-    {
-        $e = self::create($element);
-        $newnodes = array();
-        foreach ($e as $i => $node) {
-            /** @var \DOMNode $node */
-            $refnode = $node->nextSibling;
-            foreach ($this as $newnode) {
-                /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
-                if ($refnode === null) {
-                    $node->parentNode->appendChild($newnode);
-                } else {
-                    $node->parentNode->insertBefore($newnode, $refnode);
-                }
-                $newnodes[] = $newnode;
-            }
-        }
-        return self::create($newnodes);
-    }
-
-    /**
-     * Insert every element in the set of matched elements before the target.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
-     */
-    public function insertBefore($element)
-    {
-        $e = self::create($element);
-        $newnodes = array();
-        foreach ($e as $i => $node) {
-            /** @var \DOMNode $node */
-            foreach ($this as $newnode) {
-                /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
-                $node->parentNode->insertBefore($newnode, $node);
-                $newnodes[] = $newnode;
-            }
-        }
-        return self::create($newnodes);
-    }
-
-    /**
-     * Insert every element in the set of matched elements to the beginning of the target.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements prepended to the target elements
-     */
-    public function prependTo($element)
-    {
-        $e = self::create($element);
-        $newnodes = array();
-        foreach ($e as $i => $node) {
-            $refnode = $node->firstChild;
-            /** @var \DOMNode $node */
-            foreach ($this as $newnode) {
-                /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
-                if ($refnode === null) {
-                    $node->appendChild($newnode);
-                } else {
-                    $node->insertBefore($newnode, $refnode);
-                }
-                $newnodes[] = $newnode;
-            }
-        }
-        return self::create($newnodes);
-    }
-
-    /**
-     * Replace each target element with the set of matched elements.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
-     */
-    public function replaceAll($element)
-    {
-        $e = self::create($element);
-        $newnodes = array();
-        foreach ($e as $i => $node) {
-            /** @var \DOMNode $node */
-            $parent = $node->parentNode;
-            $refnode  = $node->nextSibling;
-            foreach ($this as $j => $newnode) {
-                /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
-                if ($j == 0) {
-                    $parent->replaceChild($newnode, $node);
-                } else {
-                    $parent->insertBefore($newnode, $refnode);
-                }
-                $newnodes[] = $newnode;
-            }
-        }
-        return self::create($newnodes);
-    }
-
-    /**
-     * Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
-     */
-    public function replaceWith($content)
-    {
-        if (!$this->isDisconnected()) {
-            self::create($content)->replaceAll($this);
-        }
-        return $this;
-    }
-
-    /**
-     * Add or remove one or more classes from each element in the set of matched elements, depending on either the class’s presence or the value of the switch argument.
-     *
-     * @param string $classname One or more classnames separated by spaces
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
-     */
-    public function toggleClass($classname)
-    {
-        $classes = explode(' ', $classname);
-        foreach ($this as $i => $node) {
-            $c = self::create($node);
-            /** @var \DOMNode $node */
-            foreach ($classes as $class) {
-                if ($c->hasClass($class)) {
-                    $c->removeClass($class);
-                } else {
-                    $c->addClass($class);
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
-     *
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
-     */
-    public function unwrap()
-    {
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            if ($parent = $node->parentNode) {
-                $parent->parentNode->replaceChild($node, $parent);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Wrap an HTML structure around all elements in the set of matched elements.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
-     * @throws \LogicException
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
-     */
-    public function wrapAll($content)
-    {
-        $content = self::create($content);
-        $parent = $this->getNode(0)->parentNode;
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            if ($node->parentNode !== $parent) {
-                throw new \LogicException('Nodes to be wrapped with wrapAll() must all have the same parent');
-            }
-        }
-
-        $newnode = $content->getNode(0);
-        /** @var \DOMNode $newnode */
-        static::importNewnode($newnode, $parent);
-
-        $parent->appendChild($newnode);
-        $content->clear();
-        $content->add($newnode);
-
-        while ($newnode->hasChildNodes()) {
-            $elementFound = false;
-            foreach ($newnode->childNodes as $child) {
-                if ($child instanceof \DOMElement) {
-                    $newnode = $child;
-                    $elementFound = true;
-                    break;
-                }
-            }
-            if (!$elementFound) {
-                break;
-            }
-        }
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            $newnode->appendChild($node);
-        }
-        return $this;
-    }
-
-    /**
-     * Wrap an HTML structure around the content of each element in the set of matched elements.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
-     */
-    public function wrapInner($content)
-    {
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            self::create($node->childNodes)->wrapAll($content);
-        }
-        return $this;
     }
 
     /**

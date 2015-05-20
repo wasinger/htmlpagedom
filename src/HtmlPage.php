@@ -317,7 +317,7 @@ class HtmlPage
      */
     public static function trimNewlines($string)
     {
-        return HtmlPageCrawler::trimNewlines($string);
+        return Helpers::trimNewlines($string);
     }
 
     public function __clone()
