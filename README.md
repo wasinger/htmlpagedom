@@ -64,6 +64,7 @@ the selected elements using the following jQuery-like manipulation functions:
 -   `prepend()`, `prependTo()`
 -   `remove()`
 -   `replaceAll()`, `replaceWith()`
+-   `text()`
 -   `unwrap()`
 -   `wrap()`, `wrapInner()`, `wrapAll()`
 

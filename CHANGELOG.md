@@ -1,5 +1,8 @@
-Master
-=================
+1.1
+===
+- `text()` function now returns combined text of all elements in set (as jQuery does; previously only the nodeValue of 
+  the first element was returned) and can act as a setter `text($string)` that sets the nodeValue of all elements to
+  the specified string
 
 - function `hasClass` now returns true if any of the elements in the Crawler has the specified class (previously,
   only the first element was checked). 
