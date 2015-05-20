@@ -189,6 +189,9 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
         $t->addClass('class1 class2');
         $this->assertTrue($t->hasClass('class1'));
         $this->assertTrue($t->hasClass('class2'));
+
+        $c1 = new HtmlPageCrawler('<p class="a"></p><p class="b"></p><p class="c"></p>');
+        $this->assertTrue($c1->hasClass('b'));
     }
 
     /**

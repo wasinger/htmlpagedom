@@ -210,6 +210,124 @@ class HtmlPageCrawler extends Crawler
         $this->add($newnodes);
     }
 
+    /**
+     * Get one CSS style property of the first element or set it for all elements in the list
+     *
+     * Function is here for compatibility with jQuery; it is the same as getStyle() and setStyle()
+     *
+     * @see HtmlPageCrawler::getStyle()
+     * @see HtmlPageCrawler::setStyle()
+     *
+     * @param string $key The name of the style property
+     * @param null|string $value The CSS value to set, or NULL to get the current value
+     * @return HtmlPageCrawler|string If no param is provided, returns the CSS styles of the first element
+     * @api
+     */
+    public function css($key, $value = null)
+    {
+        if (null === $value) {
+            return $this->getStyle($key);
+        } else {
+            return $this->setStyle($key, $value);
+        }
+    }
+
+    /**
+     * get one CSS style property of the first element
+     *
+     * @param string $key name of the property
+     * @return string|null value of the property
+     */
+    public function getStyle($key)
+    {
+        $styles = static::cssStringToArray($this->getAttribute('style'));
+        return (isset($styles[$key]) ? $styles[$key] : null);
+    }
+
+    /**
+     * set one CSS style property for all elements in the list
+     *
+     * @param string $key name of the property
+     * @param string $value value of the property
+     * @return HtmlPageCrawler $this for chaining
+     */
+    public function setStyle($key, $value)
+    {
+        foreach ($this as $node) {
+            if ($node instanceof \DOMElement) {
+                /** @var \DOMElement $node */
+                $styles = static::cssStringToArray($node->getAttribute('style'));
+                if ($value != '') {
+                    $styles[$key] = $value;
+                } elseif (isset($styles[$key])) {
+                    unset($styles[$key]);
+                }
+                $node->setAttribute('style', static::cssArrayToString($styles));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Removes all child nodes and text from all nodes in set
+     *
+     * Equivalent to jQuery's empty() function which is not a valid function name in PHP
+     * @return HtmlPageCrawler $this
+     * @api
+     */
+    public function makeEmpty()
+    {
+        foreach ($this as $node) {
+            $node->nodeValue = '';
+        }
+        return $this;
+    }
+
+    /**
+     * Determine whether any of the matched elements are assigned the given class.
+     *
+     * @param string $name
+     * @return bool
+     * @api
+     */
+    public function hasClass($name)
+    {
+        foreach ($this as $node) {
+            if ($node instanceof \DOMElement) {
+                $class = $node->getAttribute('class');
+                if ($class) {
+                    $classes = preg_split('/\s+/s', $class);
+                    if (in_array($name, $classes)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get or set the HTML contents
+     *
+     * Function is here for compatibility with jQuery: When called with a parameter, it is
+     * equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()
+     *
+     * @see HtmlPageCrawler::setInnerHtml()
+     * @see HtmlPageCrawler::getInnerHtml()
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|null $html The HTML content to set, or NULL to get the current content
+     *
+     * @return HtmlPageCrawler|string If no param is provided, returns the HTML content of the first element
+     */
+    public function html($html = null)
+    {
+        if (null === $html) {
+            return $this->getInnerHtml();
+        } else {
+            $this->setInnerHtml($html);
+            return $this;
+        }
+    }
 
     /**
      * Get the innerHTML contents of the first element
@@ -423,99 +541,6 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Get or set the HTML contents
-     *
-     * Function is here for compatibility with jQuery: When called with a parameter, it is
-     * equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()
-     *
-     * @see HtmlPageCrawler::setInnerHtml()
-     * @see HtmlPageCrawler::getInnerHtml()
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|null $html The HTML content to set, or NULL to get the current content
-     *
-     * @return HtmlPageCrawler|string If no param is provided, returns the HTML content of the first element
-     */
-    public function html($html = null)
-    {
-        if (null === $html) {
-            return $this->getInnerHtml();
-        } else {
-            $this->setInnerHtml($html);
-            return $this;
-        }
-    }
-
-    /**
-     * Get one CSS style property of the first element or set it for all elements in the list
-     *
-     * Function is here for compatibility with jQuery; it is the same as getStyle() and setStyle()
-     *
-     * @see HtmlPageCrawler::getStyle()
-     * @see HtmlPageCrawler::setStyle()
-     *
-     * @param string $key The name of the style property
-     * @param null|string $value The CSS value to set, or NULL to get the current value
-     * @return HtmlPageCrawler|string If no param is provided, returns the CSS styles of the first element
-     */
-    public function css($key, $value = null)
-    {
-        if (null === $value) {
-            return $this->getStyle($key);
-        } else {
-            return $this->setStyle($key, $value);
-        }
-    }
-
-    /**
-     * get one CSS style property of the first element
-     *
-     * @param string $key name of the property
-     * @return string|null value of the property
-     */
-    public function getStyle($key)
-    {
-        $styles = static::cssStringToArray($this->getAttribute('style'));
-        return (isset($styles[$key]) ? $styles[$key] : null);
-    }
-
-    /**
-     * set one CSS style property for all elements in the list
-     *
-     * @param string $key name of the property
-     * @param string $value value of the property
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function setStyle($key, $value)
-    {
-        foreach ($this as $node) {
-            if ($node instanceof \DOMElement) {
-                /** @var \DOMElement $node */
-                $styles = static::cssStringToArray($node->getAttribute('style'));
-                if ($value != '') {
-                    $styles[$key] = $value;
-                } elseif (isset($styles[$key])) {
-                    unset($styles[$key]);
-                }
-                $node->setAttribute('style', static::cssArrayToString($styles));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Check whether the first element has a certain class
-     *
-     * @param string $name
-     * @return bool
-     */
-    public function hasClass($name)
-    {
-        $class = $this->getAttribute('class');
-        $classes = preg_split('/\s+/s', $class);
-        return in_array($name, $classes);
-    }
-
-    /**
      * Remove a class from all elements in the list
      *
      * @param string $name
@@ -579,17 +604,6 @@ class HtmlPageCrawler extends Crawler
         return $styles;
     }
 
-    /**
-     * Removes all child nodes and text from all nodes in set
-     *
-     * Equivalent to jQuery's empty() function which is not a valid function name in PHP
-     */
-    public function makeEmpty()
-    {
-        foreach ($this as $node) {
-            $node->nodeValue = '';
-        }
-    }
 
     /**
      * Filters the list of nodes with a CSS selector.
