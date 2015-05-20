@@ -515,4 +515,19 @@ END;
         $this->assertFalse($p->isDisconnected());
     }
 
+    public function testClone()
+    {
+        $c = HtmlPageCrawler::create('<div><p class="x">asdf</p></div>');
+        $p = $c->filter('p');
+
+        $p1 = $p->makeClone();
+        $this->assertNotEquals(spl_object_hash($p), spl_object_hash($p1));
+        $this->assertTrue($p1->hasClass('x'));
+        $p1->removeClass('x');
+        $this->assertTrue($p->hasClass('x'));
+        $this->assertFalse($p1->hasClass('x'));
+        $p->after($p1);
+        $this->assertEquals('<div><p class="x">asdf</p><p class="">asdf</p></div>', $c->saveHTML());
+    }
+
 }

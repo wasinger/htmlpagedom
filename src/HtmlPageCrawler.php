@@ -65,6 +65,150 @@ class HtmlPageCrawler extends Crawler
         return $this;
     }
 
+    /**
+     * Insert content, specified by the parameter, after each element in the set of matched elements.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function after($content)
+    {
+        if (!$this->isDisconnected()) {
+            self::create($content)->insertAfter($this);
+        }
+        return $this;
+    }
+
+    /**
+     * Insert HTML content as child nodes of each element after existing children
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment or DOMNode to append
+     * @return HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function append($content)
+    {
+        self::create($content)->appendTo($this);
+        return $this;
+    }
+
+    /**
+     * Insert every element in the set of matched elements to the end of the target.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
+     * @api
+     */
+    public function appendTo($element)
+    {
+        $e = self::create($element);
+        $newnodes = array();
+        foreach ($e as $i => $node) {
+            /** @var \DOMNode $node */
+            foreach ($this as $newnode) {
+                /** @var \DOMNode $newnode */
+                static::importNewnode($newnode, $node, $i);
+                $node->appendChild($newnode);
+                $newnodes[] = $newnode;
+            }
+        }
+        return self::create($newnodes);
+    }
+
+    /**
+     * Returns the attribute value of the first node of the list, or sets an attribute on each element
+     *
+     * @see HtmlPageCrawler::getAttribute()
+     * @see HtmlPageCrawler::setAttribute
+     *
+     * @param string $name
+     * @param null|string $value
+     * @return null|string|HtmlPageCrawler
+     * @api
+     */
+    public function attr($name, $value = null)
+    {
+        if ($value === null) {
+            return $this->getAttribute($name);
+        } else {
+            return $this->setAttribute($name, $value);
+        }
+    }
+
+    /**
+     * Sets an attribute on each element
+     *
+     * @param string $name
+     * @param string $value
+     * @return HtmlPageCrawler $this for chaining
+     */
+    public function setAttribute($name, $value)
+    {
+        foreach ($this as $node) {
+            if ($node instanceof \DOMElement) {
+                /** @var \DOMElement $node */
+                $node->setAttribute($name, $value);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Returns the attribute value of the first node of the list.
+     *
+     * @param string $name The attribute name
+     * @return string|null The attribute value or null if the attribute does not exist
+     * @throws \InvalidArgumentException When current node is empty
+     *
+     */
+    public function getAttribute($name)
+    {
+        if (!count($this)) {
+            throw new \InvalidArgumentException('The current node list is empty.');
+        }
+        $node = $this->getNode(0);
+        return $node->hasAttribute($name) ? $node->getAttribute($name) : null;
+    }
+
+    /**
+     * Insert content, specified by the parameter, before each element in the set of matched elements.
+     *
+     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
+     * @return HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function before($content)
+    {
+        if (!$this->isDisconnected()) {
+            self::create($content)->insertBefore($this);
+        }
+        return $this;
+    }
+
+    /**
+     * Create a deep copy of the set of matched elements.
+     *
+     * Equivalent to clone() in jQuery (clone is not a valid PHP function name)
+     *
+     * @return HtmlPageCrawler
+     * @api
+     */
+    public function makeClone()
+    {
+        return clone $this;
+    }
+
+    public function __clone()
+    {
+        $newnodes = array();
+        foreach ($this as $node) {
+            /** @var \DOMNode $node */
+            $newnodes[] = $node->cloneNode(true);
+        }
+        $this->clear();
+        $this->add($newnodes);
+    }
 
 
     /**
@@ -191,61 +335,7 @@ class HtmlPageCrawler extends Crawler
         return $this;
     }
 
-    /**
-     * Sets an attribute on each element
-     *
-     * @param string $name
-     * @param string $value
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function setAttribute($name, $value)
-    {
-        foreach ($this as $node) {
-            if ($node instanceof \DOMElement) {
-                /** @var \DOMElement $node */
-                $node->setAttribute($name, $value);
-            }
-        }
-        return $this;
-    }
 
-    /**
-     * Returns the attribute value of the first node of the list.
-     *
-     * @param string $name The attribute name
-     * @return string|null The attribute value or null if the attribute does not exist
-     * @throws \InvalidArgumentException When current node is empty
-     *
-     */
-    public function getAttribute($name)
-    {
-        if (!count($this)) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-
-        $node = $this->getNode(0);
-
-        return $node->hasAttribute($name) ? $node->getAttribute($name) : null;
-    }
-
-    /**
-     * Returns the attribute value of the first node of the list, or sets an attribute on each element
-     *
-     * @see HtmlPageCrawler::getAttribute()
-     * @see HtmlPageCrawler::setAttribute
-     *
-     * @param string $name
-     * @param null $value
-     * @return null|string|HtmlPageCrawler
-     */
-    public function attr($name, $value = null)
-    {
-        if ($value === null) {
-            return $this->getAttribute($name);
-        } else {
-            return $this->setAttribute($name, $value);
-        }
-    }
 
     /**
      * Remove an attribute from each element in the set of matched elements.
@@ -280,19 +370,6 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Insert HTML content as child nodes of each element after existing children
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment or DOMNode to append
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function append($content)
-    {
-        self::create($content)->appendTo($this);
-        return $this;
-    }
-
-
-    /**
      * Insert HTML content as child nodes of each element before existing children
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
@@ -301,34 +378,6 @@ class HtmlPageCrawler extends Crawler
     public function prepend($content)
     {
         self::create($content)->prependTo($this);
-        return $this;
-    }
-
-    /**
-     * Insert content, specified by the parameter, before each element in the set of matched elements.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function before($content)
-    {
-        if (!$this->isDisconnected()) {
-            self::create($content)->insertBefore($this);
-        }
-        return $this;
-    }
-
-    /**
-     * Insert content, specified by the parameter, after each element in the set of matched elements.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
-     * @return HtmlPageCrawler $this for chaining
-     */
-    public function after($content)
-    {
-        if (!$this->isDisconnected()) {
-            self::create($content)->insertAfter($this);
-        }
         return $this;
     }
 
@@ -677,43 +726,6 @@ class HtmlPageCrawler extends Crawler
             throw new \InvalidArgumentException('The current node list is empty.');
         }
         return $this->getNode(0)->nodeName;
-    }
-
-    /**
-     * Insert every element in the set of matched elements to the end of the target.
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $element
-     * @return \Wa72\HtmlPageDom\HtmlPageCrawler A new Crawler object containing all elements appended to the target elements
-     */
-    public function appendTo($element)
-    {
-        $e = self::create($element);
-        $newnodes = array();
-        foreach ($e as $i => $node) {
-            /** @var \DOMNode $node */
-            foreach ($this as $newnode) {
-                /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
-                $node->appendChild($newnode);
-                $newnodes[] = $newnode;
-            }
-        }
-        return self::create($newnodes);
-    }
-
-    /**
-     * Create a deep copy of the set of matched elements.
-     *
-     */
-    public function __clone()
-    {
-        $newnodes = array();
-        foreach ($this as $node) {
-            /** @var \DOMNode $node */
-            $newnodes[] = $node->cloneNode(true);
-        }
-        $this->clear();
-        $this->add($newnodes);
     }
 
     /**
