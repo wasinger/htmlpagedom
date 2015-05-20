@@ -586,6 +586,32 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * Get the combined text contents of each element in the set of matched elements, including their descendants,
+     * or set the text contents of the matched elements.
+     *
+     * @param null|string $text
+     * @return string|HtmlPageCrawler
+     */
+    public function text($text = null)
+    {
+        if ($text === null) {
+            $text = '';
+            foreach ($this as $node) {
+                /** @var \DOMNode $node */
+                $text .= $node->nodeValue;
+            }
+            return $text;
+        } else {
+            foreach ($this as $node) {
+                /** @var \DOMNode $node */
+                $node->nodeValue = $text;
+            }
+            return $this;
+        }
+    }
+
+
+    /**
      * Add or remove one or more classes from each element in the set of matched elements, depending the class’s presence.
      *
      * @param string $classname One or more classnames separated by spaces

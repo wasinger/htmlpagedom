@@ -1,6 +1,15 @@
 Master
 =================
 
+- function `hasClass` now returns true if any of the elements in the Crawler has the specified class (previously,
+  only the first element was checked). 
+
+- new function `makeClone` as equivalent to jQuery's `clone` function ("clone" is not a valid function name in PHP).
+  As previously, you can alternatively use PHP's clone operator: `$r = $c->makeClone()` is the same as `$r = clone $c`,
+  but the new function allows chaining.
+
+- new function `removeAttr` aliasing `removeAttribute` for compatibility with jQuery
+
 - `appendTo`, `insertBefore`, `insertAfter`, and `replaceAll` now always return a new Crawler object containing
   the aggregate set of all elements appended to the target elements (this is the behavior of jQuery 1.9 and newer).
   

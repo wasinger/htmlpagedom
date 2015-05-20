@@ -533,4 +533,11 @@ END;
         $this->assertEquals('<div><p class="x">asdf</p><p class="">asdf</p></div>', $c->saveHTML());
     }
 
+    public function testText()
+    {
+        $c = HtmlPageCrawler::create('<p>abc</p><p>def</p>');
+        $this->assertEquals('abcdef', $c->text());
+        $c->text('jklo');
+        $this->assertEquals('jklojklo', $c->text());
+    }
 }

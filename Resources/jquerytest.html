@@ -8,9 +8,8 @@
 <body>
 <h1>Testing jquery object identities</h1>
 <p>This page contains javascript code to figure out in which cases jQuery returns references to existing objects
-and when it makes copies.
-</p>
-<p>test paragraph 2</p>
+and when it makes copies.</p>
+<p>test paragraph 2<span>555</span></p>
 <p>test paragraph 3</p>
 
 <script>
@@ -46,6 +45,12 @@ and when it makes copies.
 
         console.log('$ha: ' + $ha.uniqueId());
         console.log('$ha span 0: ' + $ha[0].uniqueId());
+
+        console.log($b.text());
+
+        $b.text('<span>444</span>');
+
+        console.log($b.text());
 
     });
 </script>

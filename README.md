@@ -53,25 +53,19 @@ Afterwards you can select nodes from the added DOM tree by calling `filter()` (e
 the selected elements using the following jQuery-like manipulation functions:
 
 -   `addClass()`, `hasClass()`, `removeClass()`, `toggleClass()`
--   `after()`
--   `append()`
--   `appendTo()`
--   `before()`
--   `css()` (same as `getStyle()` / `setStyle()`)
--   `html()` (same as `getInnerHtml()` / `setInnerHtml()`)
--   `attr()` (same as `getAttribute()` / `setAttribute()`), `removeAttribute()`
--   `insertAfter()`
--   `insertBefore()`
+-   `after()`, `before()`
+-   `append()`, `appendTo()`
+-   `makeClone()` (equivalent to `clone()` in jQuery)
+-   `css()` (alias `getStyle()` / `setStyle()`)
+-   `html()` (alias `getInnerHtml()` / `setInnerHtml()`)
+-   `attr()` (alias `getAttribute()` / `setAttribute()`), `removeAttr()`
+-   `insertAfter()`, `insertBefore()`
 -   `makeEmpty()` (equivalent to `empty()` in jQuery)
--   `prepend()`
--   `prependTo()`
+-   `prepend()`, `prependTo()`
 -   `remove()`
--   `replaceAll()`
--   `replaceWith()`
+-   `replaceAll()`, `replaceWith()`
 -   `unwrap()`
--   `wrap()`
--   `wrapInner()`
--   `wrapAll()`
+-   `wrap()`, `wrapInner()`, `wrapAll()`
 
 To get the modified DOM as HTML code use `html()` (returns innerHTML of the first node in your crawler object)
 or `saveHTML()` (returns combined "outer" HTML code of all elements in the list).
