@@ -293,13 +293,10 @@ class HtmlPageCrawler extends Crawler
     public function hasClass($name)
     {
         foreach ($this as $node) {
-            if ($node instanceof \DOMElement) {
-                $class = $node->getAttribute('class');
-                if ($class) {
-                    $classes = preg_split('/\s+/s', $class);
-                    if (in_array($name, $classes)) {
-                        return true;
-                    }
+            if ($node instanceof \DOMElement && $class = $node->getAttribute('class')) {
+                $classes = preg_split('/\s+/s', $class);
+                if (in_array($name, $classes)) {
+                    return true;
                 }
             }
         }
