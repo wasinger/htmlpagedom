@@ -263,9 +263,9 @@ class HtmlPage
      * @param string $filename If provided, output will be saved to this file, otherwise returned
      * @return string|void
      */
-    public function save($filename = null)
+    public function save($filename = '')
     {
-        if ($filename != null) {
+        if ($filename != '') {
             file_put_contents($filename, $this->__toString());
             return;
         } else {

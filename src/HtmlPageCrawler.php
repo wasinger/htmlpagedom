@@ -51,7 +51,8 @@ class HtmlPageCrawler extends Crawler
                 /** @var \DOMElement $node */
                 $classes = preg_split('/\s+/s', $node->getAttribute('class'));
                 $found = false;
-                for ($i = 0; $i < count($classes); $i++) {
+                $count = count($classes);
+                for ($i = 0; $i < $count; $i++) {
                     if ($classes[$i] == $name) {
                         $found = true;
                     }
@@ -527,7 +528,8 @@ class HtmlPageCrawler extends Crawler
             if ($node instanceof \DOMElement) {
                 /** @var \DOMElement $node */
                 $classes = preg_split('/\s+/s', $node->getAttribute('class'));
-                for ($i = 0; $i < count($classes); $i++) {
+                $count = count($classes);
+                for ($i = 0; $i < $count; $i++) {
                     if ($classes[$i] == $name) {
                         unset($classes[$i]);
                     }
