@@ -590,6 +590,7 @@ class HtmlPageCrawler extends Crawler
      *
      * @param null|string $text
      * @return string|HtmlPageCrawler
+     * @api
      */
     public function text($text = null)
     {
@@ -898,11 +899,26 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     * @param int $position
+     *
+     * overridden from Crawler because it is not public in Symfony 2.3
+     * TODO: throw away as soon as we don't need to support SF 2.3 any more
+     *
+     * @return \DOMElement|null
+     */
+    public function getNode($position)
+    {
+        return parent::getNode($position);
+    }
+
+    /**
      * Returns the node name of the first node of the list.
      *
      * in Crawler (parent), this function will be available starting with 2.6.0,
      * therefore this method be removed from here as soon as we don't need to keep compatibility
      * with Symfony < 2.6
+     *
+     * TODO: throw away as soon as we don't need to support SF 2.3 any more
      *
      * @return string The node name
      *
