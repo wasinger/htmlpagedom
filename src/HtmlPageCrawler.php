@@ -75,9 +75,24 @@ class HtmlPageCrawler extends Crawler
      */
     public function after($content)
     {
-        if (!$this->isDisconnected()) {
-            self::create($content)->insertAfter($this);
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            $refnode = $node->nextSibling;
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $newnode */
+                $newnode = static::importNewnode($newnode, $node, $i);
+                if ($refnode === null) {
+                    $node->parentNode->appendChild($newnode);
+                } else {
+                    $node->parentNode->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
         }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -90,7 +105,26 @@ class HtmlPageCrawler extends Crawler
      */
     public function append($content)
     {
-        self::create($content)->appendTo($this);
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $newnode */
+                $newnode = static::importNewnode($newnode, $node, $i);
+//                if ($newnode->ownerDocument !== $node->ownerDocument) {
+//                    $newnode = $node->ownerDocument->importNode($newnode, true);
+//                } else {
+//                    if ($i > 0) {
+//                        $newnode = $newnode->cloneNode(true);
+//                    }
+//                }
+                $node->appendChild($newnode);
+                $newnodes[] = $newnode;
+            }
+        }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -109,7 +143,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
+                $newnode = static::importNewnode($newnode, $node, $i);
                 $node->appendChild($newnode);
                 $newnodes[] = $newnode;
             }
@@ -181,9 +215,19 @@ class HtmlPageCrawler extends Crawler
      */
     public function before($content)
     {
-        if (!$this->isDisconnected()) {
-            self::create($content)->insertBefore($this);
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $newnode */
+                $newnode = static::importNewnode($newnode, $node, $i);
+                $node->parentNode->insertBefore($newnode, $node);
+                $newnodes[] = $newnode;
+            }
         }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -362,7 +406,7 @@ class HtmlPageCrawler extends Crawler
             foreach ($content as $newnode) {
                 /** @var \DOMNode $node */
                 /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node);
+                $newnode = static::importNewnode($newnode, $node);
                 $node->appendChild($newnode);
             }
         }
@@ -385,7 +429,7 @@ class HtmlPageCrawler extends Crawler
             $refnode = $node->nextSibling;
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
+                $newnode = static::importNewnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->parentNode->appendChild($newnode);
                 } else {
@@ -412,7 +456,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
+                $newnode = static::importNewnode($newnode, $node, $i);
                 $node->parentNode->insertBefore($newnode, $node);
                 $newnodes[] = $newnode;
             }
@@ -429,7 +473,24 @@ class HtmlPageCrawler extends Crawler
      */
     public function prepend($content)
     {
-        self::create($content)->prependTo($this);
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            $refnode = $node->firstChild;
+            /** @var \DOMNode $node */
+            foreach ($content as $newnode) {
+                /** @var \DOMNode $newnode */
+                $newnode = static::importNewnode($newnode, $node, $i);
+                if ($refnode === null) {
+                    $node->appendChild($newnode);
+                } else {
+                    $node->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
+        }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -449,7 +510,7 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             foreach ($this as $newnode) {
                 /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
+                $newnode = static::importNewnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->appendChild($newnode);
                 } else {
@@ -557,7 +618,7 @@ class HtmlPageCrawler extends Crawler
             $refnode  = $node->nextSibling;
             foreach ($this as $j => $newnode) {
                 /** @var \DOMNode $newnode */
-                static::importNewnode($newnode, $node, $i);
+                $newnode = static::importNewnode($newnode, $node, $i);
                 if ($j == 0) {
                     $parent->replaceChild($newnode, $node);
                 } else {
@@ -578,9 +639,25 @@ class HtmlPageCrawler extends Crawler
      */
     public function replaceWith($content)
     {
-        if (!$this->isDisconnected()) {
-            self::create($content)->replaceAll($this);
+        $content = self::create($content);
+        $newnodes = array();
+        foreach ($this as $i => $node) {
+            /** @var \DOMNode $node */
+            $parent = $node->parentNode;
+            $refnode  = $node->nextSibling;
+            foreach ($content as $j => $newnode) {
+                /** @var \DOMNode $newnode */
+                $newnode = static::importNewnode($newnode, $node, $i);
+                if ($j == 0) {
+                    $parent->replaceChild($newnode, $node);
+                } else {
+                    $parent->insertBefore($newnode, $refnode);
+                }
+                $newnodes[] = $newnode;
+            }
         }
+        $content->clear();
+        $content->add($newnodes);
         return $this;
     }
 
@@ -671,7 +748,14 @@ class HtmlPageCrawler extends Crawler
             /** @var \DOMNode $node */
             $newnode = $content->getNode(0);
             /** @var \DOMNode $newnode */
-            static::importNewnode($newnode, $node, $i);
+//            $newnode = static::importNewnode($newnode, $node, $i);
+            if ($newnode->ownerDocument !== $node->ownerDocument) {
+                $newnode = $node->ownerDocument->importNode($newnode, true);
+            } else {
+                if ($i > 0) {
+                    $newnode = $newnode->cloneNode(true);
+                }
+            }
             $oldnode = $node->parentNode->replaceChild($newnode, $node);
             while ($newnode->hasChildNodes()) {
                 $elementFound = false;
@@ -715,7 +799,7 @@ class HtmlPageCrawler extends Crawler
 
         $newnode = $content->getNode(0);
         /** @var \DOMNode $newnode */
-        static::importNewnode($newnode, $parent);
+        $newnode = static::importNewnode($newnode, $parent);
 
         $parent->appendChild($newnode);
         $content->clear();
@@ -955,7 +1039,13 @@ class HtmlPageCrawler extends Crawler
         }
     }
 
-    protected static function importNewnode(\DOMNode &$newnode, \DOMNode $referencenode, $clone = 0) {
+    /**
+     * @param \DOMNode $newnode
+     * @param \DOMNode $referencenode
+     * @param int $clone
+     * @return \DOMNode
+     */
+    protected static function importNewnode(\DOMNode $newnode, \DOMNode $referencenode, $clone = 0) {
         if ($newnode->ownerDocument !== $referencenode->ownerDocument) {
             $newnode = $referencenode->ownerDocument->importNode($newnode, true);
         } else {
@@ -963,6 +1053,7 @@ class HtmlPageCrawler extends Crawler
                 $newnode = $newnode->cloneNode(true);
             }
         }
+        return $newnode;
     }
 
     /**
