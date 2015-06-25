@@ -665,6 +665,13 @@ class HtmlPageCrawler extends Crawler
      * Get the combined text contents of each element in the set of matched elements, including their descendants,
      * or set the text contents of the matched elements.
      *
+     * ATTENTION: Contrary to the parent Crawler class, which returns the text from the first element only,
+     * this functions returns the combined text of all elements (as jQuery does). If this is not what you need you
+     * must call ->first() before calling ->text(), e.g.
+     *
+     * in Symfony\DOMCrawler\Crawler: $c->filter('p')->text() returns the text of the first paragraph only
+     * in HtmlPageCrawler you need to call: $c->filter('p')->first()->text()
+     *
      * @param null|string $text
      * @return string|HtmlPageCrawler
      * @api

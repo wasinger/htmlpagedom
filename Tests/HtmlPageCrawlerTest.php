@@ -535,6 +535,9 @@ END;
 
     public function testText()
     {
+        // ATTENTION: Contrary to the parent Crawler class, which returns the text from the first element only,
+        // this functions returns the combined text of all elements (as jQuery does)
+
         $c = HtmlPageCrawler::create('<p>abc</p><p>def</p>');
         $this->assertEquals('abcdef', $c->text());
         $c->text('jklo');
