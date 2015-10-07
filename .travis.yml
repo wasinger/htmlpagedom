@@ -25,6 +25,7 @@ after_script:
 matrix:
   allow_failures:
     - env: SYMFONY_VERSION=dev-master
+    - php: hhvm
   exclude:
     - env: SYMFONY_VERSION=dev-master
       php: 5.3
