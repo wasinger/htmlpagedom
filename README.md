@@ -16,14 +16,16 @@ also to modify HTML pages. It is usable as a template engine: load your HTML tem
 HTML content on certain elements such as the page title, `div#content` or `ul#menu` and print out
 the modified page.
 
-`Wa72\HtmlPageDom` consists of two classes:
+`Wa72\HtmlPageDom` consists of two main classes:
 
 -   `HtmlPageCrawler` extends `Symfony\Components\DomCrawler` by adding jQuery inspired, HTML specific 
-    DOM *manipulation* functions such as `html()`, `before()`, `append()`, `wrap()`, `addClass()` or `css()`.
-    It's like jQuery for PHP: simply select elements of an HTML page using CSS selectors and change their attributes and content.
+    DOM *manipulation* functions such as `html($htmltext)`, `before()`, `append()`, `wrap()`, `addClass()` or `css()`.
+    It's like jQuery for PHP: simply select elements of an HTML page using CSS selectors and change their 
+    attributes and content.
 
--   `HtmlPage` represents one complete HTML document and offers convenience functions like `setTitle($title)`,
-    `setMeta('description', $description)`, `getBody()`. It uses `HtmlPageCrawler` for filtering and manipulation DOM Elements.
+-   `HtmlPage` represents one complete HTML document and offers convenience functions like `getTitle()`, `setTitle($title)`,
+    `setMeta('description', $description)`, `getBody()`. Internally, it uses the `HtmlPageCrawler` class for 
+    filtering and manipulating DOM Elements.
  
 
 Requirements
@@ -46,8 +48,8 @@ Usage
 -----
 
 `HtmlPageCrawler` is a wrapper around DOMNodes. `HtmlPageCrawler` objects can be created using `new` or the static function
-`HtmlPageCrawler::create()`, which accepts an HTML string or a DOMNode (or an array of DOMNodes or a DOMNodeList)
-as arguments.
+`HtmlPageCrawler::create()`, which accepts an HTML string or a DOMNode (or an array of DOMNodes, a DOMNodeList, or even
+another `Crawler` object) as arguments.
 
 Afterwards you can select nodes from the added DOM tree by calling `filter()` (equivalent to find() in jQuery) and alter
 the selected elements using the following jQuery-like manipulation functions:
@@ -189,9 +191,9 @@ on HTML5 specific elements which are ignored by HtmlPageDom, so HtmlPageDom is u
 - According to failing Travis-CI tests, it does not work with HHVM (fixes welcome)
 
     - **Update 2015-05-21**: [Travis CI test with HipHop VM 3.5.0] (https://travis-ci.org/wasinger/htmlpagedom/jobs/63323545)
-    now passes
+    now passes, so HHVM is now supported!
 
-    - **Update 2015-05-21**: [Travis CI test with HipHop VM 3.6.6] (https://travis-ci.org/wasinger/htmlpagedom/jobs/84101460)
+    - **Update 2015-10-07**: [Travis CI test with HipHop VM 3.6.6] (https://travis-ci.org/wasinger/htmlpagedom/jobs/84101460)
     fails again, I don't know why, and since I personally don't use hhvm I won't fix it. So "official" support for
     hhvm is removed again. Fixes still welcome.
 
