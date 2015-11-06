@@ -2,6 +2,7 @@
 namespace Wa72\HtmlPageDom;
 
 use Symfony\Component\CssSelector\CssSelector;
+use Wa72\HtmlPrettymin\PrettyMin;
 
 /**
  * This class represents a complete HTML document.
@@ -323,5 +324,35 @@ class HtmlPage
     {
         $this->dom = $this->dom->cloneNode(true);
         $this->crawler = new HtmlPageCrawler($this->dom);
+    }
+
+    /**
+     * minify the HTML document
+     *
+     * @param array $options Options passed to PrettyMin::__construct()
+     * @throws \Exception
+     */
+    public function minify(array $options = array())
+    {
+        if (!class_exists('Wa72\\HtmlPrettymin\\PrettyMin')) {
+            throw new \Exception('Function minify needs composer package wa72/html-pretty-min');
+        }
+        $pm = new PrettyMin($options);
+        $pm->load($this->dom)->minify();
+    }
+
+    /**
+     * indent the HTML document
+     *
+     * @param array $options Options passed to PrettyMin::__construct()
+     * @throws \Exception
+     */
+    public function indent(array $options = array())
+    {
+        if (!class_exists('Wa72\\HtmlPrettymin\\PrettyMin')) {
+            throw new \Exception('Function indent needs composer package wa72/html-pretty-min');
+        }
+        $pm = new PrettyMin($options);
+        $pm->load($this->dom)->indent();
     }
 }

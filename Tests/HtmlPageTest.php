@@ -93,4 +93,40 @@ END;
         $this->assertEquals($expected, $newhtml);
 
     }
+
+    public function testMinify()
+    {
+        $html =<<<END
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script>
+// this will be awesome
+alert('Hello world');
+</script>
+</head>
+<body>
+    <h1>TEST</h1>
+    <p class="">
+    asdf jksdlf ajsfk
+    <b>jasdf
+    jaksfd asdf</b>
+    <a>jasdf jaks</a>
+    </p>
+</body>
+</html>
+
+END;
+        $hp = new HtmlPage($html);
+        $hp->minify();
+
+        $expected = <<<END
+<!DOCTYPE html>
+<html><head><title></title><script>alert('Hello world');</script></head><body><h1>TEST</h1><p>asdf jksdlf ajsfk <b>jasdf jaksfd asdf</b> <a>jasdf jaks</a></p></body></html>
+
+END;
+        $this->assertEquals($expected, $hp->save());
+
+    }
 }
