@@ -330,6 +330,7 @@ class HtmlPage
      * minify the HTML document
      *
      * @param array $options Options passed to PrettyMin::__construct()
+     * @return HtmlPage
      * @throws \Exception
      */
     public function minify(array $options = array())
@@ -339,12 +340,14 @@ class HtmlPage
         }
         $pm = new PrettyMin($options);
         $pm->load($this->dom)->minify();
+        return $this;
     }
 
     /**
      * indent the HTML document
      *
      * @param array $options Options passed to PrettyMin::__construct()
+     * @return HtmlPage
      * @throws \Exception
      */
     public function indent(array $options = array())
@@ -354,5 +357,6 @@ class HtmlPage
         }
         $pm = new PrettyMin($options);
         $pm->load($this->dom)->indent();
+        return $this;
     }
 }

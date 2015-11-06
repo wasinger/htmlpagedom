@@ -25,20 +25,21 @@ the modified page.
 
 -   `HtmlPage` represents one complete HTML document and offers convenience functions like `getTitle()`, `setTitle($title)`,
     `setMeta('description', $description)`, `getBody()`. Internally, it uses the `HtmlPageCrawler` class for 
-    filtering and manipulating DOM Elements.
+    filtering and manipulating DOM Elements. Since version 1.2, it offers methods for compressing (`minify()`) and
+    prettyprinting (`indent()`) the HTML page.
  
 
 Requirements
 ------------
 
--   PHP 5.3+
+-   PHP 5.4+
 -   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler)
 -   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector)
 
 Installation
 ------------
 
--   using [composer] (http://getcomposer.org): `require "wa72/htmlpagedom":"~1.1"`
+-   using [composer] (http://getcomposer.org): `composer require wa72/htmlpagedom`
 
 -   using other [PSR-4] (http://www.php-fig.org/psr/psr-4/) compliant autoloader:
     clone this project to where your included libraries are and point your autoloader to look for the 
@@ -175,6 +176,12 @@ echo $page->filter('#content')->saveHTML();
 echo $page->save();
 // or simply:
 echo $page;
+
+// output formatted HTML code
+echo $page->indent()->save();
+
+// output compressed (minified) HTML code
+echo $page->minify()->save();
 ```
 
 Limitations

@@ -14,8 +14,8 @@
     ],
     "require":{
         "php":">=5.4.0",
-        "symfony/dom-crawler":">=2.3,<2.8",
-        "symfony/css-selector":">=2.3,<2.8"
+        "symfony/dom-crawler":">=2.6,<2.8",
+        "symfony/css-selector":">=2.6,<2.8"
     },
     "require-dev": {
         "wa72/html-pretty-min": "^0.1.1"
