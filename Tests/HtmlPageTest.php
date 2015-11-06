@@ -8,7 +8,7 @@ class HtmlPageTest extends \PHPUnit_Framework_TestCase
     public function testHtmlPage()
     {
         $hp = new HtmlPage;
-        $this->assertEquals("<!DOCTYPE html>\n<html>\n<head><title></title></head>\n<body></body>\n</html>\n", $hp->__toString());
+        $this->assertEquals("<!DOCTYPE html>\n<html><head><title></title></head><body></body></html>\n", $hp->__toString());
 
         $title = 'Erste Testseite';
         $hp->setTitle($title);
@@ -45,7 +45,7 @@ class HtmlPageTest extends \PHPUnit_Framework_TestCase
     public function testClone()
     {
         $hp = new HtmlPage;
-        $this->assertEquals("<!DOCTYPE html>\n<html>\n<head><title></title></head>\n<body></body>\n</html>\n", $hp->__toString());
+        $this->assertEquals("<!DOCTYPE html>\n<html><head><title></title></head><body></body></html>\n", $hp->__toString());
 
         $title = 'Erste Testseite';
         $hp->setTitle($title);
@@ -83,18 +83,11 @@ END;
 
         $expected =<<<END
 <!DOCTYPE html>
-<html>
-<head>
-<title></title>
-<script>
+<html><head><title></title><script>
 // this will be awesome
 alert('Hello world');
-</script>
-</head>
-<body>
-<h1>Script Test</h1>
-</body>
-</html>
+</script></head><body>
+<h1>Script Test</h1></body></html>
 
 END;
         $this->assertEquals($expected, $newhtml);

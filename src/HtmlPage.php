@@ -57,7 +57,6 @@ class HtmlPage
         }
 
         @$this->dom->loadHTML($content);
-        $this->dom->formatOutput = true;
 
         libxml_use_internal_errors($current);
         libxml_disable_entity_loader($disableEntities);
@@ -323,7 +322,6 @@ class HtmlPage
     public function __clone()
     {
         $this->dom = $this->dom->cloneNode(true);
-        $this->dom->formatOutput = true;
         $this->crawler = new HtmlPageCrawler($this->dom);
     }
 }
