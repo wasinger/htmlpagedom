@@ -8,7 +8,7 @@ php:
 #  - hhvm
 
 env:
-  - SYMFONY_VERSION=2.6.*
+  - SYMFONY_VERSION=2.3.*
   - SYMFONY_VERSION=2.7.*
 #  - SYMFONY_VERSION=dev-master
 
@@ -21,4 +21,18 @@ script: phpunit --coverage-clover=coverage.clover
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+matrix:
+#  allow_failures:
+#    - env: SYMFONY_VERSION=dev-master
+#    - php: hhvm
+  exclude:
+#    - env: SYMFONY_VERSION=dev-master
+#      php: 5.3
+#    - env: SYMFONY_VERSION=dev-master
+#      php: 5.4
+    - env: SYMFONY_VERSION=2.3.*
+      php: 5.6
+    - env: SYMFONY_VERSION=2.3.*
+      php: 7.0
 

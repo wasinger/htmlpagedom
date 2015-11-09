@@ -6,8 +6,6 @@
 - new methods `HtmlPage::minify()` and `HtmlPage::indent()` for compressing or nicely indenting the HTML document. These
   functions rely on the package `wa72/html-pretty-min` that is *suggested* in composer.json.
   
-- minimum required version of Symfony components is now 2.6
-  
 - sadly, HtmlPageDom is not compatible to the upcoming Symfony versions 2.8 and 3.0. Making it compatible requires
   major refactoring. I will do it as soon I have some time for it.
 
