@@ -195,15 +195,6 @@ on HTML5 specific elements which are ignored by HtmlPageDom, so HtmlPageDom is u
 
 - HtmlPageDom has not been tested with character encodings other than UTF-8.
 
-- According to failing Travis-CI tests, it does not work with HHVM (fixes welcome)
-
-    - **Update 2015-05-21**: [Travis CI test with HipHop VM 3.5.0] (https://travis-ci.org/wasinger/htmlpagedom/jobs/63323545)
-    now passes, so HHVM is now supported!
-
-    - **Update 2015-10-07**: [Travis CI test with HipHop VM 3.6.6] (https://travis-ci.org/wasinger/htmlpagedom/jobs/84101460)
-    fails again, I don't know why, and since I personally don't use hhvm I won't fix it. So "official" support for
-    hhvm is removed again. Fixes still welcome.
-
 
 History
 -------
