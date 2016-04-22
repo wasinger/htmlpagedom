@@ -808,7 +808,7 @@ class HtmlPageCrawler extends Crawler
         /** @var \DOMNode $newnode */
         $newnode = static::importNewnode($newnode, $parent);
 
-        $parent->appendChild($newnode);
+        $newnode = $parent->insertBefore($newnode,$this->getNode(0));
         $content->clear();
         $content->add($newnode);
 
