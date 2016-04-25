@@ -727,14 +727,38 @@ class HtmlPageCrawler extends Crawler
      */
     public function unwrap()
     {
-        foreach ($this as $i => $node) {
-            /** @var \DOMNode $node */
-            if ($parent = $node->parentNode) {
-                $parent->parentNode->replaceChild($node, $parent);
-            }
+        $parents = array();
+        foreach($this as $i => $node) {
+            $parents[] = $node->parentNode;
         }
+
+        self::create($parents)->unwrapInner();
         return $this;
     }
+
+    /**
+     * Remove the matched elements, but promote the children to take their place.
+     *
+     * @return \Wa72\HtmlPageDom\HtmlPageCrawler $this for chaining
+     * @api
+     */
+    public function unwrapInner()
+    {
+        foreach($this as $i => $node) {
+            if (!$node->parentNode instanceof \DOMElement) {
+                throw new InvalidArgumentException('DOMElement does not have a parent DOMElement node.');
+            }
+
+            /** @var DOMNode[] $children */
+            $children = iterator_to_array($node->childNodes);
+            foreach ($children as $child) {
+                $node->parentNode->insertBefore($child, $node);
+            }
+
+            $node->parentNode->removeChild($node);
+        }
+    }
+
 
     /**
      * Wrap an HTML structure around each element in the set of matched elements

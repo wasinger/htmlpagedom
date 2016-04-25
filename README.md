@@ -69,6 +69,7 @@ the selected elements using the following jQuery-like manipulation functions:
 -   `replaceAll()`, `replaceWith()`
 -   `text()`
 -   `unwrap()`
+-   `unwrapInner()`
 -   `wrap()`, `wrapInner()`, `wrapAll()`
 
 To get the modified DOM as HTML code use `html()` (returns innerHTML of the first node in your crawler object)
