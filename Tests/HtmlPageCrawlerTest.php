@@ -321,9 +321,9 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrapAll()
     {
-        $c = HtmlPageCrawler::create('<div id="content"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div>');
+        $c = HtmlPageCrawler::create('<div id="content"><div>Before</div><p>Absatz 1</p><div>Inner</div><p>Absatz 2</p><p>Absatz 3</p><div>After</div></div>');
         $c->filter('p')->wrapAll('<div class="a">');
-        $this->assertEquals('<div id="content"><div class="a"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div></div>', $c->saveHTML());
+        $this->assertEquals('<div id="content"><div>Before</div><div class="a"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div><div>Inner</div><div>After</div></div>', $c->saveHTML());
 
         // Test for wrapping with elements that have children
         $c = HtmlPageCrawler::create('<div id="content"><p>Absatz 1</p><p>Absatz 2</p><p>Absatz 3</p></div>');
@@ -346,10 +346,21 @@ class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnwrap()
     {
-        $c = HtmlPageCrawler::create('<div id="content"><div class="a"><p>Absatz 1</p></div></div>');
+        $c = HtmlPageCrawler::create('<div id="content"><div>Before</div><div class="a"><p>Absatz 1</p></div><div>After</div></div>');
         $p = $c->filter('p');
         $p->unwrap();
-        $this->assertEquals('<div id="content"><p>Absatz 1</p></div>', $c->saveHTML());
+        $this->assertEquals('<div id="content"><div>Before</div><p>Absatz 1</p><div>After</div></div>', $c->saveHTML());
+    }
+
+    /**
+     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::unwrapInner
+     */
+    public function testUnwrapInner()
+    {
+        $c = HtmlPageCrawler::create('<div id="content"><div>Before</div><div class="a"><p>Absatz 1</p></div><div>After</div></div>');
+        $p = $c->filter('div.a');
+        $p->unwrapInner();
+        $this->assertEquals('<div id="content"><div>Before</div><p>Absatz 1</p><div>After</div></div>', $c->saveHTML());
     }
 
     /**
