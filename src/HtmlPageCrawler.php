@@ -746,10 +746,10 @@ class HtmlPageCrawler extends Crawler
     {
         foreach($this as $i => $node) {
             if (!$node->parentNode instanceof \DOMElement) {
-                throw new InvalidArgumentException('DOMElement does not have a parent DOMElement node.');
+                throw new \InvalidArgumentException('DOMElement does not have a parent DOMElement node.');
             }
 
-            /** @var DOMNode[] $children */
+            /** @var \DOMNode[] $children */
             $children = iterator_to_array($node->childNodes);
             foreach ($children as $child) {
                 $node->parentNode->insertBefore($child, $node);
