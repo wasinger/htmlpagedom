@@ -1,5 +1,11 @@
-1.2
+Master
 ======
+
+- new method `unwrapInner` (thanks to @ttk)
+
+
+1.2
+===
 
 2015-11-06
 
