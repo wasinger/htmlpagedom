@@ -68,9 +68,7 @@ the selected elements using the following jQuery-like manipulation functions:
 -   `remove()`
 -   `replaceAll()`, `replaceWith()`
 -   `text()`
--   `unwrap()`
--   `unwrapInner()`
--   `wrap()`, `wrapInner()`, `wrapAll()`
+-   `wrap()`, `unwrap()`, `wrapInner()`, `unwrapInner()`, `wrapAll()`
 
 To get the modified DOM as HTML code use `html()` (returns innerHTML of the first node in your crawler object)
 or `saveHTML()` (returns combined "outer" HTML code of all elements in the list).
@@ -220,5 +218,5 @@ about 5 minutes. After switching to HtmlPageDom the same script doing the same p
 one second (all on the same server). HtmlPageDom is really fast.
 
 
-© 2015 Christoph Singer, Web-Agentur 72. Licensed under the MIT License.
+© 2016 Christoph Singer, Web-Agentur 72. Licensed under the MIT License.
 
