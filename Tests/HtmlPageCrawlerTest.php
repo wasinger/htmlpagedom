@@ -554,4 +554,20 @@ END;
         $c->text('jklo');
         $this->assertEquals('jklojklo', $c->text());
     }
+
+    public function testMagic_get()
+    {
+        // $crawler->length should give us the number of nodes in the crawler
+        $c = HtmlPageCrawler::create('<p>abc</p><p>def</p>');
+        $this->assertEquals(2, $c->length);
+
+        // not existing property throws exception
+        try {
+            $c->foo;
+        } catch (\Exception $e) {
+            $this->assertEquals('No such property foo', $e->getMessage());
+            return;
+        }
+        $this->fail();
+    }
 }

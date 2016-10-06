@@ -1,7 +1,10 @@
 Master
 ======
 
-- new method `unwrapInner` (thanks to @ttk)
+- new method `unwrapInner` (thanks to [@ttk](https://github.com/ttk))
+
+- it's now possible to get the number of nodes in the crawler using the
+  `$crawler->length` property like in Javascript instead of `count($crawler)`
 
 
 1.2
