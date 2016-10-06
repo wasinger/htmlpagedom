@@ -555,7 +555,7 @@ END;
         $this->assertEquals('jklojklo', $c->text());
     }
 
-    public function testMagic_get()
+    public function testMagicGet()
     {
         // $crawler->length should give us the number of nodes in the crawler
         $c = HtmlPageCrawler::create('<p>abc</p><p>def</p>');

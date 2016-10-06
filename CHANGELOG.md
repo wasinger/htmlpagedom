@@ -1,5 +1,7 @@
-Master
-======
+1.3
+===
+
+2016-10-06
 
 - new method `unwrapInner` (thanks to [@ttk](https://github.com/ttk))
 

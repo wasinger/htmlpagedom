@@ -1098,8 +1098,9 @@ class HtmlPageCrawler extends Crawler
         return ($parent == null || $parent->tagName == self::FRAGMENT_ROOT_TAGNAME);
     }
 
-    public function __get($name) {
-        switch($name) {
+    public function __get($name)
+    {
+        switch ($name) {
             case 'count':
             case 'length':
                 return count($this);
