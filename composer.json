@@ -23,11 +23,6 @@
     "suggest": {
         "wa72/html-pretty-min": "Minify or indent HTML documents"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.3.x-dev"
-        }
-    },
     "autoload":{
         "psr-4":{
             "Wa72\\HtmlPageDom\\":"src/"
