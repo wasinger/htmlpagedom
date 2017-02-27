@@ -380,17 +380,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function getInnerHtml()
     {
-        $node = $this->getNode(0);
-        if ($node instanceof \DOMNode) {
-            $doc = new \DOMDocument('1.0', 'UTF-8');
-            $doc->loadHTML('<meta http-equiv="Content-Type" content="text/html;charset=utf-8">');
-            $doc->appendChild($doc->importNode($node, true));
-            $html = trim($doc->saveHTML());
-            $tag = $node->nodeName;
-            return preg_replace('@^.*<' . $tag . '[^>]*>|</' . $tag . '>$@s', '', $html);
-        } else {
-            return '';
-        }
+        return parent::html();
     }
 
     /**
@@ -884,19 +874,11 @@ class HtmlPageCrawler extends Crawler
      */
     public function saveHTML()
     {
-        /*  don't see any reason we should handle the complete HTML document seperately. */
-        // if ($this->isHtmlDocument()) {
-            // return $this->getDOMDocument()->saveHTML();
-        // } else {
-            $doc = new \DOMDocument('1.0', 'UTF-8');
-            $doc->loadHTML('<meta http-equiv="Content-Type" content="text/html;charset=utf-8">');
-            $root = $doc->appendChild($doc->createElement(self::FRAGMENT_ROOT_TAGNAME));
-            foreach ($this as $node) {
-                $root->appendChild($doc->importNode($node, true));
-            }
-            $html = trim($doc->saveHTML());
-            return preg_replace('@^.*<'.self::FRAGMENT_ROOT_TAGNAME.'[^>]*>|</'.self::FRAGMENT_ROOT_TAGNAME.'>$@s', '', $html);
-        // }
+        $html = '';
+        foreach ($this as $node) {
+            $html .= $node->ownerDocument->saveHTML($node);
+        }
+        return $html;
     }
 
     public function __toString()
