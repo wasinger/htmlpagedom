@@ -887,7 +887,7 @@ class HtmlPageCrawler extends Crawler
             return $this->getDOMDocument()->saveHTML();
         } else {
             $doc = new \DOMDocument('1.0', 'UTF-8');
-            $root = $doc->appendChild($doc->createElement('_root'));
+            $root = $doc->appendChild($doc->createElement(self::FRAGMENT_ROOT_TAGNAME));
             foreach ($this as $node) {
                 $root->appendChild($doc->importNode($node, true));
             }
