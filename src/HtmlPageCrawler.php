@@ -879,7 +879,7 @@ class HtmlPageCrawler extends Crawler
         $documentHtml = $this->getDOMDocument()->saveHTML();
         $html .= preg_match("/<!DOCTYPE.*?>/is", $documentHtml, $match) ? $match[0]."\n" : '';
         foreach ($this as $node) {
-            $html .= $this->getDOMDocument()->saveHTML($node);
+            $html .= trim($this->getDOMDocument()->saveHTML($node));
         }
         return $html;
     }
