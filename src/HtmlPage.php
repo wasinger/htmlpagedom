@@ -50,6 +50,7 @@ class HtmlPage
         $disableEntities = libxml_disable_entity_loader(true);
 
         $this->dom = new \DOMDocument('1.0', $charset);
+        $this->dom->loadHTML('<meta http-equiv="Content-Type" content="text/html;charset='.$charset.'">');
         $this->dom->validateOnParse = true;
 
 
@@ -265,11 +266,15 @@ class HtmlPage
      */
     public function save($filename = '')
     {
+        $html = $this->__toString();
+		if (function_exists('mb_convert_encoding') && in_array(strtolower($this->charset), array_map('strtolower', mb_list_encodings()))) {
+            $html = mb_convert_encoding($html, $this->charset, 'HTML-ENTITIES');
+        }
         if ($filename != '') {
-            file_put_contents($filename, $this->__toString());
+            file_put_contents($filename, $html);
             return;
         } else {
-            return $this->__toString();
+            return $html;
         }
     }
 
