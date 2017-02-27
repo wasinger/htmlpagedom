@@ -383,7 +383,7 @@ class HtmlPageCrawler extends Crawler
         $node = $this->getNode(0);
         if ($node instanceof \DOMNode) {
             $doc = new \DOMDocument('1.0', 'UTF-8');
-			$doc->loadHTML('<meta http-equiv="Content-Type" content="text/html;charset=utf-8">');
+            $doc->loadHTML('<meta http-equiv="Content-Type" content="text/html;charset=utf-8">');
             $doc->appendChild($doc->importNode($node, true));
             $html = trim($doc->saveHTML());
             $tag = $node->nodeName;
@@ -884,12 +884,12 @@ class HtmlPageCrawler extends Crawler
      */
     public function saveHTML()
     {
-		/*  don't see any reason we should handle the complete HTML document seperately. */
-		// if ($this->isHtmlDocument()) {
+        /*  don't see any reason we should handle the complete HTML document seperately. */
+        // if ($this->isHtmlDocument()) {
             // return $this->getDOMDocument()->saveHTML();
         // } else {
             $doc = new \DOMDocument('1.0', 'UTF-8');
-			$doc->loadHTML('<meta http-equiv="Content-Type" content="text/html;charset=utf-8">');
+            $doc->loadHTML('<meta http-equiv="Content-Type" content="text/html;charset=utf-8">');
             $root = $doc->appendChild($doc->createElement(self::FRAGMENT_ROOT_TAGNAME));
             foreach ($this as $node) {
                 $root->appendChild($doc->importNode($node, true));
