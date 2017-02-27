@@ -255,7 +255,11 @@ class HtmlPage
 
     public function __toString()
     {
-        return $this->dom->saveHTML();
+        $html = $this->dom->saveHTML();
+        if (function_exists('mb_convert_encoding') && in_array(strtolower($this->charset), array_map('strtolower', mb_list_encodings()))) {
+            $html = mb_convert_encoding($html, $this->charset, 'HTML-ENTITIES');
+        }
+        return $html;
     }
 
     /**
@@ -266,15 +270,11 @@ class HtmlPage
      */
     public function save($filename = '')
     {
-        $html = $this->__toString();
-		if (function_exists('mb_convert_encoding') && in_array(strtolower($this->charset), array_map('strtolower', mb_list_encodings()))) {
-            $html = mb_convert_encoding($html, $this->charset, 'HTML-ENTITIES');
-        }
         if ($filename != '') {
-            file_put_contents($filename, $html);
+            file_put_contents($filename, $this->__toString());
             return;
         } else {
-            return $html;
+            return $this->__toString();
         }
     }
 
