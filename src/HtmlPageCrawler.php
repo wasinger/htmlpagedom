@@ -1,5 +1,4 @@
 <?php
-
 namespace Wa72\HtmlPageDom;
 
 use Symfony\Component\DomCrawler\Crawler;
@@ -381,7 +380,11 @@ class HtmlPageCrawler extends Crawler
      */
     public function getInnerHtml()
     {
-        return parent::html();
+        $html = '';
+        foreach ($this->getNode(0)->childNodes as $node) {
+            $html .= trim($node->ownerDocument->saveHTML($node));
+        }
+        echo $html;
     }
 
     /**
