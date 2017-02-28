@@ -382,7 +382,7 @@ class HtmlPageCrawler extends Crawler
     {
         $html = '';
         foreach ($this->getNode(0)->childNodes as $node) {
-            $html .= trim($node->ownerDocument->saveHTML($node));
+            $html .= rtrim($node->ownerDocument->saveHTML($node), "\n");
         }
         return $html;
     }
@@ -885,7 +885,7 @@ class HtmlPageCrawler extends Crawler
             $html .= preg_match("/<!DOCTYPE.*?>/is", $documentHtml, $match) ? $match[0]."\n" : '';
         }
         foreach ($this as $node) {
-            $html .= trim($node->ownerDocument->saveHTML($node));
+            $html .= rtrim($node->ownerDocument->saveHTML($node), "\n");
         }
         return $html;
     }
