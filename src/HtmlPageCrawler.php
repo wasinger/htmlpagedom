@@ -384,7 +384,7 @@ class HtmlPageCrawler extends Crawler
         foreach ($this->getNode(0)->childNodes as $node) {
             $html .= trim($node->ownerDocument->saveHTML($node));
         }
-        echo $html;
+        return $html;
     }
 
     /**
