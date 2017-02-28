@@ -1,4 +1,5 @@
 <?php
+
 namespace Wa72\HtmlPageDom;
 
 use Symfony\Component\DomCrawler\Crawler;
@@ -881,7 +882,7 @@ class HtmlPageCrawler extends Crawler
             $html .= preg_match("/<!DOCTYPE.*?>/is", $documentHtml, $match) ? $match[0]."\n" : '';
         }
         foreach ($this as $node) {
-            $html .= trim($this->getDOMDocument()->saveHTML($node));
+            $html .= trim($node->ownerDocument->saveHTML($node));
         }
         return $html;
     }
