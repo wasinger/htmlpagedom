@@ -866,8 +866,8 @@ class HtmlPageCrawler extends Crawler
     /**
      * Get the HTML code fragment of all elements and their contents.
      *
-     * If the first node contains a complete HTML document return only
-     * the full code of this document.
+     * If the first node contains a complete HTML document return the
+     * DocType if exists
      *
      * @return string HTML code (fragment)
      * @api
@@ -918,7 +918,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function getDOMDocument()
     {
-        $node = $this->getNode(0);
+        $node = $this->getNode(0); 
         $r = null;
         if ($node instanceof \DOMElement
             && $node->ownerDocument instanceof \DOMDocument
