@@ -1021,6 +1021,20 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
+     *
+     * get all nodes in Crawler in Array format, so that we can use 
+     * foreach to loop through the elements
+     *
+     * @return Array HtmlPageCrawler
+     */
+    public function getNodes()
+    {
+        return $this->each(function($node) {
+            return $node;
+        });
+    }
+    
+    /**
      * Returns the node name of the first node of the list.
      *
      * in Crawler (parent), this function will be available starting with 2.6.0,
@@ -1091,7 +1105,7 @@ class HtmlPageCrawler extends Crawler
         $parent = $this->getNode(0)->parentNode;
         return ($parent == null || $parent->tagName == self::FRAGMENT_ROOT_TAGNAME);
     }
-
+    
     public function __get($name)
     {
         switch ($name) {
