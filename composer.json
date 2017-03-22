@@ -18,7 +18,8 @@
         "symfony/css-selector":">=2.3"
     },
     "require-dev": {
-        "wa72/html-pretty-min": "^0.1.2"
+        "wa72/html-pretty-min": "^0.1.2",
+        "phpunit/phpunit": "^6.0"
     },
     "suggest": {
         "wa72/html-pretty-min": "Minify or indent HTML documents"

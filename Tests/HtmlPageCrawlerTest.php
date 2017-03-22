@@ -3,7 +3,7 @@ namespace Wa72\HtmlPageDom\Tests;
 
 use Wa72\HtmlPageDom\HtmlPageCrawler;
 
-class HtmlPageCrawlerTest extends \PHPUnit_Framework_TestCase
+class HtmlPageCrawlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::__construct
