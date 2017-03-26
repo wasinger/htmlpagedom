@@ -380,16 +380,11 @@ class HtmlPageCrawler extends Crawler
      */
     public function getInnerHtml()
     {
-        $node = $this->getNode(0);
-        if ($node instanceof \DOMNode) {
-            $doc = new \DOMDocument('1.0', 'UTF-8');
-            $doc->appendChild($doc->importNode($node, true));
-            $html = trim($doc->saveHTML());
-            $tag = $node->nodeName;
-            return preg_replace('@^<' . $tag . '[^>]*>|</' . $tag . '>$@', '', $html);
-        } else {
-            return '';
+        $html = '';
+        foreach ($this->getNode(0)->childNodes as $node) {
+            $html .= $node->ownerDocument->saveHTML($node);
         }
+        return $html;
     }
 
     /**
@@ -875,25 +870,24 @@ class HtmlPageCrawler extends Crawler
     /**
      * Get the HTML code fragment of all elements and their contents.
      *
-     * If the first node contains a complete HTML document return only
-     * the full code of this document.
+     * If the first node contains a complete HTML document return the
+     * DocType if exists
      *
      * @return string HTML code (fragment)
      * @api
      */
     public function saveHTML()
     {
-        if ($this->isHtmlDocument()) {
-            return $this->getDOMDocument()->saveHTML();
-        } else {
-            $doc = new \DOMDocument('1.0', 'UTF-8');
-            $root = $doc->appendChild($doc->createElement('_root'));
-            foreach ($this as $node) {
-                $root->appendChild($doc->importNode($node, true));
-            }
-            $html = trim($doc->saveHTML());
-            return preg_replace('@^<'.self::FRAGMENT_ROOT_TAGNAME.'[^>]*>|</'.self::FRAGMENT_ROOT_TAGNAME.'>$@', '', $html);
+        $html = '';
+        if ( $this->isHtmlDocument() ) {
+            /* Output DocType if exists */
+            $documentHtml = $this->getDOMDocument()->saveHTML();
+            $html .= preg_match("/<!DOCTYPE.*?>/is", $documentHtml, $match) ? $match[0]."\n" : '';
         }
+        foreach ($this as $node) {
+            $html .= $node->ownerDocument->saveHTML($node);
+        }
+        return $html;
     }
 
     public function __toString()
@@ -928,7 +922,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function getDOMDocument()
     {
-        $node = $this->getNode(0);
+        $node = $this->getNode(0); 
         $r = null;
         if ($node instanceof \DOMElement
             && $node->ownerDocument instanceof \DOMDocument

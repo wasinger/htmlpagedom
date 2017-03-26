@@ -34,7 +34,7 @@ class HtmlPageTest extends \PHPUnit_Framework_TestCase
         $content = '<h1>Überschrift</h1><p>bla bla <br><b>fett</b></p>';
         $hp->setHtmlById('content', $content);
         // echo $hp;
-        $this->assertEquals(mb_convert_encoding($content, 'HTML-ENTITIES', 'utf8'), $hp->getElementById('content')->getInnerHtml());
+        $this->assertEquals($content, $hp->getElementById('content')->getInnerHtml());
 
         $url = 'http://www.tuebingen.de/';
         $hp->setBaseHref($url);
