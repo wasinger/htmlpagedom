@@ -3,7 +3,7 @@ namespace Wa72\HtmlPageDom\Tests;
 
 use Wa72\HtmlPageDom\HtmlPage;
 
-class HtmlPageTest extends \PHPUnit_Framework_TestCase
+class HtmlPageTest extends \PHPUnit\Framework\TestCase
 {
     public function testHtmlPage()
     {
