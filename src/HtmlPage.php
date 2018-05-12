@@ -266,10 +266,10 @@ class HtmlPage
     public function save($filename = '')
     {
         if ($filename != '') {
-            file_put_contents($filename, $this->__toString());
+            file_put_contents($filename, (string) $this);
             return;
         } else {
-            return $this->__toString();
+            return (string) $this;
         }
     }
 
