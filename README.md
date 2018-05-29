@@ -39,9 +39,9 @@ Requirements
 Installation
 ------------
 
--   using [composer] (http://getcomposer.org): `composer require wa72/htmlpagedom`
+-   using [composer](http://getcomposer.org): `composer require wa72/htmlpagedom`
 
--   using other [PSR-4] (http://www.php-fig.org/psr/psr-4/) compliant autoloader:
+-   using other [PSR-4](http://www.php-fig.org/psr/psr-4/) compliant autoloader:
     clone this project to where your included libraries are and point your autoloader to look for the 
     "\Wa72\HtmlPageDom" namespace in the "src" directory of this project
 
@@ -201,8 +201,8 @@ History
 When I discovered how easy it was to modify HTML documents using jQuery I looked for a PHP library providing similar
 possibilities for PHP.
 
-Googling around I found [SimpleHtmlDom] (http://simplehtmldom.sourceforge.net)
-and later [Ganon] (http://code.google.com/p/ganon) but both turned out to be very slow. Nevertheless I used both
+Googling around I found [SimpleHtmlDom](http://simplehtmldom.sourceforge.net)
+and later [Ganon](http://code.google.com/p/ganon) but both turned out to be very slow. Nevertheless I used both
 libraries in my projects.
 
 When Symfony2 appeared with it's DomCrawler and CssSelector components I thought:
