@@ -2,9 +2,16 @@
 namespace Wa72\HtmlPageDom\Tests;
 
 use Wa72\HtmlPageDom\HtmlPage;
+use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class HtmlPageTest extends \PHPUnit\Framework\TestCase
+class HtmlPageTest extends TestCase
 {
+    public function setUp()
+    {
+        $this->root = vfsStream::setup('root');
+    }
+
     public function testHtmlPage()
     {
         $hp = new HtmlPage;
@@ -174,5 +181,161 @@ alert('Hello world');
 END;
         $this->assertEquals($expected, $hp->indent()->save());
 
+    }
+
+    public function testGetCrawler()
+    {
+        $html = <<<END
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script>
+// this will be awesome
+alert('Hello world');
+</script>
+</head>
+<body>
+    <h1>TEST</h1>
+    <p class="">
+    asdf jksdlf ajsfk
+    <b>jasdf
+    jaksfd asdf</b>
+    <a>jasdf jaks</a>
+    </p>
+</body>
+</html>
+
+END;
+
+        $hp = new HtmlPage($html);
+        $this->assertEquals('<h1>TEST</h1>', $hp->getCrawler()->filter('h1')->saveHtml());
+    }
+
+    public function testGetDOMDocument()
+    {
+        $html = <<<END
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script>
+// this will be awesome
+alert('Hello world');
+</script>
+</head>
+<body>
+    <h1>TEST</h1>
+    <p class="">
+    asdf jksdlf ajsfk
+    <b>jasdf
+    jaksfd asdf</b>
+    <a>jasdf jaks</a>
+    </p>
+</body>
+</html>
+
+END;
+
+        $hp = new HtmlPage($html);
+        $this->assertInstanceOf('\DOMDocument', $hp->getDOMDocument());
+    }
+
+    public function testSetTitleOnNoTitleElement()
+    {
+        $html = <<<END
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+// this will be awesome
+alert('Hello world');
+</script>
+</head>
+<body>
+    <h1>TEST</h1>
+    <p class="">
+    asdf jksdlf ajsfk
+    <b>jasdf
+    jaksfd asdf</b>
+    <a>jasdf jaks</a>
+    </p>
+</body>
+</html>
+
+END;
+
+        $hp = new HtmlPage($html);
+        $hp->setTitle('TEST');
+        $this->assertEquals('TEST', $hp->getTitle());
+    }
+
+    public function testGetTitleShouldReturnNull()
+    {
+        $html = <<<END
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+// this will be awesome
+alert('Hello world');
+</script>
+</head>
+<body>
+    <h1>TEST</h1>
+    <p class="">
+    asdf jksdlf ajsfk
+    <b>jasdf
+    jaksfd asdf</b>
+    <a>jasdf jaks</a>
+    </p>
+</body>
+</html>
+
+END;
+
+        $hp = new HtmlPage($html);
+        $this->assertNull($hp->getTitle());
+    }
+
+    public function testGetBaseHrefShouldReturnNull()
+    {
+        $hp = new HtmlPage('<!DOCTYPE html><html><head><title>TEST</title></head><body>Hello</body></html>');
+        $this->assertNull($hp->getBaseHref());
+    }
+
+    public function testGetHeadNodeShouldAddTheHeadTag()
+    {
+        $hp = new HtmlPage('<!DOCTYPE html><html><body>Hello</body></html>');
+        $this->assertInstanceOf('\DOMElement', $hp->getHeadNode());
+        $this->assertEquals('<head></head>', (string) $hp->getHead());
+    }
+
+    public function testGetBodyNodeShouldAddTheBodyTag()
+    {
+        $hp = new HtmlPage('<!DOCTYPE html><html></html>');
+        $this->assertInstanceOf('\DOMElement', $hp->getBodyNode());
+        $this->assertEquals('<body></body>', (string) $hp->getBody());    
+    }
+
+    public function testTrimNewlines()
+    {
+        $html = <<<END
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>TEST</title>
+    </head>
+</html>
+END;
+
+        $this->assertEquals('<!DOCTYPE html> <html> <head> <title>TEST</title> </head> </html>', (string) HtmlPage::trimNewlines($html));
+    }
+
+    public function testSaveOnFileName()
+    {
+        $hp = new HtmlPage('<!DOCTYPE html><html><head><title>TEST</title></head></html>');
+        $hp->save(vfsStream::url('root/save.html'));
+        $this->assertFileExists(vfsStream::url('root/save.html'));
     }
 }
