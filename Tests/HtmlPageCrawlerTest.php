@@ -260,6 +260,10 @@ class HtmlPageCrawlerTest extends TestCase
         $c = new HtmlPageCrawler('<div id="content"></div>');
         $c->filter('#content')->prepend(new HtmlPageCrawler('<p>Text before h1</p><p>and more text before</p>'));
         $this->assertEquals('<div id="content"><p>Text before h1</p><p>and more text before</p></div>', $c->saveHTML());
+
+        $c = new HtmlPageCrawler('<div id="content"><span>Prepend Self</span></div>');
+        $c->filter('#content')->prepend($c->filter('span'));
+        $this->assertEquals('<div id="content"><span>Prepend Self</span></div>', $c->saveHTML());
     }
 
     /**
