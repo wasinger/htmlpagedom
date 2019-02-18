@@ -483,7 +483,7 @@ class HtmlPageCrawler extends Crawler
                 $newnode = static::importNewnode($newnode, $node, $i);
                 if ($refnode === null) {
                     $node->appendChild($newnode);
-                } else {
+                } else if ($refnode !== $newnode) {
                     $node->insertBefore($newnode, $refnode);
                 }
                 $newnodes[] = $newnode;
