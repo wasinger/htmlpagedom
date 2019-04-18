@@ -35,13 +35,13 @@ class HtmlPageTest extends TestCase
         $bodycontent = '<div id="content">Testcontent1</div>';
         $body = $hp->filter('body');
         $body->setInnerHtml($bodycontent);
-        $this->assertEquals($bodycontent, $body->getInnerHtml());
-        $this->assertEquals($bodycontent, $hp->filter('body')->getInnerHtml());
+        $this->assertEquals($bodycontent, $body->html());
+        $this->assertEquals($bodycontent, $hp->filter('body')->html());
 
-        $content = '<h1>Überschrift</h1><p>bla bla <br><b>fett</b></p>';
+        $content = "<h1>Überschrift</h1>\n<p>bla bla <br><b>fett</b></p>";
         $hp->setHtmlById('content', $content);
         // echo $hp;
-        $this->assertEquals(mb_convert_encoding($content, 'HTML-ENTITIES', 'utf8'), $hp->getElementById('content')->getInnerHtml());
+        $this->assertEquals($content, $hp->getElementById('content')->html());
 
         $url = 'http://www.tuebingen.de/';
         $hp->setBaseHref($url);

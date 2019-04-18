@@ -1,3 +1,24 @@
+Master (a.k.a 2.0-dev)
+======================
+
+2019-04-18
+
+__BC BREAK__
+
+Compatibility with Symfony 4.3:
+
+- `HtmlPageCrawler::html()` is now just the parent `Crawler::html()` and acts as *getter* only.
+  Setting HTML content via `HtmlPageCrawler::html($html)` is *not possible* any more,
+  use `HtmlPageCrawler::setInnerHtml($html)` instead
+
+- `HtmlPageCrawler::getInnerHtml()` was removed because it is now just the same as `html()`.
+
+- `HtmlPageCrawler::text()` is now just the parent `Crawler::text()` and acts as *getter* only
+  that returns the text content from the *first* node only. For setting text content, use `HtmlPageCrawler::setText($text)` instead.
+    
+- new method `HtmlPageCrawler::getCombinedText()` that returns the combined text from all nodes (as jQuery's `text()` function does and previous versions of `HtmlPageCrawler::text()` did)
+
+
 1.3.2
 =====
 

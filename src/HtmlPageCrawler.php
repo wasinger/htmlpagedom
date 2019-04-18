@@ -353,50 +353,6 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Get the HTML contents of the first element in the set of matched elements
-     * or set the HTML contents of every matched element.
-     *
-     * Function is here for compatibility with jQuery: When called with a parameter, it is
-     * equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()
-     *
-     * @see HtmlPageCrawler::setInnerHtml()
-     * @see HtmlPageCrawler::getInnerHtml()
-     *
-     * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|null $html The HTML content to set, or NULL to get the current content
-     *
-     * @return HtmlPageCrawler|string If no param is provided, returns the HTML content of the first element
-     * @api
-     */
-    public function html($html = null)
-    {
-        if (null === $html) {
-            return $this->getInnerHtml();
-        } else {
-            $this->setInnerHtml($html);
-            return $this;
-        }
-    }
-
-    /**
-     * Get the innerHTML contents of the first element
-     *
-     * @return string HTML code fragment
-     */
-    public function getInnerHtml()
-    {
-        $node = $this->getNode(0);
-        if ($node instanceof \DOMNode) {
-            $doc = new \DOMDocument('1.0', 'UTF-8');
-            $doc->appendChild($doc->importNode($node, true));
-            $html = trim($doc->saveHTML());
-            $tag = $node->nodeName;
-            return preg_replace('@^<' . $tag . '[^>]*>|</' . $tag . '>$@', '', $html);
-        } else {
-            return '';
-        }
-    }
-
-    /**
      * Set the HTML contents of each element
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
@@ -670,38 +626,38 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Get the combined text contents of each element in the set of matched elements, including their descendants,
-     * or set the text contents of the matched elements.
+     * Get the combined text contents of each element in the set of matched elements, including their descendants.
+     * This is what the jQuery text() function does, contrary to the Crawler::text() method that returns only
+     * the text of the first node.
      *
-     * ATTENTION: Contrary to the parent Crawler class, which returns the text from the first element only,
-     * this functions returns the combined text of all elements (as jQuery does). If this is not what you need you
-     * must call ->first() before calling ->text(), e.g.
-     *
-     * in Symfony\DOMCrawler\Crawler: $c->filter('p')->text() returns the text of the first paragraph only
-     * in HtmlPageCrawler you need to call: $c->filter('p')->first()->text()
-     *
-     * @param null|string $text
-     * @return string|HtmlPageCrawler
+     * @return string
      * @api
      */
-    public function text($text = null)
+    public function getCombinedText()
     {
-        if ($text === null) {
-            $text = '';
-            foreach ($this as $node) {
-                /** @var \DOMNode $node */
-                $text .= $node->nodeValue;
-            }
-            return $text;
-        } else {
-            foreach ($this as $node) {
-                /** @var \DOMNode $node */
-                $node->nodeValue = $text;
-            }
-            return $this;
+        $text = '';
+        foreach ($this as $node) {
+            /** @var \DOMNode $node */
+            $text .= $node->nodeValue;
         }
+        return $text;
     }
 
+    /**
+     * Set the text contents of the matched elements.
+     *
+     * @param string $text
+     * @return HtmlPageCrawler
+     * @api
+     */
+    public function setText($text)
+    {
+        foreach ($this as $node) {
+            /** @var \DOMNode $node */
+            $node->nodeValue = $text;
+        }
+        return $this;
+    }
 
     /**
      * Add or remove one or more classes from each element in the set of matched elements, depending the class’s presence.

@@ -6,6 +6,7 @@ HtmlPageDom
 [![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 [![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 
+> __Important__: BC break in current master / future 2.0 for compatibility with Symfony 4.3, see the dedicated block below the usage examples.
 
 `Wa72\HtmlPageDom` is a PHP library for easy manipulation of HTML documents using DOM.
 It requires [DomCrawler from Symfony2 components](https://github.com/symfony/DomCrawler) for traversing 
@@ -19,7 +20,7 @@ the modified page.
 `Wa72\HtmlPageDom` consists of two main classes:
 
 -   `HtmlPageCrawler` extends `Symfony\Components\DomCrawler` by adding jQuery inspired, HTML specific 
-    DOM *manipulation* functions such as `html($htmltext)`, `before()`, `append()`, `wrap()`, `addClass()` or `css()`.
+    DOM *manipulation* functions such as `setInnerHtml($htmltext)`, `before()`, `append()`, `wrap()`, `addClass()` or `css()`.
     It's like jQuery for PHP: simply select elements of an HTML page using CSS selectors and change their 
     attributes and content.
 
@@ -32,19 +33,10 @@ the modified page.
 Requirements
 ------------
 
--   PHP 5.4+
+-   PHP 7.1+
 -   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler)
 -   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector)
 
-> Incompatibility with Symfony 4.3
-> --------------------------------
-> 
-> In DomCrawler from Symfony 4.3 the method signatures of the methods `Crawler::text()` and
-> `Crawler::html()` have changed: In earlier versions, they didn't accept an argument, so in our
-> subclass `HtmlPageCrawler` we could add an optional argument to make those getter methods
-> work as jQuery-style *setters*. In Symfony 4.3 however, those methods now accept an optional
-> argument that is used as default value for the getter. We will have to change our API to make
-> it compatible with Symfony 4.3.
 
 Installation
 ------------
@@ -70,18 +62,19 @@ the selected elements using the following jQuery-like manipulation functions:
 -   `append()`, `appendTo()`
 -   `makeClone()` (equivalent to `clone()` in jQuery)
 -   `css()` (alias `getStyle()` / `setStyle()`)
--   `html()` (alias `getInnerHtml()` / `setInnerHtml()`)
+-   `html()` (get inner HTML content) and `setInnerHtml($html)`
 -   `attr()` (alias `getAttribute()` / `setAttribute()`), `removeAttr()`
 -   `insertAfter()`, `insertBefore()`
 -   `makeEmpty()` (equivalent to `empty()` in jQuery)
 -   `prepend()`, `prependTo()`
 -   `remove()`
 -   `replaceAll()`, `replaceWith()`
--   `text()`
+-   `text()` (get text content) and `setText($text)`
 -   `wrap()`, `unwrap()`, `wrapInner()`, `unwrapInner()`, `wrapAll()`
 
 To get the modified DOM as HTML code use `html()` (returns innerHTML of the first node in your crawler object)
 or `saveHTML()` (returns combined "outer" HTML code of all elements in the list).
+
 
 **Example:**
 
@@ -193,6 +186,34 @@ echo $page->indent()->save();
 echo $page->minify()->save();
 ```
 
+
+
+>__BC BREAK__ in current master / future 2.0 for compatibility with Symfony 4.3
+>------------------------------------------------------------------------------
+>
+> - `HtmlPageCrawler::html()` is now just the parent `Crawler::html()` and acts as *getter* only.
+>   Setting HTML content via `HtmlPageCrawler::html($html)` is *not possible* any more,
+>   use `HtmlPageCrawler::setInnerHtml($html)` instead
+>
+> - `HtmlPageCrawler::getInnerHtml()` was removed because it is now just the same as `html()`.
+>
+> - `HtmlPageCrawler::text()` is now just the parent `Crawler::text()` and acts as *getter* only
+>   that returns the text content from the *first* node only. For setting text content, use
+>   `HtmlPageCrawler::setText($text)` instead.
+>    
+> - new method `HtmlPageCrawler::getCombinedText()` that returns the combined text from all nodes
+>   (as jQuery's `text()` function does and previous versions of `HtmlPageCrawler::text()` did)
+> 
+> __To update your code, you have to:__
+> 
+> - replace all calls to `$MyCrawlerInstance->html($html)` used as *setter* by `$MyCrawlerInstance->setInnerHtml($html)`
+> - replace all calls to `$MyCrawlerInstance->getInnerHtml()` by `$MyCrawlerInstance->html()`
+> - replace all calls to `$MyCrawlerInstance->text($text)` used as *setter* by `$MyCrawlerInstance->setText($text)`
+> - replace all calls to `$MyCrawlerInstance->first()->text()` by `$MyCrawlerInstance->text()`
+> - replace all calls to `$MyCrawlerInstance->text()` (i.e. every call to `text()` not preceded
+> - by `first()`) by `$MyCrawlerInstance->getCombinedText()`
+
+
 Limitations
 -----------
 
@@ -228,5 +249,5 @@ about 5 minutes. After switching to HtmlPageDom the same script doing the same p
 one second (all on the same server). HtmlPageDom is really fast.
 
 
-© 2016 Christoph Singer, Web-Agentur 72. Licensed under the MIT License.
+© 2019 Christoph Singer, Web-Agentur 72. Licensed under the MIT License.
 

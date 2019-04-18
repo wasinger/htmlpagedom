@@ -24,7 +24,6 @@ class HtmlPageCrawlerTest extends TestCase
     }
 
     /**
-     * @covers Wa72\HtmlPageDom\HtmlPageCrawler::getInnerHtml
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::setInnerHtml
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::prepend
      * @covers Wa72\HtmlPageDom\HtmlPageCrawler::makeEmpty
@@ -38,13 +37,13 @@ class HtmlPageCrawlerTest extends TestCase
         $content = $c->filter('#content');
         $content->append('<p>Das ist ein Testabsatz');
 
-        $this->assertEquals('<h1>Title</h1><p>Das ist ein Testabsatz</p>', $content->getInnerHtml());
+        $this->assertEquals("<h1>Title</h1>\n<p>Das ist ein Testabsatz</p>", $content->html());
 
         $content->setInnerHtml('<p>Ein neuer <b>Inhalt</p>');
-        $this->assertEquals('<p>Ein neuer <b>Inhalt</b></p>', $content->getInnerHtml());
+        $this->assertEquals('<p>Ein neuer <b>Inhalt</b></p>', $content->html());
 
         $content->prepend('<h1>Neue Überschrift');
-        $this->assertEquals('<h1>Neue &Uuml;berschrift</h1><p>Ein neuer <b>Inhalt</b></p>', $content->getInnerHtml());
+        $this->assertEquals('<h1>Neue Überschrift</h1><p>Ein neuer <b>Inhalt</b></p>', $content->html());
 
         $h1 = $content->filter('h1');
         $this->assertEquals('Neue Überschrift', $h1->text());
@@ -59,13 +58,13 @@ class HtmlPageCrawlerTest extends TestCase
         $content->append('<p class="a3"><b>Dritter Absatz</b> und noch mehr Text</p>');
 
         $a3 = $content->filter('p.a3');
-        $this->assertEquals('<b>Dritter Absatz</b> und noch mehr Text', $a3->getInnerHtml());
+        $this->assertEquals('<b>Dritter Absatz</b> und noch mehr Text', $a3->html());
 
         $a3b = $a3->filter('b');
         $this->assertEquals('Dritter Absatz', $a3b->text());
 
         $body = $c->filter('body');
-        $this->assertEquals('<div id="content"><h1>Neue &Uuml;berschrift</h1><p>Ein neuer <b>Inhalt</b></p><p class="a2">Zweiter Absatz</p><p class="a3"><b>Dritter Absatz</b> und noch mehr Text</p></div>', $body->getInnerHtml());
+        $this->assertEquals("<div id=\"content\">\n<h1>Neue Überschrift</h1><p>Ein neuer <b>Inhalt</b></p>\n<p class=\"a2\">Zweiter Absatz</p>\n<p class=\"a3\"><b>Dritter Absatz</b> und noch mehr Text</p>\n</div>", $body->html());
 
         $paragraphs = $c->filter('p');
         $this->assertEquals(3, count($paragraphs));
@@ -74,7 +73,7 @@ class HtmlPageCrawlerTest extends TestCase
         $this->assertEquals('<p>Ein neuer <b>Inhalt</b><span class="appended">.</span></p><p class="a2">Zweiter Absatz<span class="appended">.</span></p><p class="a3"><b>Dritter Absatz</b> und noch mehr Text<span class="appended">.</span></p>', $c->filter('p')->saveHTML());
 
         $body->makeEmpty();
-        $this->assertEmpty($body->getInnerHtml());
+        $this->assertEmpty($body->html());
 
         $body->setAttribute('class', 'mybodyclass');
         $this->assertEquals('mybodyclass', $body->attr('class'));
@@ -565,20 +564,11 @@ END;
         $c->attr('data-foo');
     }
 
-    public function testHtml()
+    public function testSetInnerHtml()
     {
         $html = HtmlPageCrawler::create('<h1>Title</h1>');
-        $this->assertEquals('Title', $html->html());
-
-        $html = HtmlPageCrawler::create('<h1>Title</h1>');
-        $this->assertInstanceOf('Wa72\HtmlPageDom\HtmlPageCrawler', $html->html('<h2>Title</h2>'));
+        $this->assertInstanceOf('Wa72\HtmlPageDom\HtmlPageCrawler', $html->setInnerHtml('<h2>Title</h2>'));
         $this->assertEquals('<h2>Title</h2>', $html->html());
-    }
-
-    public function testGetInnerHtml()
-    {
-        $html = HtmlPageCrawler::create(null);
-        $this->assertEquals('', $html->getInnerHtml());
     }
 
     public function testToString()
@@ -682,15 +672,12 @@ END;
         $this->assertEquals('<div><p class="x">asdf</p><p class="">asdf</p></div>', $c->saveHTML());
     }
 
-    public function testText()
+    public function testGetCombinedText()
     {
-        // ATTENTION: Contrary to the parent Crawler class, which returns the text from the first element only,
-        // this functions returns the combined text of all elements (as jQuery does)
-
         $c = HtmlPageCrawler::create('<p>abc</p><p>def</p>');
-        $this->assertEquals('abcdef', $c->text());
-        $c->text('jklo');
-        $this->assertEquals('jklojklo', $c->text());
+        $this->assertEquals('abcdef', $c->getCombinedText());
+        $c->setText('jklo');
+        $this->assertEquals('jklojklo', $c->getCombinedText());
     }
 
     public function testMagicGet()
