@@ -1,3 +1,11 @@
+1.3.2
+=====
+
+2019-04-18
+
+- Mark this version as incompatible to Symfony DomCrawler 4.3
+
+
 1.3
 ===
 

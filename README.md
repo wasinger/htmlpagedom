@@ -9,7 +9,7 @@ HtmlPageDom
 
 `Wa72\HtmlPageDom` is a PHP library for easy manipulation of HTML documents using DOM.
 It requires [DomCrawler from Symfony2 components](https://github.com/symfony/DomCrawler) for traversing 
-the DOM tree and extends it by adding methods for manipulating the DOM tree of HTML documents.
+the DOM tree and extends it by adding methods for manipulating the DOM tree of HTML documents.    
 
 It's useful when you need to not just extract information from an HTML file (what DomCrawler does) but
 also to modify HTML pages. It is usable as a template engine: load your HTML template file, set new
@@ -22,6 +22,18 @@ the modified page.
     DOM *manipulation* functions such as `html($htmltext)`, `before()`, `append()`, `wrap()`, `addClass()` or `css()`.
     It's like jQuery for PHP: simply select elements of an HTML page using CSS selectors and change their 
     attributes and content.
+    
+
+> Incompatibility with Symfony 4.3
+> --------------------------------
+> 
+> In DomCrawler from Symfony 4.3 the method signatures of the methods `Crawler::text()` and
+> `Crawler::html()` have changed: In earlier versions, they didn't accept an argument, so in our
+> subclass `HtmlPageCrawler` we could add an optional argument to make those getter methods
+> work as jQuery-style *setters*. In Symfony 4.3 however, those methods now accept an optional
+> argument that is used as default value for the getter. We will have to change our API to make
+> it compatible with Symfony 4.3.
+
 
 -   `HtmlPage` represents one complete HTML document and offers convenience functions like `getTitle()`, `setTitle($title)`,
     `setMeta('description', $description)`, `getBody()`. Internally, it uses the `HtmlPageCrawler` class for 

@@ -14,7 +14,7 @@
     ],
     "require":{
         "php":">=5.4.0",
-        "symfony/dom-crawler":"^2.3 <2.8 | ^2.8.3 | ^3.0.1 | ^4",
+        "symfony/dom-crawler":"^2.3 <2.8 | ^2.8.3 | ^3.0.1 | ^4 <4.3",
         "symfony/css-selector":">=2.3"
     },
     "require-dev": {
