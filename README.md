@@ -1,8 +1,8 @@
 HtmlPageDom
 ===========
 
-[![Build Status](https://travis-ci.org/wasinger/htmlpagedom.svg?branch=master)](http://travis-ci.org/wasinger/htmlpagedom)
-[![Code Coverage](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/?branch=master)
+[![Build Status](https://travis-ci.org/wasinger/htmlpagedom.svg?branch=1.x)](http://travis-ci.org/wasinger/htmlpagedom)
+[![Code Coverage](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/?branch=1.x)
 [![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 [![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 
@@ -22,18 +22,6 @@ the modified page.
     DOM *manipulation* functions such as `html($htmltext)`, `before()`, `append()`, `wrap()`, `addClass()` or `css()`.
     It's like jQuery for PHP: simply select elements of an HTML page using CSS selectors and change their 
     attributes and content.
-    
-
-> Incompatibility with Symfony 4.3
-> --------------------------------
-> 
-> In DomCrawler from Symfony 4.3 the method signatures of the methods `Crawler::text()` and
-> `Crawler::html()` have changed: In earlier versions, they didn't accept an argument, so in our
-> subclass `HtmlPageCrawler` we could add an optional argument to make those getter methods
-> work as jQuery-style *setters*. In Symfony 4.3 however, those methods now accept an optional
-> argument that is used as default value for the getter. We will have to change our API to make
-> it compatible with Symfony 4.3.
-
 
 -   `HtmlPage` represents one complete HTML document and offers convenience functions like `getTitle()`, `setTitle($title)`,
     `setMeta('description', $description)`, `getBody()`. Internally, it uses the `HtmlPageCrawler` class for 
@@ -47,6 +35,16 @@ Requirements
 -   PHP 5.4+
 -   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler)
 -   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector)
+
+> Incompatibility with Symfony 4.3
+> --------------------------------
+> 
+> In DomCrawler from Symfony 4.3 the method signatures of the methods `Crawler::text()` and
+> `Crawler::html()` have changed: In earlier versions, they didn't accept an argument, so in our
+> subclass `HtmlPageCrawler` we could add an optional argument to make those getter methods
+> work as jQuery-style *setters*. In Symfony 4.3 however, those methods now accept an optional
+> argument that is used as default value for the getter. We will have to change our API to make
+> it compatible with Symfony 4.3.
 
 Installation
 ------------
