@@ -1,6 +1,6 @@
 {
     "name":"wa72/htmlpagedom",
-    "description":"PHP implementation of the jQuery DOM manipulation API for HTML documents",
+    "description":"jQuery-inspired DOM manipulation extension for Symfony's Crawler",
     "keywords":["HTML", "DOM", "Crawler"],
     "homepage":"http://github.com/wasinger/htmlpagedom",
     "type":"library",
