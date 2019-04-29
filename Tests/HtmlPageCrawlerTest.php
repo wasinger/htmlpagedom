@@ -19,8 +19,19 @@ class HtmlPageCrawlerTest extends TestCase
         $title = $c->filter('#content > h1');
 
         $this->assertInstanceOf('\Wa72\HtmlPageDom\HtmlPageCrawler', $title);
-        $this->assertInstanceOf('\DOMNode', $title->getFirstNode());
+        $this->assertInstanceOf('\DOMNode', $title->getNode(0));
         $this->assertEquals('h1', $title->nodeName());
+    }
+
+    /**
+     *
+     *
+     * @param $string
+     * @return string
+     */
+    private function _ignoreNewlines($string)
+    {
+        return str_replace("\n", '', $string);
     }
 
     /**
@@ -36,8 +47,7 @@ class HtmlPageCrawlerTest extends TestCase
 
         $content = $c->filter('#content');
         $content->append('<p>Das ist ein Testabsatz');
-
-        $this->assertEquals("<h1>Title</h1>\n<p>Das ist ein Testabsatz</p>", $content->html());
+        $this->assertEquals("<h1>Title</h1><p>Das ist ein Testabsatz</p>", $this->_ignoreNewlines($content->html()));
 
         $content->setInnerHtml('<p>Ein neuer <b>Inhalt</p>');
         $this->assertEquals('<p>Ein neuer <b>Inhalt</b></p>', $content->html());
@@ -64,7 +74,7 @@ class HtmlPageCrawlerTest extends TestCase
         $this->assertEquals('Dritter Absatz', $a3b->text());
 
         $body = $c->filter('body');
-        $this->assertEquals("<div id=\"content\">\n<h1>Neue Überschrift</h1><p>Ein neuer <b>Inhalt</b></p>\n<p class=\"a2\">Zweiter Absatz</p>\n<p class=\"a3\"><b>Dritter Absatz</b> und noch mehr Text</p>\n</div>", $body->html());
+        $this->assertEquals('<div id="content"><h1>Neue Überschrift</h1><p>Ein neuer <b>Inhalt</b></p><p class="a2">Zweiter Absatz</p><p class="a3"><b>Dritter Absatz</b> und noch mehr Text</p></div>', $this->_ignoreNewlines($body->html()));
 
         $paragraphs = $c->filter('p');
         $this->assertEquals(3, count($paragraphs));
@@ -145,11 +155,11 @@ class HtmlPageCrawlerTest extends TestCase
      */
     public function testSaveHTML()
     {
-        $html = "<!DOCTYPE html>\n<html><body><h1>Title</h1><p>Paragraph 1</p><p>Paragraph 2</p></body></html>\n";
+        $html = "<!DOCTYPE html><html><body><h1>Title</h1><p>Paragraph 1</p><p>Paragraph 2</p></body></html>";
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadHTML($html);
         $c = new HtmlPageCrawler($dom);
-        $this->assertEquals($html, $c->saveHTML());
+        $this->assertEquals($html, $this->_ignoreNewlines($c->saveHTML()));
         $ps = $c->filter('p');
         $this->assertEquals('<p>Paragraph 1</p><p>Paragraph 2</p>', $ps->saveHTML());
         $t = $c->filter('h1');
@@ -223,8 +233,8 @@ class HtmlPageCrawlerTest extends TestCase
         $c->addContent('<html><body><div id="content"><h1>Title</h1></div></body>');
         $this->assertEquals(
             '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
-            . "\n" . '<html><body><div id="content"><h1>Title</h1></div></body></html>' . "\n",
-            $c->saveHTML()
+            . "" . '<html><body><div id="content"><h1>Title</h1></div></body></html>' . "",
+            $this->_ignoreNewlines($c->saveHTML())
         );
 
         $c = new HtmlPageCrawler();
