@@ -112,13 +112,6 @@ class HtmlPageCrawler extends Crawler
             foreach ($content as $newnode) {
                 /** @var \DOMNode $newnode */
                 $newnode = static::importNewnode($newnode, $node, $i);
-//                if ($newnode->ownerDocument !== $node->ownerDocument) {
-//                    $newnode = $node->ownerDocument->importNode($newnode, true);
-//                } else {
-//                    if ($i > 0) {
-//                        $newnode = $newnode->cloneNode(true);
-//                    }
-//                }
                 $node->appendChild($newnode);
                 $newnodes[] = $newnode;
             }
@@ -954,6 +947,7 @@ class HtmlPageCrawler extends Crawler
     public function addHtmlFragment($content, $charset = 'UTF-8')
     {
         $d = new \DOMDocument('1.0', $charset);
+        $d->preserveWhiteSpace = false;
         $root = $d->appendChild($d->createElement(self::FRAGMENT_ROOT_TAGNAME));
         $bodynode = Helpers::getBodyNodeFromHtmlFragment($content, $charset);
         foreach ($bodynode->childNodes as $child) {
@@ -964,52 +958,52 @@ class HtmlPageCrawler extends Crawler
         }
     }
 
-    /**
-     * returns the first node
-     * deprecated, use getNode(0) instead
-     *
-     * @return \DOMNode|null
-     * @deprecated
-     * @see Crawler::getNode
-     */
-    public function getFirstNode()
-    {
-        return $this->getNode(0);
-    }
+//    /**
+//     * returns the first node
+//     * deprecated, use getNode(0) instead
+//     *
+//     * @return \DOMNode|null
+//     * @deprecated
+//     * @see Crawler::getNode
+//     */
+//    public function getFirstNode()
+//    {
+//        return $this->getNode(0);
+//    }
 
-    /**
-     * @param int $position
-     *
-     * overridden from Crawler because it is not public in Symfony 2.3
-     * TODO: throw away as soon as we don't need to support SF 2.3 any more
-     *
-     * @return \DOMElement|null
-     */
-    public function getNode($position)
-    {
-        return parent::getNode($position);
-    }
-
-    /**
-     * Returns the node name of the first node of the list.
-     *
-     * in Crawler (parent), this function will be available starting with 2.6.0,
-     * therefore this method be removed from here as soon as we don't need to keep compatibility
-     * with Symfony < 2.6
-     *
-     * TODO: throw away as soon as we don't need to support SF 2.3 any more
-     *
-     * @return string The node name
-     *
-     * @throws \InvalidArgumentException When current node is empty
-     */
-    public function nodeName()
-    {
-        if (!count($this)) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-        return $this->getNode(0)->nodeName;
-    }
+//    /**
+//     * @param int $position
+//     *
+//     * overridden from Crawler because it is not public in Symfony 2.3
+//     * TODO: throw away as soon as we don't need to support SF 2.3 any more
+//     *
+//     * @return \DOMElement|null
+//     */
+//    public function getNode($position)
+//    {
+//        return parent::getNode($position);
+//    }
+//
+//    /**
+//     * Returns the node name of the first node of the list.
+//     *
+//     * in Crawler (parent), this function will be available starting with 2.6.0,
+//     * therefore this method be removed from here as soon as we don't need to keep compatibility
+//     * with Symfony < 2.6
+//     *
+//     * TODO: throw away as soon as we don't need to support SF 2.3 any more
+//     *
+//     * @return string The node name
+//     *
+//     * @throws \InvalidArgumentException When current node is empty
+//     */
+//    public function nodeName()
+//    {
+//        if (!count($this)) {
+//            throw new \InvalidArgumentException('The current node list is empty.');
+//        }
+//        return $this->getNode(0)->nodeName;
+//    }
 
     /**
      * Adds a node to the current list of nodes.
@@ -1042,6 +1036,7 @@ class HtmlPageCrawler extends Crawler
      */
     protected static function importNewnode(\DOMNode $newnode, \DOMNode $referencenode, $clone = 0) {
         if ($newnode->ownerDocument !== $referencenode->ownerDocument) {
+            $referencenode->ownerDocument->preserveWhiteSpace = false;
             $newnode = $referencenode->ownerDocument->importNode($newnode, true);
         } else {
             if ($clone > 0) {
