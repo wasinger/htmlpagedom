@@ -356,11 +356,9 @@ class HtmlPageCrawler extends Crawler
      * Get the HTML contents of the first element in the set of matched elements
      * or set the HTML contents of every matched element.
      *
-     * Function is here for compatibility with jQuery: When called with a parameter, it is
-     * equivalent to setInnerHtml(), without parameter it is the same as getInnerHtml()
+     * Deprecation warning: It will not be possible any more to use method html($html) as setter function in version 2.0. Use setInnerHtml($html) instead.
      *
      * @see HtmlPageCrawler::setInnerHtml()
-     * @see HtmlPageCrawler::getInnerHtml()
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList|null $html The HTML content to set, or NULL to get the current content
      *
@@ -372,6 +370,7 @@ class HtmlPageCrawler extends Crawler
         if (null === $html) {
             return $this->getInnerHtml();
         } else {
+            @trigger_error('It will not be possible any more to use method html($html) as setter function in version 2.0. Use setInnerHtml($html) instead.', E_USER_DEPRECATED);
             $this->setInnerHtml($html);
             return $this;
         }
@@ -381,9 +380,12 @@ class HtmlPageCrawler extends Crawler
      * Get the innerHTML contents of the first element
      *
      * @return string HTML code fragment
+     * @deprecated Method is deprecated and will be removed in 2.0, use html() instead
+     * @see html()
      */
     public function getInnerHtml()
     {
+        @trigger_error('Method getInnerHtml() is deprecated and will be removed in 2.0, use html() instead.', E_USER_DEPRECATED);
         $node = $this->getNode(0);
         if ($node instanceof \DOMNode) {
             $doc = new \DOMDocument('1.0', 'UTF-8');
@@ -680,6 +682,16 @@ class HtmlPageCrawler extends Crawler
      * in Symfony\DOMCrawler\Crawler: $c->filter('p')->text() returns the text of the first paragraph only
      * in HtmlPageCrawler you need to call: $c->filter('p')->first()->text()
      *
+     * DEPRECATION WARNING:
+     * This function will be removed from here in 2.0, so calling text() then will call the parent implementation, i.e.
+     * it will return the text from the first node only, and an argument passed is treated as default value for the
+     * getter function from Symfony 4.3 onwards. It will not be possible to use this function as setter.
+     *
+     * Use getCombinedText() for a getter with the old behavior, and use setText() for setting text content.
+     *
+     * @see setText()
+     * @see getCombinedText()
+     *
      * @param null|string $text
      * @return string|HtmlPageCrawler
      * @api
@@ -687,6 +699,7 @@ class HtmlPageCrawler extends Crawler
     public function text($text = null)
     {
         if ($text === null) {
+            @trigger_error('In Version 2.0, Method text() will return the text from only the first element in the set. Consider using getCombinedText() instead.', E_USER_DEPRECATED);
             $text = '';
             foreach ($this as $node) {
                 /** @var \DOMNode $node */
@@ -694,12 +707,48 @@ class HtmlPageCrawler extends Crawler
             }
             return $text;
         } else {
+            @trigger_error('It will not be possible any more to use method text($text) as setter function in version 2.0. Use setText($text) instead.', E_USER_DEPRECATED);
             foreach ($this as $node) {
                 /** @var \DOMNode $node */
                 $node->nodeValue = $text;
             }
             return $this;
         }
+    }
+
+    /**
+     * Get the combined text contents of each element in the set of matched elements, including their descendants.
+     * This is what the jQuery text() function does, contrary to the Crawler::text() method that returns only
+     * the text of the first node.
+     *
+     * @return string
+     * @api
+     * @since 1.4
+     */
+    public function getCombinedText()
+    {
+        $text = '';
+        foreach ($this as $node) {
+            /** @var \DOMNode $node */
+            $text .= $node->nodeValue;
+        }
+        return $text;
+    }
+    /**
+     * Set the text contents of the matched elements.
+     *
+     * @param string $text
+     * @return HtmlPageCrawler
+     * @api
+     * @since 1.4
+     */
+    public function setText($text)
+    {
+        foreach ($this as $node) {
+            /** @var \DOMNode $node */
+            $node->nodeValue = $text;
+        }
+        return $this;
     }
 
 
