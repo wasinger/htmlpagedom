@@ -699,20 +699,11 @@ class HtmlPageCrawler extends Crawler
     public function text($text = null)
     {
         if ($text === null) {
-            @trigger_error('In Version 2.0, Method text() will return the text from only the first element in the set. Consider using getCombinedText() instead.', E_USER_DEPRECATED);
-            $text = '';
-            foreach ($this as $node) {
-                /** @var \DOMNode $node */
-                $text .= $node->nodeValue;
-            }
-            return $text;
+            @trigger_error('In Version 2.0, Method text() will return the text from only the first element in the set. Consider using getCombinedText() instead.', E_USER_NOTICE);
+            return $this->getCombinedText();
         } else {
             @trigger_error('It will not be possible any more to use method text($text) as setter function in version 2.0. Use setText($text) instead.', E_USER_DEPRECATED);
-            foreach ($this as $node) {
-                /** @var \DOMNode $node */
-                $node->nodeValue = $text;
-            }
-            return $this;
+            return $this->setText($text);
         }
     }
 
