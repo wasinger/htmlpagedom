@@ -19,6 +19,25 @@ Compatibility with Symfony 4.3:
 - new method `HtmlPageCrawler::getCombinedText()` that returns the combined text from all nodes (as jQuery's `text()` function does and previous versions of `HtmlPageCrawler::text()` did)
 
 
+1.4.1
+=====
+
+2019-06-28
+
+- Bugfix: setText() should convert special chars. Closes #34.
+
+
+1.4.0
+=====
+
+2019-05-17
+
+Preparation for a smooth migration to 2.x / Symfony 4.3:
+- deprecate setter use of html() and text(),
+- deprecate getInnerHtml(),
+- new methods setText() and getCombinedText()
+
+
 1.3.2
 =====
 
