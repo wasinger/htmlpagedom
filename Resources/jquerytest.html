@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <script src="//code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <title>Testing jquery object identities</title>
 </head>
 <body>
@@ -51,6 +51,46 @@ and when it makes copies.</p>
         $b.text('<span>444</span>');
 
         console.log($b.text());
+
+
+        // Test for issue #33 https://github.com/wasinger/htmlpagedom/issues/33
+        // Works like reporter expects in jquery but not in HmtlPageDom
+
+        var $rootNode = $('<div />').appendTo($('body'));
+        var $p = $('<p />');
+        var $testNode = $('<span />');
+        $testNode.text('incorrect text');
+        $p.append($testNode);
+        $rootNode.append($p);
+
+        // Change test node text after node appended
+        $testNode.text('correct text');
+
+        // Output root or parent node html. Incorrect in HtmlPageDom, Correct in jquery
+        console.log($rootNode.html());
+        console.log($p.html());
+
+        // Output node html. Correct
+        console.log($testNode.html());
+
+        // Second test: adding node to multiple nodes.
+        // If $testNode is appended to multple elements it doesn't work in jquery, either:
+        $rootNode = $('<div />').appendTo($('body'));
+        $p = $('<p /><p />');
+        $testNode = $('<span />');
+        $testNode.text('incorrect text');
+        $p.append($testNode);
+        $rootNode.append($p);
+
+        // Change test node text after node appended
+        $testNode.text('correct text');
+
+        // Output root or parent node html. Incorrect in jquery and HtmlPageDom
+        console.log($rootNode.html());
+        console.log($p.html());
+
+        // Output node html. Correct
+        console.log($testNode.html());
 
     });
 </script>
