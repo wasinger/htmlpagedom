@@ -645,6 +645,7 @@ class HtmlPageCrawler extends Crawler
      */
     public function setText($text)
     {
+        $text = htmlspecialchars($text);
         foreach ($this as $node) {
             /** @var \DOMNode $node */
             $node->nodeValue = $text;
