@@ -693,6 +693,14 @@ END;
         $this->assertEquals('jklojklo', $c->text());
     }
 
+    public function testSetText()
+    {
+        $c = HtmlPageCrawler::create('<div>&quot;</div>');
+        $this->assertEquals('"', $c->text());
+        $c->setText('&');
+        $this->assertEquals('&', $c->text());
+    }
+
     public function testMagicGet()
     {
         // $crawler->length should give us the number of nodes in the crawler
