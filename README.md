@@ -6,7 +6,7 @@ HtmlPageDom
 [![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 [![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 
-> __Important__: BC break in current master / future 2.0 for compatibility with Symfony 4.3, see the dedicated block below the usage examples.
+> __Important__: BC break in version 2.0 for compatibility with Symfony 4.3, see [UPGRADE.md](UPGRADE.md).
 
 `Wa72\HtmlPageDom` is a PHP library for easy manipulation of HTML documents using DOM.
 It requires [DomCrawler from Symfony2 components](https://github.com/symfony/DomCrawler) for traversing 
@@ -69,7 +69,7 @@ the selected elements using the following jQuery-like manipulation functions:
 -   `prepend()`, `prependTo()`
 -   `remove()`
 -   `replaceAll()`, `replaceWith()`
--   `text()` (get text content) and `setText($text)`
+-   `text()`, `getCombinedText()` (get text content of all nodes in the Crawler), and `setText($text)`
 -   `wrap()`, `unwrap()`, `wrapInner()`, `unwrapInner()`, `wrapAll()`
 
 To get the modified DOM as HTML code use `html()` (returns innerHTML of the first node in your crawler object)
@@ -185,34 +185,6 @@ echo $page->indent()->save();
 // output compressed (minified) HTML code
 echo $page->minify()->save();
 ```
-
-
-
->__BC BREAK__ in current master / future 2.0 for compatibility with Symfony 4.3
->------------------------------------------------------------------------------
->
-> - `HtmlPageCrawler::html()` is now just the parent `Crawler::html()` and acts as *getter* only.
->   Setting HTML content via `HtmlPageCrawler::html($html)` is *not possible* any more,
->   use `HtmlPageCrawler::setInnerHtml($html)` instead
->
-> - `HtmlPageCrawler::getInnerHtml()` was removed because it is now just the same as `html()`.
->
-> - `HtmlPageCrawler::text()` is now just the parent `Crawler::text()` and acts as *getter* only
->   that returns the text content from the *first* node only. For setting text content, use
->   `HtmlPageCrawler::setText($text)` instead.
->    
-> - new method `HtmlPageCrawler::getCombinedText()` that returns the combined text from all nodes
->   (as jQuery's `text()` function does and previous versions of `HtmlPageCrawler::text()` did)
-> 
-> __To update your code, you have to:__
-> 
-> - replace all calls to `$MyCrawlerInstance->html($html)` used as *setter* by `$MyCrawlerInstance->setInnerHtml($html)`
-> - replace all calls to `$MyCrawlerInstance->getInnerHtml()` by `$MyCrawlerInstance->html()`
-> - replace all calls to `$MyCrawlerInstance->text($text)` used as *setter* by `$MyCrawlerInstance->setText($text)`
-> - replace all calls to `$MyCrawlerInstance->first()->text()` by `$MyCrawlerInstance->text()`
-> - replace all calls to `$MyCrawlerInstance->text()` (i.e. every call to `text()` not preceded
-> - by `first()`) by `$MyCrawlerInstance->getCombinedText()`
-
 
 Limitations
 -----------
