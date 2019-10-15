@@ -1,3 +1,13 @@
+1.4.2
+=====
+
+2019-10-15
+
+- undo deprecation of getInnerHtml()
+- deprecate setter use of attr()
+- deprecate isDisconnected()
+
+
 1.4.1
 =====
 
