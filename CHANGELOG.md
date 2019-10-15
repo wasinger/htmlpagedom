@@ -1,11 +1,9 @@
-Master (a.k.a 2.0-dev)
-======================
+2.0.0
+=====
 
-2019-04-18
+2019-10-15
 
-__BC BREAK__
-
-Compatibility with Symfony 4.3:
+__BC BREAK__ for compatibility with Symfony 4.3 and up
 
 - `HtmlPageCrawler::html()` is now just the parent `Crawler::html()` and acts as *getter* only.
   Setting HTML content via `HtmlPageCrawler::html($html)` is *not possible* any more,
@@ -20,6 +18,16 @@ Compatibility with Symfony 4.3:
 - new method `HtmlPageCrawler::getCombinedText()` that returns the combined text from all nodes (as jQuery's `text()` function does and previous versions of `HtmlPageCrawler::text()` did)
 
 - removed method `HtmlPageCrawler::isDisconnected()`
+
+
+1.4.2
+=====
+
+2019-10-15
+
+- undo deprecation of getInnerHtml()
+- deprecate setter use of attr()
+- deprecate isDisconnected()
 
 
 1.4.1
