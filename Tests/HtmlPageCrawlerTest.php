@@ -15,7 +15,7 @@ class HtmlPageCrawlerTest extends TestCase
     public function testHtmlPageCrawler()
     {
         $c = new HtmlPageCrawler;
-        $c->addHtmlContent('<html><body><div id="content"><h1>Title</h1></div></body></html>');
+        $c->addHtmlContent('<!doctype html><html><body><div id="content"><h1>Title</h1></div></body></html>');
         $title = $c->filter('#content > h1');
 
         $this->assertInstanceOf('\Wa72\HtmlPageDom\HtmlPageCrawler', $title);
@@ -43,7 +43,7 @@ class HtmlPageCrawlerTest extends TestCase
     public function testManipulationFunctions()
     {
         $c = new HtmlPageCrawler;
-        $c->addHtmlContent('<html><body><div id="content"><h1>Title</h1></div></body></html>');
+        $c->addHtmlContent('<!doctype html><html><body><div id="content"><h1>Title</h1></div></body></html>');
 
         $content = $c->filter('#content');
         $content->append('<p>Das ist ein Testabsatz');
@@ -553,13 +553,15 @@ END;
     {
         $c = HtmlPageCrawler::create('<div>');
         $this->assertNull($c->attr('data-foo'));
-        $c->attr('data-foo', 'bar');
+        $c->setAttribute('data-foo', 'bar');
         $this->assertEquals('bar', $c->attr('data-foo'));
         $this->assertEquals('bar', $c->getAttribute('data-foo'));
         $c->removeAttribute('data-foo');
         $this->assertNull($c->attr('data-foo'));
         $c->setAttribute('data-foo', 'bar');
         $this->assertEquals('bar', $c->attr('data-foo'));
+        // getAttribute is just an alias to attr() and should provide the same result
+        $this->assertEquals('bar', $c->getAttribute('data-foo'));
         $c->removeAttr('data-foo');
         $this->assertNull($c->attr('data-foo'));
 
@@ -579,6 +581,8 @@ END;
         $html = HtmlPageCrawler::create('<h1>Title</h1>');
         $this->assertInstanceOf('Wa72\HtmlPageDom\HtmlPageCrawler', $html->setInnerHtml('<h2>Title</h2>'));
         $this->assertEquals('<h2>Title</h2>', $html->html());
+        // getInnerHtml is just an alias for html() and should provide the same result
+        $this->assertEquals('<h2>Title</h2>', $html->getInnerHtml());
     }
 
     public function testToString()
@@ -656,15 +660,6 @@ END;
         $r3 = $c->replaceWith($r);
         $this->assertEquals(spl_object_hash($r3), spl_object_hash($c));
         $this->assertEquals(count($r3), count($c));
-    }
-
-    public function testIsDisconnected()
-    {
-        $c = HtmlPageCrawler::create('<div><p>asdf</p></div>');
-        $p = $c->filter('p');
-
-        $this->assertTrue($c->isDisconnected());
-        $this->assertFalse($p->isDisconnected());
     }
 
     public function testClone()

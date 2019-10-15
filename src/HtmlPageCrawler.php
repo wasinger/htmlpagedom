@@ -5,7 +5,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Extends \Symfony\Component\DomCrawler\Crawler by adding tree manipulation functions
- * for HTML documents inspired by jQuery such as html(), css(), append(), prepend(), before(),
+ * for HTML documents inspired by jQuery such as setInnerHtml(), css(), append(), prepend(), before(),
  * addClass(), removeClass()
  *
  * @author Christoph Singer
@@ -147,31 +147,12 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Returns the attribute value of the first node of the list, or sets an attribute on each element
-     *
-     * @see HtmlPageCrawler::getAttribute()
-     * @see HtmlPageCrawler::setAttribute
-     *
-     * @param string $name
-     * @param null|string $value
-     * @return null|string|HtmlPageCrawler
-     * @api
-     */
-    public function attr($name, $value = null)
-    {
-        if ($value === null) {
-            return $this->getAttribute($name);
-        } else {
-            return $this->setAttribute($name, $value);
-        }
-    }
-
-    /**
      * Sets an attribute on each element
      *
      * @param string $name
      * @param string $value
      * @return HtmlPageCrawler $this for chaining
+     * @api
      */
     public function setAttribute($name, $value)
     {
@@ -186,19 +167,15 @@ class HtmlPageCrawler extends Crawler
 
     /**
      * Returns the attribute value of the first node of the list.
+     * This is just an alias for attr() for naming consistency with setAttribute()
      *
      * @param string $name The attribute name
      * @return string|null The attribute value or null if the attribute does not exist
      * @throws \InvalidArgumentException When current node is empty
-     *
      */
     public function getAttribute($name)
     {
-        if (!count($this)) {
-            throw new \InvalidArgumentException('The current node list is empty.');
-        }
-        $node = $this->getNode(0);
-        return $node->hasAttribute($name) ? $node->getAttribute($name) : null;
+        return parent::attr($name);
     }
 
     /**
@@ -350,6 +327,7 @@ class HtmlPageCrawler extends Crawler
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content HTML code fragment
      * @return HtmlPageCrawler $this for chaining
+     * @api
      */
     public function setInnerHtml($content)
     {
@@ -364,6 +342,17 @@ class HtmlPageCrawler extends Crawler
             }
         }
         return $this;
+    }
+
+    /**
+     * Alias for Crawler::html() for naming consistency with setInnerHtml()
+     *
+     * @return string
+     * @api
+     */
+    public function getInnerHtml()
+    {
+        return parent::html();
     }
 
     /**
@@ -959,53 +948,6 @@ class HtmlPageCrawler extends Crawler
         }
     }
 
-//    /**
-//     * returns the first node
-//     * deprecated, use getNode(0) instead
-//     *
-//     * @return \DOMNode|null
-//     * @deprecated
-//     * @see Crawler::getNode
-//     */
-//    public function getFirstNode()
-//    {
-//        return $this->getNode(0);
-//    }
-
-//    /**
-//     * @param int $position
-//     *
-//     * overridden from Crawler because it is not public in Symfony 2.3
-//     * TODO: throw away as soon as we don't need to support SF 2.3 any more
-//     *
-//     * @return \DOMElement|null
-//     */
-//    public function getNode($position)
-//    {
-//        return parent::getNode($position);
-//    }
-//
-//    /**
-//     * Returns the node name of the first node of the list.
-//     *
-//     * in Crawler (parent), this function will be available starting with 2.6.0,
-//     * therefore this method be removed from here as soon as we don't need to keep compatibility
-//     * with Symfony < 2.6
-//     *
-//     * TODO: throw away as soon as we don't need to support SF 2.3 any more
-//     *
-//     * @return string The node name
-//     *
-//     * @throws \InvalidArgumentException When current node is empty
-//     */
-//    public function nodeName()
-//    {
-//        if (!count($this)) {
-//            throw new \InvalidArgumentException('The current node list is empty.');
-//        }
-//        return $this->getNode(0)->nodeName;
-//    }
-
     /**
      * Adds a node to the current list of nodes.
      *
@@ -1047,16 +989,16 @@ class HtmlPageCrawler extends Crawler
         return $newnode;
     }
 
-    /**
-     * Checks whether the first node in the set is disconnected (has no parent node)
-     *
-     * @return bool
-     */
-    public function isDisconnected()
-    {
-        $parent = $this->getNode(0)->parentNode;
-        return ($parent == null || $parent->tagName == self::FRAGMENT_ROOT_TAGNAME);
-    }
+//    /**
+//     * Checks whether the first node in the set is disconnected (has no parent node)
+//     *
+//     * @return bool
+//     */
+//    public function isDisconnected()
+//    {
+//        $parent = $this->getNode(0)->parentNode;
+//        return ($parent == null || $parent->tagName == self::FRAGMENT_ROOT_TAGNAME);
+//    }
 
     public function __get($name)
     {
