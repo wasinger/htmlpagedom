@@ -169,6 +169,7 @@ class HtmlPageCrawler extends Crawler
         if ($value === null) {
             return $this->getAttribute($name);
         } else {
+            @trigger_error('It will not be possible any more to use method attr($name, $value) as setter function in version 2.0. Use setAttribute($name, $value) instead.', E_USER_DEPRECATED);
             return $this->setAttribute($name, $value);
         }
     }
@@ -380,12 +381,10 @@ class HtmlPageCrawler extends Crawler
      * Get the innerHTML contents of the first element
      *
      * @return string HTML code fragment
-     * @deprecated Method is deprecated and will be removed in 2.0, use html() instead
      * @see html()
      */
     public function getInnerHtml()
     {
-        @trigger_error('Method getInnerHtml() is deprecated and will be removed in 2.0, use html() instead.', E_USER_DEPRECATED);
         $node = $this->getNode(0);
         if ($node instanceof \DOMNode) {
             $doc = new \DOMDocument('1.0', 'UTF-8');
@@ -1140,9 +1139,11 @@ class HtmlPageCrawler extends Crawler
      * Checks whether the first node in the set is disconnected (has no parent node)
      *
      * @return bool
+     * @deprecated
      */
     public function isDisconnected()
     {
+        @trigger_error('Method isDisconnected() is deprecated and will be removed in 2.0.', E_USER_DEPRECATED);
         $parent = $this->getNode(0)->parentNode;
         return ($parent == null || $parent->tagName == self::FRAGMENT_ROOT_TAGNAME);
     }
