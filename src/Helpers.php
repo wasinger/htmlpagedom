@@ -74,9 +74,12 @@ class Helpers {
      */
     public static function getBodyNodeFromHtmlFragment($html, $charset = 'UTF-8')
     {
+        $unsafeLibXml = \LIBXML_VERSION < 20900;
         $html = '<html><body>' . $html . '</body></html>';
         $current = libxml_use_internal_errors(true);
-        $disableEntities = libxml_disable_entity_loader(true);
+        if($unsafeLibXml) {
+            $disableEntities = libxml_disable_entity_loader(true);
+        }
         $d = new \DOMDocument('1.0', $charset);
         $d->validateOnParse = true;
         if (function_exists('mb_convert_encoding') && in_array(
@@ -88,7 +91,9 @@ class Helpers {
         }
         @$d->loadHTML($html);
         libxml_use_internal_errors($current);
-        libxml_disable_entity_loader($disableEntities);
+        if($unsafeLibXml) {
+            libxml_disable_entity_loader($disableEntities);
+        }
         return $d->getElementsByTagName('body')->item(0);
     }
 }

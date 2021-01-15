@@ -41,13 +41,16 @@ class HtmlPage
 
     public function __construct($content = '', $url = '', $charset = 'UTF-8')
     {
+        $unsafeLibXml = \LIBXML_VERSION < 20900;
         $this->charset = $charset;
         $this->url = $url;
         if ($content == '') {
             $content = '<!DOCTYPE html><html><head><title></title></head><body></body></html>';
         }
         $current = libxml_use_internal_errors(true);
-        $disableEntities = libxml_disable_entity_loader(true);
+        if($unsafeLibXml) {
+            $disableEntities = libxml_disable_entity_loader(true);
+        }
 
         $this->dom = new \DOMDocument('1.0', $charset);
         $this->dom->validateOnParse = true;
@@ -60,7 +63,9 @@ class HtmlPage
         @$this->dom->loadHTML($content);
 
         libxml_use_internal_errors($current);
-        libxml_disable_entity_loader($disableEntities);
+        if($unsafeLibXml) {
+            libxml_disable_entity_loader($disableEntities);
+        }
         $this->crawler = new HtmlPageCrawler($this->dom);
     }
 
