@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class HtmlPageTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->root = vfsStream::setup('root');
     }
@@ -150,7 +150,7 @@ alert('Hello world');
 </head>
 <body>
     <h1>TEST</h1>
-    <p class="">
+    <p>
     asdf jksdlf ajsfk
     <b>jasdf
     jaksfd asdf</b>
@@ -174,7 +174,7 @@ alert('Hello world');
 	</head>
 	<body>
 		<h1>TEST</h1>
-		<p class="">asdf jksdlf ajsfk <b>jasdf jaksfd asdf</b> <a>jasdf jaks</a></p>
+		<p>asdf jksdlf ajsfk <b>jasdf jaksfd asdf</b> <a>jasdf jaks</a></p>
 	</body>
 </html>
 
@@ -315,7 +315,7 @@ END;
     {
         $hp = new HtmlPage('<!DOCTYPE html><html></html>');
         $this->assertInstanceOf('\DOMElement', $hp->getBodyNode());
-        $this->assertEquals('<body></body>', (string) $hp->getBody());    
+        $this->assertEquals('<body></body>', (string) $hp->getBody());
     }
 
     public function testTrimNewlines()
