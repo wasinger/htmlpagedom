@@ -166,19 +166,6 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Returns the attribute value of the first node of the list.
-     * This is just an alias for attr() for naming consistency with setAttribute()
-     *
-     * @param string $name The attribute name
-     * @return string|null The attribute value or null if the attribute does not exist
-     * @throws \InvalidArgumentException When current node is empty
-     */
-    public function getAttribute($name)
-    {
-        return parent::attr($name);
-    }
-
-    /**
      * Insert content, specified by the parameter, before each element in the set of matched elements.
      *
      * @param string|HtmlPageCrawler|\DOMNode|\DOMNodeList $content
@@ -886,31 +873,6 @@ class HtmlPageCrawler extends Crawler
     }
 
     /**
-     * Filters the list of nodes with a CSS selector.
-     *
-     * @param string $selector
-     * @return HtmlPageCrawler
-     */
-    public function filter($selector)
-    {
-        return parent::filter($selector);
-    }
-
-    /**
-     * Filters the list of nodes with an XPath expression.
-     *
-     * @param string $xpath An XPath expression
-     *
-     * @return HtmlPageCrawler A new instance of Crawler with the filtered list of nodes
-     *
-     * @api
-     */
-    public function filterXPath($xpath)
-    {
-        return parent::filterXPath($xpath);
-    }
-
-    /**
      * Adds HTML/XML content to the HtmlPageCrawler object (but not to the DOM of an already attached node).
      *
      * Function overriden from Crawler because HTML fragments are always added as complete documents there
@@ -921,7 +883,7 @@ class HtmlPageCrawler extends Crawler
      *
      * @return null|void
      */
-    public function addContent($content, $type = null)
+    public function addContent(string $content, string $type = null)
     {
         if (empty($type)) {
             $type = 'text/html;charset=UTF-8';
@@ -960,7 +922,7 @@ class HtmlPageCrawler extends Crawler
      *
      * @api
      */
-    public function add($node)
+    public function add(\DOMNodeList|\DOMNode|array|string|null $node)
     {
         if ($node instanceof Crawler) {
             foreach ($node as $childnode) {
