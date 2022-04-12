@@ -40,9 +40,9 @@ jobs:
         run: composer update --${{ matrix.dependency-version }}
 
       - name: run tests
-#        run: php vendor/bin/phpunit --coverage-clover=coverage.clover
-        run: php vendor/bin/phpunit
+        run: php vendor/bin/phpunit --coverage-clover=coverage.clover
+#        run: php vendor/bin/phpunit
 
-#      - name: upload code coverage
-#        run: php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+      - name: upload code coverage
+        run: php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
 
