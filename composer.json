@@ -13,17 +13,18 @@
         }
     ],
     "require":{
-        "php":">=7.1.0",
+        "php":"^7.4|^8.0",
         "ext-dom":"*",
         "ext-libxml":"*",
         "ext-mbstring":"*",
-        "symfony/dom-crawler":"^3.4|^4|^5",
-        "symfony/css-selector":"^3.4|^4|^5"
+        "symfony/dom-crawler":"^4.4|^5",
+        "symfony/css-selector":"^4.4|^5"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5.12",
+        "phpunit/phpunit": "^9",
         "wa72/html-pretty-min": "~0.1",
-        "mikey179/vfsstream": "^1.6"
+        "mikey179/vfsstream": "^1.6",
+        "scrutinizer/ocular": "^1.9"
     },
     "suggest": {
         "wa72/html-pretty-min": "Minify or indent HTML documents"
