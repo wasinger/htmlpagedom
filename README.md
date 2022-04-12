@@ -1,7 +1,6 @@
 HtmlPageDom
 ===========
 
-[![Build Status](https://travis-ci.org/wasinger/htmlpagedom.svg?branch=master)](http://travis-ci.org/wasinger/htmlpagedom)
 [![Code Coverage](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/?branch=master)
 [![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 [![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
@@ -33,7 +32,7 @@ the modified page.
 Requirements
 ------------
 
--   PHP 7.1+
+-   PHP 7.4+
 -   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler)
 -   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector)
 
