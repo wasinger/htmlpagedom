@@ -1,3 +1,12 @@
+3.0.0
+=====
+
+2022-04-13
+
+Changed some method signatures (added argument type hints and return types) in HtmlPageCrawler for compatibility with the base Crawler class from Symfony 6. So, this release is only compatible with Symfony 6 and up.
+
+Otherwise there are no changes, so it does not require changes in code using this lib.
+
 2.0.0
 =====
 

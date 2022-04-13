@@ -5,10 +5,8 @@ HtmlPageDom
 [![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 [![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 
-> __Important__: BC break in version 2.0 for compatibility with Symfony 4.3, see [UPGRADE.md](UPGRADE.md).
-
 `Wa72\HtmlPageDom` is a PHP library for easy manipulation of HTML documents using DOM.
-It requires [DomCrawler from Symfony2 components](https://github.com/symfony/DomCrawler) for traversing 
+It requires [DomCrawler from Symfony components](https://github.com/symfony/DomCrawler) for traversing 
 the DOM tree and extends it by adding methods for manipulating the DOM tree of HTML documents.    
 
 It's useful when you need to not just extract information from an HTML file (what DomCrawler does) but
@@ -29,12 +27,18 @@ the modified page.
     prettyprinting (`indent()`) the HTML page.
  
 
-Requirements
-------------
+Requirements and Compatibility
+------------------------------
 
--   PHP 7.4+
--   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler)
--   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector)
+Version 3.x:
+- PHP 8.x
+- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) 6.x
+- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 6.x
+
+Version 2.x:
+- PHP 7 or 8
+- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) version 4.x or 5.x
+- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) version 4.x or 5.x
 
 
 Installation
@@ -220,5 +224,5 @@ about 5 minutes. After switching to HtmlPageDom the same script doing the same p
 one second (all on the same server). HtmlPageDom is really fast.
 
 
-© 2019 Christoph Singer, Web-Agentur 72. Licensed under the MIT License.
+© 2012-2022 Christoph Singer. Licensed under the MIT License.
 

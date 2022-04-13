@@ -1,3 +1,10 @@
+Upgrade from 2.x to 3.0
+-----------------------
+
+Release 3.x is compatible only with Symfony 6, while older releases are compatible with Symfony up to 5.4.
+Otherwise there are no changes in our API, so no changes should be required in your code using this lib. Just upgrade to Version 3 when you upgrade your project to Symfony 6 and all should be well.
+
+
 Upgrade from 1.x to 2.0
 ------------------------
 
