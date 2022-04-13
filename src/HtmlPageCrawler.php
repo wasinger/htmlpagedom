@@ -891,7 +891,7 @@ class HtmlPageCrawler extends Crawler
      * @param string $selector
      * @return HtmlPageCrawler
      */
-    public function filter($selector)
+    public function filter(string $selector): static
     {
         return parent::filter($selector);
     }
@@ -905,7 +905,7 @@ class HtmlPageCrawler extends Crawler
      *
      * @api
      */
-    public function filterXPath($xpath)
+    public function filterXPath($xpath): static
     {
         return parent::filterXPath($xpath);
     }

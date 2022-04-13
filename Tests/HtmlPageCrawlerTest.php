@@ -375,7 +375,7 @@ class HtmlPageCrawlerTest extends TestCase
 
         $c = new HtmlPageCrawler('plain text node');
         $c->wrap('<div class="ic"></div>');
-        $this->assertEquals('<div class="ic">plain text node</div>', $c->parents()->eq(0)->saveHTML());
+        $this->assertEquals('<div class="ic">plain text node</div>', $c->ancestors()->eq(0)->saveHTML());
 
         $c = HtmlPageCrawler::create('<div>');
         $m = HtmlPageCrawler::create('message 1')->appendTo($c);
