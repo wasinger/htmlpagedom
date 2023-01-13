@@ -19,12 +19,16 @@ the modified page.
 -   `HtmlPageCrawler` extends `Symfony\Components\DomCrawler` by adding jQuery inspired, HTML specific 
     DOM *manipulation* functions such as `setInnerHtml($htmltext)`, `before()`, `append()`, `wrap()`, `addClass()` or `css()`.
     It's like jQuery for PHP: simply select elements of an HTML page using CSS selectors and change their 
-    attributes and content.
+    attributes and content. 
+    
+    [API doc for HtmlPageCrawler](doc/HtmlPageCrawler.md)
 
 -   `HtmlPage` represents one complete HTML document and offers convenience functions like `getTitle()`, `setTitle($title)`,
     `setMeta('description', $description)`, `getBody()`. Internally, it uses the `HtmlPageCrawler` class for 
     filtering and manipulating DOM Elements. Since version 1.2, it offers methods for compressing (`minify()`) and
     prettyprinting (`indent()`) the HTML page.
+    
+    [API doc for HtmlPage](doc/HtmlPage.md)
  
 
 Requirements and Compatibility
@@ -78,6 +82,7 @@ the selected elements using the following jQuery-like manipulation functions:
 To get the modified DOM as HTML code use `html()` (returns innerHTML of the first node in your crawler object)
 or `saveHTML()` (returns combined "outer" HTML code of all elements in the list).
 
+See the full methods documentation in the generated [API doc for HtmlPageCrawler](doc/HtmlPageCrawler.md)
 
 **Example:**
 
@@ -188,6 +193,8 @@ echo $page->indent()->save();
 // output compressed (minified) HTML code
 echo $page->minify()->save();
 ```
+
+See also the generated [API doc for HtmlPage](doc/HtmlPage.md)
 
 Limitations
 -----------

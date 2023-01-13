@@ -24,7 +24,8 @@
         "phpunit/phpunit": "^9",
         "wa72/html-pretty-min": "~0.1",
         "mikey179/vfsstream": "^1.6.10",
-        "scrutinizer/ocular": "^1.9"
+        "scrutinizer/ocular": "^1.9",
+        "clean/phpdoc-md": "^0.19.3"
     },
     "suggest": {
         "wa72/html-pretty-min": "Minify or indent HTML documents"

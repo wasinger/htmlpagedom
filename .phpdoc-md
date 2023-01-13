@@ -1,0 +1,10 @@
+<?php
+return (object)[
+    'rootNamespace' => 'Wa72\HtmlPageDom',
+    'destDirectory' => 'doc',
+    'format' => 'github',
+    'classes' => [
+        '\Wa72\HtmlPageDom\HtmlPage',
+        '\Wa72\HtmlPageDom\HtmlPageCrawler'
+    ]
+];
