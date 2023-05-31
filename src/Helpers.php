@@ -86,8 +86,11 @@ class Helpers {
                 strtolower($charset),
                 array_map('strtolower', mb_list_encodings())
             )
-        ) {
-            $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
+        ) {          
+            // https://php.watch/versions/8.2/mbstring-qprint-base64-uuencode-html-entities-deprecated#html     
+            $html = mb_convert_encoding($html, 'UTF-8', $charset);
+            $html = htmlentities($html);
+            $html = htmlspecialchars_decode($html);     
         }
         @$d->loadHTML($html);
         libxml_use_internal_errors($current);
