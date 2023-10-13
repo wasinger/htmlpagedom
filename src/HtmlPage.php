@@ -41,31 +41,12 @@ class HtmlPage
 
     public function __construct($content = '', $url = '', $charset = 'UTF-8')
     {
-        $unsafeLibXml = \LIBXML_VERSION < 20900;
         $this->charset = $charset;
         $this->url = $url;
         if ($content == '') {
             $content = '<!DOCTYPE html><html><head><title></title></head><body></body></html>';
         }
-        $current = libxml_use_internal_errors(true);
-        if($unsafeLibXml) {
-            $disableEntities = libxml_disable_entity_loader(true);
-        }
-
-        $this->dom = new \DOMDocument('1.0', $charset);
-        $this->dom->validateOnParse = true;
-
-
-        if (function_exists('mb_convert_encoding') && in_array(strtolower($charset), array_map('strtolower', mb_list_encodings()))) {
-            $content = mb_convert_encoding($content, 'HTML-ENTITIES', $charset);
-        }
-
-        @$this->dom->loadHTML($content);
-
-        libxml_use_internal_errors($current);
-        if($unsafeLibXml) {
-            libxml_disable_entity_loader($disableEntities);
-        }
+        $this->dom = Helpers::loadHtml($content, $charset);
         $this->crawler = new HtmlPageCrawler($this->dom);
     }
 
