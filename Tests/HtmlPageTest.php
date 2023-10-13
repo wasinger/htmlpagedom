@@ -344,4 +344,27 @@ END;
         $hp->save(vfsStream::url('root/save.html'));
         $this->assertFileExists(vfsStream::url('root/save.html'));
     }
+
+    public function testEmbeddedScriptWithHtml()
+    {
+        // PHP DOMDocument->loadHTML method tends to "eat" closing tags in html strings within script elements
+        // see https://stackoverflow.com/questions/24575136/domdocument-removes-html-tags-in-javascript-string
+        $html = <<<END
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>test</title>
+</head>
+<body>
+<div>
+    <script>
+        var html = '<b>Status</b><div>' + it_status_text + '</div>';
+    </script>
+</div>
+</body>
+</html>
+END;
+        $hp = new HtmlPage($html);
+        $this->assertEquals($html . "\n", $hp->save());
+    }
 }
