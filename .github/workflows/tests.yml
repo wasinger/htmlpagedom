@@ -10,11 +10,11 @@ on:
 
 jobs:
   php:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       matrix:
-        php: [7.4, 8.0, 8.1]
+        php: [7.4, 8.0, 8.1, 8.2]
         dependency-version: [prefer-lowest, prefer-stable]
 
     steps:
@@ -27,22 +27,9 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: xdebug
 
-#      - name: do some magic Composer cache
-#        id: composer-cache
-#        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-#      - uses: actions/cache@v2
-#        with:
-#          path: ${{ steps.composer-cache.outputs.dir }}
-#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-#          restore-keys: ${{ runner.os }}-composer-
-
       - name: install dependencies
         run: composer update --${{ matrix.dependency-version }}
 
       - name: run tests
-#        run: php vendor/bin/phpunit --coverage-clover=coverage.clover
         run: php vendor/bin/phpunit
-
-#      - name: upload code coverage
-#        run: php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
 

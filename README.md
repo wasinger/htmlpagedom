@@ -1,7 +1,7 @@
 HtmlPageDom
 ===========
 
-[![Code Coverage](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wasinger/htmlpagedom/?branch=master)
+![tests](https://github.com/wasinger/htmlpagedom/actions/workflows/tests.yml/badge.svg?branch=2.x)
 [![Latest Version](http://img.shields.io/packagist/v/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 [![Downloads from Packagist](http://img.shields.io/packagist/dt/wa72/htmlpagedom.svg)](https://packagist.org/packages/wa72/htmlpagedom)
 
@@ -33,8 +33,8 @@ Requirements
 ------------
 
 -   PHP 7.4+
--   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler)
--   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector)
+-   [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) 4.x or 5.x
+-   [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 4.x or 5.x
 
 
 Installation
