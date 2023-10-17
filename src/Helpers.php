@@ -82,28 +82,55 @@ class Helpers {
 
     public static function loadHtml(string $html, $charset = 'UTF-8'): \DOMDocument
     {
-        $unsafeLibXml = \LIBXML_VERSION < 20900;
-        $current = libxml_use_internal_errors(true);
-        if($unsafeLibXml) {
-            $disableEntities = libxml_disable_entity_loader(true);
+        return self::parseXhtml($html, $charset);
+    }
+    /**
+     * Function originally taken from Symfony\Component\DomCrawler\Crawler
+     * (c) Fabien Potencier <fabien@symfony.com>
+     * License: MIT
+     */
+    private static function parseXhtml(string $htmlContent, string $charset = 'UTF-8'): \DOMDocument
+    {
+        $htmlContent = self::convertToHtmlEntities($htmlContent, $charset);
+
+        $internalErrors = libxml_use_internal_errors(true);
+
+        $dom = new \DOMDocument('1.0', $charset);
+        $dom->validateOnParse = true;
+
+        if ('' !== trim($htmlContent)) {
+            // PHP DOMDocument->loadHTML method tends to "eat" closing tags in html strings within script elements
+            // Option LIBXML_SCHEMA_CREATE seems to prevent this
+            // see https://stackoverflow.com/questions/24575136/domdocument-removes-html-tags-in-javascript-string
+            @$dom->loadHTML($htmlContent, \LIBXML_SCHEMA_CREATE);
         }
-        $d = new \DOMDocument('1.0', $charset);
-        $d->validateOnParse = true;
-        if (function_exists('mb_convert_encoding') && in_array(
-                strtolower($charset),
-                array_map('strtolower', mb_list_encodings())
-            )
-        ) {
-            $html = mb_convert_encoding($html, 'HTML-ENTITIES', $charset);
+
+        libxml_use_internal_errors($internalErrors);
+
+        return $dom;
+    }
+
+    /**
+     * Converts charset to HTML-entities to ensure valid parsing.
+     * Function taken from Symfony\Component\DomCrawler\Crawler
+     * (c) Fabien Potencier <fabien@symfony.com>
+     * License: MIT
+     */
+    private static function convertToHtmlEntities(string $htmlContent, string $charset = 'UTF-8'): string
+    {
+        set_error_handler(function () { throw new \Exception(); });
+
+        try {
+            return mb_encode_numericentity($htmlContent, [0x80, 0x10FFFF, 0, 0x1FFFFF], $charset);
+        } catch (\Exception|\ValueError) {
+            try {
+                $htmlContent = iconv($charset, 'UTF-8', $htmlContent);
+                $htmlContent = mb_encode_numericentity($htmlContent, [0x80, 0x10FFFF, 0, 0x1FFFFF], 'UTF-8');
+            } catch (\Exception|\ValueError) {
+            }
+            return $htmlContent;
+        } finally {
+            restore_error_handler();
         }
-        // PHP DOMDocument->loadHTML method tends to "eat" closing tags in html strings within script elements
-        // Option LIBXML_SCHEMA_CREATE seems to prevent this
-        // see https://stackoverflow.com/questions/24575136/domdocument-removes-html-tags-in-javascript-string
-        @$d->loadHTML($html, \LIBXML_SCHEMA_CREATE);
-        libxml_use_internal_errors($current);
-        if($unsafeLibXml) {
-            libxml_disable_entity_loader($disableEntities);
-        }
-        return $d;
     }
 }

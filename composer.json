@@ -16,7 +16,7 @@
         "php":"^8.0",
         "ext-dom":"*",
         "ext-libxml":"*",
-        "ext-mbstring":"*",
+        "symfony/polyfill-mbstring": "~1.0",
         "symfony/dom-crawler":"^6",
         "symfony/css-selector":"^6"
     },
