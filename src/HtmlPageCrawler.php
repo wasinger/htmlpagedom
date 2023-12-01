@@ -921,7 +921,7 @@ class HtmlPageCrawler extends Crawler
      *
      * @return null|void
      */
-    public function addContent($content, $type = null)
+    public function addContent($content, $type = null): void
     {
         if (empty($type)) {
             $type = 'text/html;charset=UTF-8';
@@ -956,11 +956,11 @@ class HtmlPageCrawler extends Crawler
      *
      * Overwritten from parent to allow Crawler to be added
      *
-     * @param null|\DOMNodeList|array|\DOMNode|Crawler $node A node
+     * @param \DOMNodeList|\DOMNode|array|string|Crawler|null $node A node
      *
      * @api
      */
-    public function add($node)
+    public function add(\DOMNodeList|\DOMNode|array|string|Crawler|null $node): void
     {
         if ($node instanceof Crawler) {
             foreach ($node as $childnode) {
