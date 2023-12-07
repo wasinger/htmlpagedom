@@ -36,13 +36,13 @@ Requirements and Compatibility
 
 Version 3.x:
 - PHP 8.x
-- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) 6.x
-- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 6.x
+- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) 6.x | 7.x
+- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 6.x | 7.x
 
 Version 2.x:
-- PHP 7 or 8
-- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) version 4.x or 5.x
-- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) version 4.x or 5.x
+- PHP 7.x | 8.x
+- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) 4.x | 5.x
+- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 4.x | 5.x
 
 
 Installation
