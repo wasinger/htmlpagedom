@@ -40,10 +40,12 @@ Version 3.x:
 - [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 6.x | 7.x
 
 Version 2.x:
-- PHP 7.x | 8.x
-- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) 4.x | 5.x
-- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 4.x | 5.x
+- PHP ^7.4 | 8.x
+- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) ^4.4 | 5.x
+- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) ^4.4 | 5.x
 
+There is no difference in our API between versions 2.x and 3.0.x.
+The only difference is the compatibility with different versions of Symfony.
 
 Installation
 ------------
@@ -231,5 +233,5 @@ about 5 minutes. After switching to HtmlPageDom the same script doing the same p
 one second (all on the same server). HtmlPageDom is really fast.
 
 
-© 2012-2022 Christoph Singer. Licensed under the MIT License.
+© 2012-2023 Christoph Singer. Licensed under the MIT License.
 
