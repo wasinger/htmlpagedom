@@ -36,8 +36,8 @@ Requirements and Compatibility
 
 Version 3.x:
 - PHP 8.x
-- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) 6.x | 7.x
-- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 6.x | 7.x
+- [Symfony\Components\DomCrawler](https://github.com/symfony/DomCrawler) 6.x | 7.x | 8.x
+- [Symfony\Components\CssSelector](https://github.com/symfony/CssSelector) 6.x | 7.x | 8.x
 
 Version 2.x:
 - PHP ^7.4 | 8.x
