@@ -458,8 +458,8 @@ class HtmlPageCrawlerTest extends TestCase
     public function testUnwrapInnerOnDOMElementExeption()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectErrorMessage('DOMElement does not have a parent DOMElement node.');
-        
+        $this->expectExceptionMessage('DOMElement does not have a parent DOMElement node.');
+
         $c = HtmlPageCrawler::create('<div id="content"></div>');
         $p = $c->filter('div#content');
         $p->unwrapInner();
