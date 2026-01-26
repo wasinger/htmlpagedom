@@ -455,7 +455,7 @@ class HtmlPageCrawlerTest extends TestCase
         $this->assertEquals('<div id="content"><div>Before</div><p>Absatz 1</p><div>After</div></div>', $c->saveHTML());
     }
 
-    public function testUnwrapInnerOnDOMElementExeption()
+    public function testUnwrapInnerOnDOMElementException()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('DOMElement does not have a parent DOMElement node.');
