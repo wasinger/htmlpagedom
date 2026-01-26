@@ -230,11 +230,23 @@ class HtmlPageCrawlerTest extends TestCase
     public function testAddContent()
     {
         $c = new HtmlPageCrawler();
-        $c->addContent('<html><body><div id="content"><h1>Title</h1></div></body>');
+        $c->addContent('<html><head></head><body><div id="content"><h1>Title</h1></div></body>');
+
+        // The behaviour of Symfony's \Symfony\Component\DomCrawler\Crawler varies based on Symfony version and PHP Version.
+        // So for this test, we normalize the output.
+
+        $html = $c->saveHTML();
+
+        // Old parser (PHP < 8.4) or old Symfony: remove added HTML 4.0 DOCTYPE at the beginning of the html
+        $html = preg_replace('#^\s*<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">\s*#', '', $html);
+
+        // Remove XML encoding declaration added by Symfony's UTF-8 handling (varies by Symfony version)
+        $html = preg_replace('#^\s*<\?xml encoding="UTF-8">\s*#', '', $html);
+        $html = $this->_ignoreNewlines($html);
+
         $this->assertEquals(
-            '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'
-            . "" . '<html><body><div id="content"><h1>Title</h1></div></body></html>' . "",
-            $this->_ignoreNewlines($c->saveHTML())
+          '<html><head></head><body><div id="content"><h1>Title</h1></div></body></html>',
+          $html
         );
 
         $c = new HtmlPageCrawler();
@@ -442,7 +454,7 @@ class HtmlPageCrawlerTest extends TestCase
         $p->unwrap();
         $this->assertEquals('<div id="content"><div>Before</div><p>Absatz 1</p><div>After</div></div>', $c->saveHTML());
     }
-    
+
     public function testUnwrapInnerOnDOMElementExeption()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -565,7 +577,7 @@ END;
         $this->assertNull($c->attr('data-foo'));
 
     }
-    
+
     public function testAttrOnInvalidNodeList()
     {
         $this->expectException(\InvalidArgumentException::class);
